@@ -2564,3 +2564,36 @@ body.drawer-otevreno { overflow: hidden; }
 
 .jt-money a { color: var(--p); font-weight: var(--w-med); }
 [data-page="jake-to-je"] .jt-money a { color: var(--s200); }
+
+.mt .pl { margin-top: 10px; }
+.mt:hover .pr, .mt:focus-visible .pr { margin-top: 13px; }
+
+.kanaly { display: grid; gap: 12px; grid-template-columns: 1fr; margin-top: 26px; }
+@media (min-width: 700px) { .kanaly { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.kanal { display: flex; align-items: center; gap: 14px;
+  background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: var(--r); padding: 18px 20px; min-height: 40px;
+  transition: background .16s var(--doben), border-color .16s var(--doben); }
+.kanal:hover { background: rgba(255, 255, 255, .09); border-color: rgba(255, 255, 255, .3); }
+.kanal img { width: 26px; height: 26px; flex: 0 0 auto; }
+
+.kanal img[src$="logo-tiktok.svg"] { filter: brightness(0) invert(1); }
+.kanal .k-jm { display: block; font-size: var(--t3); font-weight: var(--w-med); color: #fff; }
+.kanal .k-uc { display: block; font-size: var(--t1); color: rgba(255, 255, 255, .6);
+  margin-top: 2px; }
+.kanal .ar { margin-left: auto; color: var(--s200); flex: 0 0 auto; }
+@media (prefers-reduced-motion: reduce) { .kanal { transition: none; } }
+
+.jt-konec { position: relative; isolation: isolate; overflow: hidden;
+  min-height: clamp(340px, 46vw, 520px); display: grid; place-items: center;
+  text-align: center; }
+.jt-konec .ph { position: absolute; inset: 0; z-index: -2;
+  background-size: cover; background-position: center; }
+.jt-konec::before { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(8, 14, 12, .58) 0%, rgba(8, 14, 12, .78) 100%); }
+.jt-konec .in { padding: 56px 24px; max-width: 34ch; }
+.jt-konec p { font-family: var(--serif); font-style: italic;
+  font-size: clamp(28px, 4.4vw, 46px); line-height: 1.15; color: #fff; text-wrap: balance; }
+.jt-konec .btn { margin-top: 26px; }
+
+[data-page="jake-to-je"] .sec.white { padding-block: 56px; }
