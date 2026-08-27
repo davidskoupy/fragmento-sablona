@@ -2493,3 +2493,74 @@ body.drawer-otevreno { overflow: hidden; }
 @media (max-width: 359px) { .head .foot-tel { display: none; } }
 
 .drawer .sub .chip { text-transform: none; letter-spacing: 0; font-size: var(--t2); }
+
+.card:hover .go { background: transparent; }
+.card:hover .go, .card:focus-visible .go { color: var(--p600); }
+.card:hover .go .ar { transform: translateX(3px); }
+.card .go .ar { transition: transform .18s var(--doben); }
+@media (prefers-reduced-motion: reduce) { .card .go .ar { transition: none; } }
+
+.grid:has(> .pkg) { grid-auto-rows: 1fr; }
+
+.chapter { padding-bottom: 64px; margin-bottom: 64px; }
+.chapter .odpoved { margin-top: 22px; }
+.chapter > * + * { margin-top: 34px; }
+.chapter > .odpoved + * { margin-top: 34px; }
+
+.f-lb .kolik { display: block; font-size: 10.5px; font-weight: var(--w-text);
+  letter-spacing: .02em; text-transform: none; color: var(--n200);
+  margin-top: 1px; }
+
+[data-page="jake-to-je"] {
+  background: #111A18; color: rgba(255, 255, 255, .82);
+  --n900: #ffffff;
+  --n700: rgba(255, 255, 255, .82);
+  --n200: rgba(255, 255, 255, .64);
+  --n150: rgba(255, 255, 255, .18);
+  --n100: rgba(255, 255, 255, .13);
+  --n50: rgba(255, 255, 255, .06);
+  --s700: var(--s200);
+}
+[data-page="jake-to-je"] .sec { background: transparent; }
+[data-page="jake-to-je"] .sec.cream { background: var(--p600); }
+[data-page="jake-to-je"] .sec.white { background: #16211E; }
+
+[data-page="jake-to-je"] h1,
+[data-page="jake-to-je"] .h2,
+[data-page="jake-to-je"] h2,
+[data-page="jake-to-je"] h3 { color: #fff; }
+[data-page="jake-to-je"] .lab { color: var(--s200); }
+[data-page="jake-to-je"] .lead,
+[data-page="jake-to-je"] p { color: rgba(255, 255, 255, .74); }
+[data-page="jake-to-je"] b, [data-page="jake-to-je"] strong { color: #fff; }
+
+[data-page="jake-to-je"] .year i { background: rgba(255, 255, 255, .13); }
+[data-page="jake-to-je"] .year i.mine { background: var(--s); }
+[data-page="jake-to-je"] .jt-weeks li { border-color: rgba(255, 255, 255, .14); }
+
+[data-page="jake-to-je"] .card,
+[data-page="jake-to-je"] .box,
+[data-page="jake-to-je"] .eco-det { background: #16211E; border-color: rgba(255, 255, 255, .12); }
+[data-page="jake-to-je"] hr,
+[data-page="jake-to-je"] .sec + .sec { border-color: rgba(255, 255, 255, .1); }
+
+[data-page="jake-to-je"] .hold { background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .14); }
+
+[data-page="jake-to-je"] .foot { border-top: 1px solid rgba(255, 255, 255, .1); }
+
+[data-page="jake-to-je"] .head { background: #16211E; border-bottom-color: rgba(255, 255, 255, .1); }
+[data-page="jake-to-je"] .head .nav > a,
+[data-page="jake-to-je"] .head .foot-tel { color: rgba(255, 255, 255, .88); }
+[data-page="jake-to-je"] .head .nav > a:hover,
+[data-page="jake-to-je"] .head .nav [aria-current="page"] { color: #fff; }
+[data-page="jake-to-je"] .head .nav [aria-current="page"]::after { background: var(--s); }
+[data-page="jake-to-je"] .burger i { background: #fff; }
+
+[data-page="jake-to-je"] .jt-money { background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .14); }
+[data-page="jake-to-je"] .jt-money .t { color: #fff; }
+[data-page="jake-to-je"] .jt-money .d { color: rgba(255, 255, 255, .74); }
+
+.jt-money a { color: var(--p); font-weight: var(--w-med); }
+[data-page="jake-to-je"] .jt-money a { color: var(--s200); }
