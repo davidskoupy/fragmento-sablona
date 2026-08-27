@@ -2617,3 +2617,6 @@ body.drawer-otevreno { overflow: hidden; }
   border-color: rgba(255, 255, 255, .16); color: rgba(255, 255, 255, .88); }
 [data-page="jake-to-je"] .drawer .sub .chip .n { background: rgba(255, 255, 255, .1);
   color: rgba(255, 255, 255, .7); }
+
+.drawer .grp-pozn { display: block; padding: 12px 10px; font-size: var(--t3);
+  color: var(--n200); }
