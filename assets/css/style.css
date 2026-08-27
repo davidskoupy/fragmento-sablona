@@ -2597,3 +2597,23 @@ body.drawer-otevreno { overflow: hidden; }
 .jt-konec .btn { margin-top: 26px; }
 
 [data-page="jake-to-je"] .sec.white { padding-block: 56px; }
+
+[data-page="jake-to-je"] .mega { background: #16211E;
+  border-bottom-color: rgba(255, 255, 255, .12);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, .45); }
+[data-page="jake-to-je"] .mega li a:hover { background: rgba(255, 255, 255, .07); color: #fff; }
+[data-page="jake-to-je"] .mega-card { background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .14); }
+[data-page="jake-to-je"] .mega .q a,
+[data-page="jake-to-je"] .mega > .wrap > div > a { color: var(--s200); }
+
+[data-page="jake-to-je"] .drawer { background: #16211E;
+  border-bottom-color: rgba(255, 255, 255, .12); }
+[data-page="jake-to-je"] .drawer a { color: rgba(255, 255, 255, .88); }
+[data-page="jake-to-je"] .drawer a:hover,
+[data-page="jake-to-je"] .drawer a[aria-current="page"] {
+  background: rgba(255, 255, 255, .07); color: #fff; }
+[data-page="jake-to-je"] .drawer .sub .chip { background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .16); color: rgba(255, 255, 255, .88); }
+[data-page="jake-to-je"] .drawer .sub .chip .n { background: rgba(255, 255, 255, .1);
+  color: rgba(255, 255, 255, .7); }
