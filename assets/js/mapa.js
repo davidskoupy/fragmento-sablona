@@ -54,14 +54,18 @@
      zůstává, ta vlajka na klientský web nepatří — není to naše sdělení. */
   mapa.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
 
-  var DLAZDICE = 'https://{s}.basemaps.cartocdn.com/{styl}/{z}/{x}/{y}{r}.png';
+  /* Esri World Light Gray Canvas (s144): bez klíče, světlý a odbarvený.
+     CARTO Positron od roku 2026 chce API klíč a bez něj kreslí vodoznak.
+     Podklad a popisky jsou dvě služby, takže popisky dál jdou až od
+     pátého přiblížení. Dlaždice končí na 16, dál se zvětšuje poslední. */
+  var DLAZDICE = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_{styl}/MapServer/tile/{z}/{y}/{x}';
   var ZDROJ = {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
+    attribution: 'Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxNativeZoom: 16,
     maxZoom: 19,
   };
 
-  L.tileLayer(DLAZDICE.replace('{styl}', 'light_nolabels'), ZDROJ).addTo(mapa);
+  L.tileLayer(DLAZDICE.replace('{styl}', 'Base'), ZDROJ).addTo(mapa);
 
   /* Popisky až od pátého přiblížení.
      V oddáleném pohledu je tahle mapa tvrzení („sedm zemí na třech
@@ -74,7 +78,7 @@
   mapa.createPane('popisky');
   mapa.getPane('popisky').style.zIndex = 350;
   mapa.getPane('popisky').style.pointerEvents = 'none';
-  var popisky = L.tileLayer(DLAZDICE.replace('{styl}', 'light_only_labels'),
+  var popisky = L.tileLayer(DLAZDICE.replace('{styl}', 'Reference'),
     L.extend({ pane: 'popisky' }, ZDROJ));
   function popiskyPodleZoomu() {
     var ma = mapa.hasLayer(popisky);

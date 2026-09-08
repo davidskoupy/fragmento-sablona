@@ -730,7 +730,17 @@
       // menu by zmizelo v mezeře mezi ním a panelem — a odkaz by nešel kliknout.
       t = setTimeout(function () { mega.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); scrimSync(); }, 260);
     }
-    b.addEventListener('mouseenter', open);
+    /* Otevřít až po 200 ms skutečného setrvání (s144). Chrome po scrollu
+       posílá syntetický `mouseenter`/`mousemove` s nulovým `movement`,
+       takže lepivá hlavička vyjetá pod stojící kurzor panel neotevře;
+       projetí lišty ho nestihne. */
+    var zamer;
+    b.addEventListener('mousemove', function (e) {
+      if (zamer || mega.classList.contains('open')) return;
+      if (!e.movementX && !e.movementY) return;
+      zamer = setTimeout(function () { zamer = null; open(); }, 200);
+    });
+    b.addEventListener('mouseleave', function () { clearTimeout(zamer); zamer = null; });
     head.addEventListener('mouseenter', function () { clearTimeout(t); });
     head.addEventListener('mouseleave', close);
   });
