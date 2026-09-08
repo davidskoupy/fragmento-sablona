@@ -726,10 +726,19 @@
     var mega = document.querySelector('.mega'), head = b.closest('.head'), t;
     function open() { clearTimeout(t); closeAll(); mega.classList.add('open'); b.setAttribute('aria-expanded', 'true'); scrimSync(); }
     function close() {
-      // Zavírá se až při opuštění celé hlavičky. Kdyby se hlídalo jen tlačítko,
+      // Zavírá se se zpožděním, ne hned. Kdyby se hlídalo jen tlačítko,
       // menu by zmizelo v mezeře mezi ním a panelem — a odkaz by nešel kliknout.
-      t = setTimeout(function () { mega.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); scrimSync(); }, 260);
+      if (t) return;   // jeden časovač; jinak by ho každý pohyb odsouval (s145)
+      t = setTimeout(function () { t = null; mega.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); scrimSync(); }, 260);
     }
+    function drz() { clearTimeout(t); t = null; }
+    /* Přejezd na jinou položku, logo nebo tlačítko panel zavře (s145).
+       Dřív se zavíral jen při opuštění celé hlavičky, takže nad ostatními
+       položkami visel dál. */
+    head.addEventListener('mousemove', function (e) {
+      if (!mega.classList.contains('open')) return;
+      if (e.target.closest('.mega, .mega-btn')) drz(); else close();
+    });
     /* Otevřít až po 200 ms skutečného setrvání (s144). Chrome po scrollu
        posílá syntetický `mouseenter`/`mousemove` s nulovým `movement`,
        takže lepivá hlavička vyjetá pod stojící kurzor panel neotevře;
@@ -741,7 +750,7 @@
       zamer = setTimeout(function () { zamer = null; open(); }, 200);
     });
     b.addEventListener('mouseleave', function () { clearTimeout(zamer); zamer = null; });
-    head.addEventListener('mouseenter', function () { clearTimeout(t); });
+    head.addEventListener('mouseenter', drz);
     head.addEventListener('mouseleave', close);
   });
   // zvýraznění aktivní kapitoly v průvodci
