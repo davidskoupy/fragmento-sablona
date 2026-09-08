@@ -2620,3 +2620,19 @@ body.drawer-otevreno { overflow: hidden; }
 
 .drawer .grp-pozn { display: block; padding: 12px 10px; font-size: var(--t3);
   color: var(--n200); }
+
+.steps.three { grid-template-columns: 1fr; }
+@media (min-width: 785px) {
+  .steps.three { grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .steps.three .step { flex-direction: column; gap: 11px; padding-inline: 24px; }
+  .steps.three .step:first-child { padding-left: 0; }
+  .steps.three .step:last-child { padding-right: 0; }
+  .steps.three .step + .step::before { content: ""; position: absolute; left: 0; top: 16px;
+    width: 1px; height: calc(100% - 22px);
+    background: linear-gradient(180deg, transparent, var(--s200) 20%, var(--s200) 80%, transparent); }
+}
+
+@media (min-width: 1040px) { .nav { gap: 4px; } .nav > * { padding-inline: 5px; } }
+@media (min-width: 1040px) and (max-width: 1439px) { .head .foot-tel { display: none; } }
+
+.steps.three .big small { white-space: nowrap; }
