@@ -251,6 +251,64 @@
     });
   });
 
+  /* ── Fotky pod ohybem (s140) ────────────────────────────────────────
+     Fotky jsou v CSS proměnných, takže `loading="lazy"` nejde. Prvky
+     v sekcích za první sekcí nesou `data-bg="--img-x"` a styl dostanou
+     900 px před viewportem. Bez IntersectionObserver hned. */
+  (function () {
+    var prvky = document.querySelectorAll('[data-bg]');
+    if (!prvky.length) return;
+    function nacti(e) {
+      e.style.backgroundImage = 'var(' + e.getAttribute('data-bg') + ')';
+      e.removeAttribute('data-bg');
+    }
+    if (!('IntersectionObserver' in window)) { prvky.forEach(nacti); return; }
+    var io = new IntersectionObserver(function (zaznamy) {
+      zaznamy.forEach(function (z) {
+        if (!z.isIntersecting) return;
+        nacti(z.target); io.unobserve(z.target);
+      });
+    }, { rootMargin: '900px 0px' });
+    /* Skryté vrstvy karty se bez hoveru neukážou; načtou se až při
+       dotyku nebo fokusu karty. S hoverem jdou s kartou. */
+    var hover = matchMedia('(hover: hover)').matches;
+    prvky.forEach(function (e) {
+      if (!hover && e.classList.contains('lay') && !e.classList.contains('first')) return;
+      io.observe(e);
+    });
+    if (!hover) {
+      document.querySelectorAll('.card').forEach(function (k) {
+        function dobrat() {
+          k.querySelectorAll('.lay[data-bg]').forEach(nacti);
+          k.removeEventListener('pointerenter', dobrat); k.removeEventListener('focusin', dobrat);
+        }
+        k.addEventListener('pointerenter', dobrat); k.addEventListener('focusin', dobrat);
+      });
+    }
+  })();
+
+  /* ── Video v heru jen tam, kde má smysl (s140) ─────────────────────
+     Zdroj se doplní až tady: na mobilu (< 785 px) a při vyžádaném klidu
+     zůstane fotka pod videem a 450 kB se nestáhne. */
+  (function () {
+    var chce = matchMedia('(min-width: 785px)').matches
+      && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('video.vid').forEach(function (v) {
+      var zdroj = v.querySelector('source[data-src]');
+      if (!zdroj) return;
+      if (chce) {
+        zdroj.src = zdroj.getAttribute('data-src');
+        zdroj.removeAttribute('data-src');
+        v.load();
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      } else {
+        v.removeAttribute('autoplay');
+        var hero = v.closest('.hero') || v.parentNode;
+        var ctl = hero && hero.querySelector('[data-vid-ctl]');
+        if (ctl) ctl.hidden = true;
+      }
+    });
+  })();
 
   /* ── Zastavení hero videa ──────────────────────────────────────────
      `autoplay loop` běží pořád dokola. WCAG 2.2.2 chce u pohybu nad 5 s

@@ -28,7 +28,7 @@
 <link rel="preload" href="../assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/dm-sans-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/vendor/leaflet-1.9.4.css">
-<link rel="stylesheet" href="../assets/css/style.css?v=1788874499">
+<link rel="stylesheet" href="../assets/css/style.css?v=1788889356">
 
 <script type="application/ld+json">
 {
@@ -91,6 +91,7 @@
  ]
 }
 </script>
+<noscript><style>[data-bg]{background-color:var(--s150)}</style></noscript>
 </head>
 <body data-page="poptavka">
 <a class="preskoc" href="#obsah">Přeskočit na obsah</a>
@@ -156,13 +157,13 @@
 </div></div>
 <header class="head"><div class="wrap">
   <a class="logo" href="../index.html"><img src="../assets/brand/logo-fragmento.svg" alt="Fragmento" width="261" height="54"></a>
-  <nav class="nav"><a href="../nemovitosti/" class="mega-btn" aria-haspopup="true" aria-expanded="false" aria-controls="mega" aria-current="page">Nemovitosti<svg class="caret" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="../balicky.html">Balíčky</a><a href="../jak-to-funguje.html">Jak to funguje</a><a href="../jake-to-je.html">Jaké to je</a><a href="../pribehy.html">Příběhy majitelů</a><a href="../o-nas.html">O nás</a></nav>
+  <nav class="nav" aria-label="Hlavní"><a href="../nemovitosti/" class="mega-btn" aria-haspopup="true" aria-expanded="false" aria-controls="mega" aria-current="page">Nemovitosti<svg class="caret" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="../balicky.html">Balíčky</a><a href="../jak-to-funguje.html">Jak to funguje</a><a href="../jake-to-je.html">Jaké to je</a><a href="../pribehy.html">Příběhy majitelů</a><a href="../o-nas.html">O nás</a></nav>
   <span class="sp"></span>
   <a class="foot-tel" href="tel:+420604827601">+420 604 827 601</a>
   <a class="btn sm" href="../poptavka/">Mám zájem</a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Menu"><i></i><i></i><i></i></button>
 </div>
-<div class="mega" id="mega"><div class="wrap">
+<div class="mega" id="mega" role="navigation" aria-label="Nabídka nemovitostí"><div class="wrap">
   <div><div class="lb">Podle povahy místa</div><ul><li><a href="../nemovitosti/u-more/"><svg class="ico"><use href="#i-sea"/></svg>U moře<span class="n">1</span></a></li><li><a href="../nemovitosti/u-oceanu/"><svg class="ico"><use href="#i-ocean"/></svg>Oceán<span class="n">2</span></a></li><li><a href="../nemovitosti/v-horach/"><svg class="ico"><use href="#i-mountain"/></svg>V horách<span class="n">1</span></a></li><li><a href="../nemovitosti/"><svg class="ico"><use href="#i-nature"/></svg>V přírodě<span class="n">1</span></a></li><li><a href="../nemovitosti/pro-surfare/"><svg class="ico"><use href="#i-surf"/></svg>Surfování<span class="n">2</span></a></li><li><a href="../nemovitosti/"><svg class="ico"><use href="#i-culture"/></svg>Kultura<span class="n">1</span></a></li><li><a href="../nemovitosti/"><svg class="ico"><use href="#i-village"/></svg>Na vesnici<span class="n">1</span></a></li></ul>
     <div class="lb" style="margin-top:16px">Podle záměru</div>
     <ul><li><a href="../investicni-nemovitosti.html"><svg class="ico"><use href="#i-coins"/></svg>Investiční nemovitosti<span class="n">od 250 tis.</span></a></li>
@@ -183,11 +184,11 @@
 </div></div>
 </header>
 <main id="obsah" tabindex="-1">
-<div class="drawer" id="drawer"><div class="wrap">
+<div class="drawer" id="drawer" role="navigation" aria-label="Menu"><div class="wrap">
   <a href="./">Nemovitosti</a><a href="../investicni-nemovitosti.html">Investiční nemovitosti</a><a href="../balicky.html">Balíčky</a>
   <a href="../jak-to-funguje.html">Jak to funguje</a><a href="../jake-to-je.html">Jaké to je</a><a href="../pribehy.html">Příběhy majitelů</a><a href="../o-nas.html">O nás</a>
   <div class="grp">Podle země</div>
-  <div class="sub"><a class="chip" href="../nemovitosti/chorvatsko/" style="padding:6px 11px"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a><a class="chip" href="../nemovitosti/bali/" style="padding:6px 11px"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a><a class="chip" href="../nemovitosti/italie/" style="padding:6px 11px"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a><a class="chip" href="../nemovitosti/spanelsko/" style="padding:6px 11px"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a><a class="chip" href="./" style="padding:6px 11px"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">1</span></a><a class="chip" href="../nemovitosti/kostarika/" style="padding:6px 11px"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a><a class="chip" href="../nemovitosti/filipiny/" style="padding:6px 11px"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></div>
+  <div class="sub"><a class="chip" href="../nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a><a class="chip" href="../nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a><a class="chip" href="../nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a><a class="chip" href="../nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a><a class="chip" href="./"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">1</span></a><a class="chip" href="../nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a><a class="chip" href="../nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></div>
   <div class="grp">Kontakt</div>
   <a href="tel:+420604827601">+420 604 827 601</a><span class="grp-pozn">Klientská sekce<!-- s132: zatím neexistuje, proto popisek místo odkazu --></span>
   <a class="btn wide" href="../poptavka/" style="margin-top:10px">Mám zájem <span class="ar">→</span></a>
@@ -196,7 +197,7 @@
 <div class="phead"><div class="wrap">
   <nav class="crumb" aria-label="Drobečková navigace"><a href="../index.html">Domů</a> <span>›</span> <span>Nezávazná poptávka</span></nav>
   <h1>Kam se chcete vracet?</h1>
-  <p class="lead">Tři kroky, necelé dvě minuty. Čím víc nám řeknete, tím konkrétnější nabídku dostanete zpátky — a tím míň si budeme volat kvůli tomu, co se dá napsat. Pokud to ještě nevíte, přeskočte rovnou na kontakt.</p>
+  <p class="lead">Tři kroky, necelé dvě minuty. Čím víc nám řeknete, tím konkrétnější nabídku dostanete zpátky. A tím míň si budeme volat kvůli tomu, co se dá napsat. Pokud to ještě nevíte, přeskočte rovnou na kontakt.</p>
 </div></div>
 
 <section class="sec tight"><div class="wrap">
@@ -216,7 +217,7 @@
       <div class="chiprow"><button type="button" class="chip" data-osa="povaha" data-hod="U moře" data-vic aria-pressed="false"><svg class="ico"><use href="#i-sea"/></svg>U moře</button><button type="button" class="chip" data-osa="povaha" data-hod="V horách" data-vic aria-pressed="false"><svg class="ico"><use href="#i-mountain"/></svg>V horách</button><button type="button" class="chip" data-osa="povaha" data-hod="U oceánu" data-vic aria-pressed="false"><svg class="ico"><use href="#i-ocean"/></svg>U oceánu</button><button type="button" class="chip" data-osa="povaha" data-hod="Na surf" data-vic aria-pressed="false"><svg class="ico"><use href="#i-surf"/></svg>Na surf</button><button type="button" class="chip" data-osa="povaha" data-hod="V přírodě" data-vic aria-pressed="false"><svg class="ico"><use href="#i-nature"/></svg>V přírodě</button><button type="button" class="chip" data-osa="povaha" data-hod="Ve městě" data-vic aria-pressed="false"><svg class="ico"><use href="#i-city"/></svg>Ve městě</button><button type="button" class="chip" data-osa="povaha" data-hod="Na vesnici" data-vic aria-pressed="false"><svg class="ico"><use href="#i-village"/></svg>Na vesnici</button><button type="button" class="chip" data-osa="povaha" data-hod="Za kulturou" data-vic aria-pressed="false"><svg class="ico"><use href="#i-culture"/></svg>Za kulturou</button></div>
       <span class="lbl odsad">Země</span>
       <div class="chiprow"><button type="button" class="chip" data-osa="zeme" data-hod="Chorvatsko" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko</button><button type="button" class="chip" data-osa="zeme" data-hod="Bali" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-id"/></svg>Bali</button><button type="button" class="chip" data-osa="zeme" data-hod="Itálie" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-it"/></svg>Itálie</button><button type="button" class="chip" data-osa="zeme" data-hod="Španělsko" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-es"/></svg>Španělsko</button><button type="button" class="chip" data-osa="zeme" data-hod="Česko" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-cz"/></svg>Česko</button><button type="button" class="chip" data-osa="zeme" data-hod="Kostarika" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika</button><button type="button" class="chip" data-osa="zeme" data-hod="Filipíny" data-vic aria-pressed="false"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny</button></div>
-      <button type="button" class="poradit" data-poradit>Ještě nevím, co chci — poraďte mi →</button>
+      <button type="button" class="poradit" data-poradit>Ještě nevím, co chci. Poraďte mi →</button>
     </fieldset>
 
     <fieldset class="krok" data-k="2" hidden>
@@ -229,7 +230,7 @@
       <div class="volby"><button type="button" class="volba" data-osa="zamer" data-hod="Chci tam jezdit" aria-pressed="false"><b>Chci tam jezdit</b><i>užívání je hlavní důvod</i></button><button type="button" class="volba" data-osa="zamer" data-hod="Jezdit i pronajímat" aria-pressed="false"><b>Jezdit i pronajímat</b><i>část roku my, zbytek hosté</i></button><button type="button" class="volba" data-osa="zamer" data-hod="Hlavně investice" aria-pressed="false"><b>Hlavně investice</b><i>výnos a hodnota nemovitosti</i></button><button type="button" class="volba" data-osa="zamer" data-hod="Ještě nevím" aria-pressed="false"><b>Ještě nevím</b><i>proberme to</i></button></div>
       <span class="lbl odsad">Kdy to řešíte</span>
       <div class="chiprow"><button type="button" class="chip" data-osa="kdy" data-hod="Do tří měsíců" aria-pressed="false">Do tří měsíců</button><button type="button" class="chip" data-osa="kdy" data-hod="Letos" aria-pressed="false">Letos</button><button type="button" class="chip" data-osa="kdy" data-hod="Rozhlížím se" aria-pressed="false">Rozhlížím se</button><button type="button" class="chip" data-osa="kdy" data-hod="Ještě nevím" aria-pressed="false">Ještě nevím</button></div>
-      <button type="button" class="poradit" data-poradit>Tohle ještě nevím — přeskočit na kontakt →</button>
+      <button type="button" class="poradit" data-poradit>Tohle ještě nevím, přeskočit na kontakt →</button>
     </fieldset>
 
     <fieldset class="krok" data-k="3" hidden>
@@ -259,14 +260,13 @@
 </div></section>
 
 <section class="sec cream"><div class="wrap"><div class="kdo">
-  <div class="lab">Kdo se vám ozve</div>
   <h2 class="h2" style="max-width:22ch">Člověk, který tu nemovitost viděl</h2>
   <div class="sellers">
-        <div class="seller"><span class="av" style="background-image:var(--img-avatar-david)"></span><span><span class="nm">David Pehal</span><span class="rl">CEO</span></span></div>
+        <div class="seller"><span class="av" data-bg="--img-avatar-david"></span><span><span class="nm">David Pehal</span><span class="rl">CEO</span></span></div>
         <div class="seller"><span class="av ph">LŠ</span><span><span class="nm">Lenka Šídla</span><span class="rl">obchod</span></span></div>
         <div class="seller"><span class="av ph">MP</span><span><span class="nm">Michal Pokorný</span><span class="rl">obchod</span></span></div>
       </div>
-  <p class="pozn">Tři lidé, každý má na starosti své lokality. Radši zavoláte? <a href="tel:+420604827601" style="color:var(--p);font-weight:var(--w-med)">+420 604 827 601</a></p>
+  <p class="pozn">Tři lidé, každý má na starosti své lokality. Radši zavoláte? <a class="odkaz zalom" href="tel:+420604827601">+420 604 827 601</a></p>
 </div></div></section>
 
 </main>
@@ -293,7 +293,7 @@
   <div class="bot"><span>FRAGMENTO SE</span><span>IČO 21956839</span><span>Okružní 433/1, Lesná, 638 00 Brno</span><span>zapsána u Krajského soudu v Brně, sp. zn. H 737/KSBR</span><span class="sp"></span><span>Zásady ochrany osobních údajů</span><span>Cookies</span><span>© 2026</span></div>
 </div></footer>
 <script src="../assets/vendor/leaflet-1.9.4.js" defer></script>
-<script src="../assets/js/main.js?v=1787649325" defer></script>
+<script src="../assets/js/main.js?v=1788889194" defer></script>
 <script src="../assets/js/mapa.js" defer></script>
 </body>
 </html>
