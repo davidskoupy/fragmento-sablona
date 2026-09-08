@@ -2633,6 +2633,6 @@ body.drawer-otevreno { overflow: hidden; }
 }
 
 @media (min-width: 1040px) { .nav { gap: 4px; } .nav > * { padding-inline: 5px; } }
-@media (min-width: 1040px) and (max-width: 1439px) { .head .foot-tel { display: none; } }
+@media (min-width: 1040px) and (max-width: 1239px) { .head .foot-tel { display: none; } }
 
 .steps.three .big small { white-space: nowrap; }
