@@ -269,22 +269,21 @@
         nacti(z.target); io.unobserve(z.target);
       });
     }, { rootMargin: '900px 0px' });
-    /* Skryté vrstvy karty se bez hoveru neukážou; načtou se až při
-       dotyku nebo fokusu karty. S hoverem jdou s kartou. */
-    var hover = matchMedia('(hover: hover)').matches;
+    /* Skryté vrstvy karty (tři ze čtyř fotek) se načtou až při prvním
+       najetí, dotyku nebo fokusu karty, na všech zařízeních (s143).
+       Než dorazí, prosvítá první fotka: vrstva bez obrázku je průhledná. */
     prvky.forEach(function (e) {
-      if (!hover && e.classList.contains('lay') && !e.classList.contains('first')) return;
+      if (e.classList.contains('lay') && !e.classList.contains('first')) return;
       io.observe(e);
     });
-    if (!hover) {
-      document.querySelectorAll('.card').forEach(function (k) {
-        function dobrat() {
-          k.querySelectorAll('.lay[data-bg]').forEach(nacti);
-          k.removeEventListener('pointerenter', dobrat); k.removeEventListener('focusin', dobrat);
-        }
-        k.addEventListener('pointerenter', dobrat); k.addEventListener('focusin', dobrat);
-      });
-    }
+    document.querySelectorAll('.card').forEach(function (k) {
+      if (!k.querySelector('.lay[data-bg]')) return;
+      function dobrat() {
+        k.querySelectorAll('.lay[data-bg]').forEach(nacti);
+        ['pointerenter', 'touchstart', 'focusin'].forEach(function (u) { k.removeEventListener(u, dobrat); });
+      }
+      ['pointerenter', 'touchstart', 'focusin'].forEach(function (u) { k.addEventListener(u, dobrat, { passive: true }); });
+    });
   })();
 
   /* ── Video v heru jen tam, kde má smysl (s140) ─────────────────────
