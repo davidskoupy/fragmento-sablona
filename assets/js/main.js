@@ -327,6 +327,10 @@
       ven('urok', 'cca ' + String(urok).replace('.', ',') + ' % p.a.');   /* pevná sazba (s163) */
       ven('splatka', kc(splatka)); ven('vlastni', kc(vlastni) + ' Kč'); ven('fin', kc(fin) + ' Kč');
       ven('celkem', kc(splatka * n + vlastni) + ' Kč');
+      /* Vybarvená část dráhy posuvníku (s165). */
+      [vst.cena, vst.vl, vst['let']].forEach(function (i) {
+        if (i) i.style.setProperty('--pct', (i.value - i.min) / (i.max - i.min) * 100 + '%');
+      });
     }
     Object.keys(vst).forEach(function (j) { vst[j].addEventListener('input', prepocti); });
     prepocti();
@@ -656,6 +660,82 @@
       f.querySelectorAll('.chip[data-osa="' + osa + '"]').forEach(function (b) {
         b.setAttribute('aria-pressed', b.getAttribute('data-hod') === vybrano ? 'true' : 'false');
       });
+    });
+  })();
+
+  /* ── Poptávka na detailu (s165) ──────────────────────────────────────
+     Formulář měl `novalidate`, ale žádnou obsluhu: odeslal se GETem na
+     stejnou adresu a jméno, e-mail i telefon skončily v URL. Kontrola
+     a hlášky jsou stejné jako u poptávky na homepage (s31); hláška visí
+     na poli přes `aria-describedby`, takže ji čtečka řekne i po návratu. */
+  (function () {
+    var f = document.querySelector('[data-poptavka-detail]');
+    if (!f) return;
+    var hotovo = f.parentNode.querySelector('.kp-hotovo');
+
+    function chyba(pole, text) {
+      var ch = document.getElementById(pole.getAttribute('aria-describedby'));
+      if (ch) ch.textContent = text || '';
+      (pole.closest('.fpole') || pole.closest('.souhlas')).classList.toggle('pole-chyba', !!text);
+      pole.setAttribute('aria-invalid', text ? 'true' : 'false');
+    }
+
+    function zkontroluj(pole) {
+      var v = (pole.value || '').trim();
+      if (pole.name === 'jmeno')
+        return v.length >= 2 ? '' : 'Napište prosím jméno, ať víme, koho oslovit.';
+      if (pole.name === 'email')
+        return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v) ? '' : 'Tenhle e-mail nevypadá úplně, zkontrolujte ho prosím.';
+      if (pole.name === 'telefon')
+        return v.replace(/[\s()+-]/g, '').length >= 9 ? '' : 'Telefon potřebujeme celý, ať se dovoláme.';
+      if (pole.name === 'souhlas')
+        return pole.checked ? '' : 'Bez souhlasu se zpracováním údajů se vám nemůžeme ozvat.';
+      return '';
+    }
+
+    var povinna = [].slice.call(f.querySelectorAll('[data-povinne]'));
+    povinna.forEach(function (pole) {
+      // Za běhu se hlídá až to pole, které už jednou chybu ukázalo.
+      pole.addEventListener(pole.type === 'checkbox' ? 'change' : 'input', function () {
+        if (pole.getAttribute('aria-invalid') === 'true') chyba(pole, zkontroluj(pole));
+      });
+    });
+
+    /* Po skrytí dlouhého formuláře by fokus nechal potvrzení pod lepivou
+       hlavičkou (1440 px: horní hrana 0, hlavička do 71). Proto doprostřed. */
+    function hotovoUkaz() {
+      f.hidden = true;
+      if (!hotovo) return;
+      hotovo.hidden = false;
+      hotovo.focus({ preventScroll: true });
+      hotovo.scrollIntoView({ block: 'center' });
+    }
+
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var prvni = null;
+      povinna.forEach(function (pole) {
+        var t = zkontroluj(pole);
+        chyba(pole, t);
+        if (t && !prvni) prvni = pole;
+      });
+      if (prvni) { prvni.focus(); return; }
+
+      var cil = f.dataset.endpoint;
+      if (!cil) {
+        /* Šablona nemá backend: potvrzení se ukáže, ale nic se neodeslalo. */
+        console.warn('Poptávka na detailu: chybí data-endpoint, nic se neodeslalo.');
+        hotovoUkaz();
+        return;
+      }
+      var tl = f.querySelector('button[type="submit"]');
+      tl.disabled = true;
+      fetch(cil, { method: 'POST', body: new FormData(f) })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); hotovoUkaz(); })
+        .catch(function () {
+          tl.disabled = false;
+          chyba(f.querySelector('[name="email"]'), 'Odeslání se nepovedlo. Zkuste to prosím znovu, nebo zavolejte.');
+        });
     });
   })();
 
