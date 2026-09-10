@@ -2,10 +2,10 @@
 
 > Frakční spoluvlastnictví nemovitostí v zahraničí. Osm lidí koupí jeden dům přes společnost, která ho drží, a každý vlastní reálný podíl 1/8 s právem na 44 nocí ročně.
 
-Fragmento je česká společnost FRAGMENTO SE (IČO 21956839, Brno). Provozuje devět nemovitostí v sedmi zemích. Podíl se kupuje jednorázově od 250 000 Kč, není to timeshare ani fond: kupující drží podíl ve firmě, která nemovitost vlastní, a může ho prodat, darovat i zdědit. Nevyužité noci se pronajímají a z výnosu se platí provoz.
+Fragmento je česká společnost FRAGMENTO SE (IČO 21956839, Brno). Provozuje čtrnáct nemovitostí v devíti zemích. Podíl se kupuje jednorázově od 250 000 Kč, není to timeshare ani fond: kupující drží podíl ve firmě, která nemovitost vlastní, a může ho prodat, darovat i zdědit. Nevyužité noci se pronajímají a z výnosu se platí provoz.
 
 ## Stránky
-- [Domů](https://www.fragmento.cz/): Devět nemovitostí v sedmi zemích, podíl 1/8 a 44 nocí ročně.
+- [Domů](https://www.fragmento.cz/): Čtrnáct nemovitostí v devíti zemích, podíl 1/8 a 44 nocí ročně.
 - [Apartmány v Chorvatsku](https://www.fragmento.cz/apartmany-chorvatsko/): Apartmány v Rtině-Ražanci u Zadaru a ekonomika chorvatské sezóny.
 - [Balíčky](https://www.fragmento.cz/balicky/): Kombinace dvou a více podílů, 88 nebo 132 nocí ročně.
 - [Investiční nemovitosti](https://www.fragmento.cz/investicni-nemovitosti/): Ekonomika podílu: vstupní cena, provozní náklady a z čeho se skládá výnos.
@@ -15,6 +15,22 @@ Fragmento je česká společnost FRAGMENTO SE (IČO 21956839, Brno). Provozuje d
 - [O nás](https://www.fragmento.cz/o-nas/): Kdo za Fragmentem stojí, dvanáct let v developmentu a správě.
 - [Příběhy majitelů](https://www.fragmento.cz/pribehy/): Majitelé podílů o tom, proč do toho šli a co je překvapilo.
 - [Nezávazná poptávka](https://www.fragmento.cz/poptavka/): Průvodce na tři kroky — kam, jak často a za kolik; odpověď do jednoho pracovního dne.
+
+## Nemovitosti
+- [Uluwatu — Hideaway vila 4+kk](https://www.fragmento.cz/nemovitosti/uluwatu-bali-4kk/): Pecatu, Uluwatu, Bali. Podíl 1/8 za 1 560 000 Kč, 44 nocí ročně.
+- [Uluwatu — Banga vila 3+kk](https://www.fragmento.cz/nemovitosti/banga-vila-3kk/): Pecatu, Uluwatu, Bali. Podíl 1/8 za 1 154 000 Kč, 44 nocí ročně.
+- [Apartina — Apartmán 3+kk](https://www.fragmento.cz/nemovitosti/apartina-3kk/): Rtina-Ražanac, Zadar, Chorvatsko. Podíl 1/8 za 2 083 000 Kč, 44 nocí ročně.
+- [Apartmán 2+kk v srdci Alp](https://www.fragmento.cz/nemovitosti/apartman-2kk-v-srdci-alp/): Passo del Tonale, Brescia, Itálie. Podíl 1/8 za 1 150 000 Kč, 44 nocí ročně.
+- [Vila Dokola](https://www.fragmento.cz/nemovitosti/vila-dokola-korenec/): Kořenec, Drahanská vrchovina, Česko. Podíl 1/8 za 1 649 750 Kč, 44 nocí ročně.
+- [Apartmán Na sjezdovce — Krušné hory](https://www.fragmento.cz/nemovitosti/apartman-na-sjezdovce-plesivec/): Abertamy, Karlovarský kraj, Česko. Podíl 1/8 za 2 323 500 Kč, 44 nocí ročně.
+- [Designový apartmán 3+kk se zahradou](https://www.fragmento.cz/nemovitosti/designovy-apartman-3kk-spanelsko/): Casares Costa, Costa del Sol, Španělsko. Podíl 1/8 za 1 619 000 Kč, 44 nocí ročně.
+- [Boutique vila Luna — 4+kk v tropické zahradě](https://www.fragmento.cz/nemovitosti/boutique-vila-luna-4kk-v-tropicke-zahrade/): Mae Nam, Ko Samui District, Thajsko. Podíl 1/8 za 1 085 000 Kč, 44 nocí ročně.
+- [Boutique vila Nova — 3+kk v tropické zahradě](https://www.fragmento.cz/nemovitosti/boutique-vila-nova-3kk-v-tropicke-zahrade/): Mae Nam, Ko Samui District, Thajsko. Podíl 1/8 za 986 000 Kč, 44 nocí ročně.
+- [Apartmán 2+kk v luxusním přímořském resortu](https://www.fragmento.cz/nemovitosti/yamal-apartman-oman/): Al Seeb, Muscat, Omán. Podíl 1/8 za 966 000 Kč, 44 nocí ročně.
+- [Lintaon Hills](https://www.fragmento.cz/nemovitosti/lintaon-hills-filipiny/): Leyte, Filipíny. Připravujeme, cena bude upřesněna.
+- [Apartina — Apartmán 2+kk](https://www.fragmento.cz/nemovitosti/apartina-2kk/): Rtina-Ražanac, Zadar, Chorvatsko. Prodáno, všech 8 podílů má majitele.
+- [Moderní vila 3+kk s výhledem do pralesa](https://www.fragmento.cz/nemovitosti/moderni-vila-3kk-kostarika/): Hone Creek, Puerto Viejo, Kostarika. Prodáno, všech 8 podílů má majitele.
+- [3+kk apartmán La Casita](https://www.fragmento.cz/nemovitosti/thajsko-la-casita/): Thajsko, Thajsko. Prodáno, všech 8 podílů má majitele.
 
 ## Kontakt
 - Telefon: +420 604 827 601

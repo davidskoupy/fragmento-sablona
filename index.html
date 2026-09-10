@@ -28,7 +28,7 @@
 <link rel="preload" href="assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/dm-sans-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/vendor/leaflet-1.9.4.css">
-<link rel="stylesheet" href="assets/css/style.css?v=1789031397">
+<link rel="stylesheet" href="assets/css/style.css?v=1789038259">
 
 <script type="application/ld+json">
 {
@@ -94,7 +94,7 @@
   <symbol id="fl-es" viewBox="0 0 24 16"><rect width="24" height="16" fill="#AA151B"/><rect y="4" width="24" height="8" fill="#F1BF00"/></symbol>
   <symbol id="fl-id" viewBox="0 0 24 16"><rect width="24" height="8" fill="#CE1126"/><rect y="8" width="24" height="8" fill="#fff"/></symbol>
   <symbol id="fl-ph" viewBox="0 0 24 16"><rect width="24" height="8" fill="#0038A8"/><rect y="8" width="24" height="8" fill="#CE1126"/><path d="M0 0 L11 8 L0 16Z" fill="#fff"/><circle cx="3.6" cy="8" r="2.1" fill="#FCD116"/></symbol>
-  <symbol id="fl-cr" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><rect width="24" height="3" fill="#002B7F"/><rect y="13" width="24" height="3" fill="#002B7F"/><rect y="6" width="24" height="4" fill="#CE1126"/></symbol>
+  <symbol id="fl-cr" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><rect width="24" height="3" fill="#002B7F"/><rect y="13" width="24" height="3" fill="#002B7F"/><rect y="6" width="24" height="4" fill="#CE1126"/></symbol><symbol id="fl-th" viewBox="0 0 24 16"><rect width="24" height="16" fill="#A51931"/><rect y="2.67" width="24" height="10.66" fill="#F4F5F8"/><rect y="5.33" width="24" height="5.34" fill="#2D2A4A"/></symbol><symbol id="fl-om" viewBox="0 0 24 16"><rect width="24" height="16" fill="#DB161B"/><rect x="7" width="17" height="5.33" fill="#fff"/><rect x="7" y="10.67" width="17" height="5.33" fill="#008000"/></symbol>
 
   <!-- povaha místa: stejné osy jako locationList v API -->
   <symbol id="i-sea" viewBox="0 0 20 20"><path d="M2 12c2-2 3.5-2 5.5 0s3.5 2 5.5 0 3.5-2 5.5 0M2 7c2-2 3.5-2 5.5 0s3.5 2 5.5 0 3.5-2 5.5 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
@@ -153,23 +153,23 @@
   <button class="burger" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Menu"><i></i><i></i><i></i></button>
 </div>
 <div class="mega" id="mega" role="navigation" aria-label="Nabídka nemovitostí"><div class="wrap">
-  <div><div class="lb">Podle povahy místa</div><ul><li><a href="nemovitosti/u-more/"><svg class="ico"><use href="#i-sea"/></svg>U moře<span class="n">1</span></a></li><li><a href="nemovitosti/u-oceanu/"><svg class="ico"><use href="#i-ocean"/></svg>Oceán<span class="n">2</span></a></li><li><a href="nemovitosti/v-horach/"><svg class="ico"><use href="#i-mountain"/></svg>V horách<span class="n">1</span></a></li><li><a href="nemovitosti/"><svg class="ico"><use href="#i-nature"/></svg>V přírodě<span class="n">1</span></a></li><li><a href="nemovitosti/pro-surfare/"><svg class="ico"><use href="#i-surf"/></svg>Surfování<span class="n">2</span></a></li><li><a href="nemovitosti/"><svg class="ico"><use href="#i-culture"/></svg>Kultura<span class="n">1</span></a></li><li><a href="nemovitosti/"><svg class="ico"><use href="#i-village"/></svg>Na vesnici<span class="n">1</span></a></li></ul>
+  <div><div class="lb">Podle povahy místa</div><ul><li><a href="nemovitosti/u-more/"><svg class="ico"><use href="#i-sea"/></svg>U moře<span class="n">6</span></a></li><li><a href="nemovitosti/u-oceanu/"><svg class="ico"><use href="#i-ocean"/></svg>Oceán<span class="n">4</span></a></li><li><a href="nemovitosti/v-horach/"><svg class="ico"><use href="#i-mountain"/></svg>V horách<span class="n">2</span></a></li><li><a href="nemovitosti/v-prirode/"><svg class="ico"><use href="#i-nature"/></svg>V přírodě<span class="n">4</span></a></li><li><a href="nemovitosti/pro-surfare/"><svg class="ico"><use href="#i-surf"/></svg>Surfování<span class="n">2</span></a></li><li><a href="nemovitosti/s-kulturou/"><svg class="ico"><use href="#i-culture"/></svg>Kultura<span class="n">4</span></a></li><li><a href="nemovitosti/na-vesnici/"><svg class="ico"><use href="#i-village"/></svg>Na vesnici<span class="n">1</span></a></li><li><a href="nemovitosti/ve-meste/"><svg class="ico"><use href="#i-city"/></svg>Ve městě<span class="n">2</span></a></li></ul>
     <div class="lb" style="margin-top:16px">Podle záměru</div>
     <ul><li><a href="investicni-nemovitosti.html"><svg class="ico"><use href="#i-coins"/></svg>Investiční nemovitosti<span class="n">od 250 tis.</span></a></li>
     <li><a href="balicky.html"><svg class="ico"><use href="#i-key"/></svg>Balíčky podílů<span class="n">3</span></a></li>
     <li><a href="splatky/"><svg class="ico"><use href="#i-tag"/></svg>Podíl na splátky<span class="n">až 70 %</span></a></li></ul></div>
-  <div><div class="lb">Podle země</div><ul><li><a href="nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a></li><li><a href="nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a></li><li><a href="nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a></li><li><a href="nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a></li><li><a href="nemovitosti/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">1</span></a></li><li><a href="nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a></li><li><a href="nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></li><li class="dim"><a href="nemovitosti/">Thajsko · Omán<span class="n">brzy</span></a></li></ul></div>
+  <div><div class="lb">Podle země</div><ul><li><a href="nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a></li><li><a href="nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a></li><li><a href="nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a></li><li><a href="nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a></li><li><a href="nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">2</span></a></li><li><a href="nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a></li><li><a href="nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></li><li><a href="nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko<span class="n">3</span></a></li><li><a href="nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán<span class="n">1</span></a></li></ul></div>
   <div>
-    <div class="lb">Poslední volné podíly</div>
-    <a class="mega-card" href="detail.html"><div class="ph" style="background-image:var(--img-g-bali-1)"></div>
+    <div class="lb">Volné podíly</div>
+    <a class="mega-card" href="nemovitosti/uluwatu-bali-4kk/"><div class="ph" style="background-image:var(--img-g-bali-1)"></div>
       <div class="bd"><div class="t">Uluwatu — Hideaway vila 4+kk</div><div class="s">Bali · 44 nocí ročně</div>
-      <div class="d">poslední podíl · 1 560 000 Kč</div></div></a>
-    <a class="mega-card" href="detail.html"><div class="ph" style="background-image:var(--img-g-chorvatsko-1)"></div>
+      <div class="d">volné podíly · 1 560 000 Kč</div></div></a>
+    <a class="mega-card" href="nemovitosti/apartina-3kk/"><div class="ph" style="background-image:var(--img-n-apartina-3kk-1)"></div>
       <div class="bd"><div class="t">Apartina — Apartmán 3+kk</div><div class="s">Chorvatsko · 44 nocí ročně</div>
-      <div class="d">poslední 2 podíly · 1 860 000 Kč</div></div></a>
+      <div class="d">volné podíly · 2 083 000 Kč</div></div></a>
     <div class="mega-foot"><a href="investicni-nemovitosti.html">Investiční nemovitosti od 250 000 Kč →</a>
       <a href="splatky/">Podíl na splátky →</a>
-      <a href="nemovitosti/">Zobrazit všech 9 nemovitostí →</a>
+      <a href="nemovitosti/">Zobrazit všech 14 nemovitostí →</a>
       <span class="q">Nevíte, co hledáte? <a href="jak-to-funguje.html">Jak to funguje</a></span></div>
   </div>
 </div></div>
@@ -179,7 +179,7 @@
   <a href="nemovitosti/">Nemovitosti</a><a href="investicni-nemovitosti.html">Investiční nemovitosti</a><a href="balicky.html">Balíčky</a>
   <a href="jak-to-funguje.html">Jak to funguje</a><a href="splatky/">Podíl na splátky</a><a href="jake-to-je.html">Jaké to je</a><a href="pribehy.html">Příběhy majitelů</a><a href="o-nas.html">O nás</a>
   <div class="grp">Podle země</div>
-  <div class="sub"><a class="chip" href="nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a><a class="chip" href="nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a><a class="chip" href="nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a><a class="chip" href="nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a><a class="chip" href="nemovitosti/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">1</span></a><a class="chip" href="nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a><a class="chip" href="nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></div>
+  <div class="sub"><a class="chip" href="nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a><a class="chip" href="nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a><a class="chip" href="nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a><a class="chip" href="nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a><a class="chip" href="nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">2</span></a><a class="chip" href="nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a><a class="chip" href="nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a><a class="chip" href="nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko<span class="n">3</span></a><a class="chip" href="nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán<span class="n">1</span></a></div>
   <div class="grp">Kontakt</div>
   <a href="tel:+420604827601">+420 604 827 601</a><span class="grp-pozn">Klientská sekce<!-- s132: zatím neexistuje, proto popisek místo odkazu --></span>
   <a class="btn wide" href="poptavka/" style="margin-top:10px">Mám zájem <span class="ar">→</span></a>
@@ -196,7 +196,7 @@
       <a class="btn outline-w" href="jak-to-funguje.html">Jak to funguje</a></div>
     <div class="proof">
       <span><svg viewBox="0 0 20 20" fill="none"><use href="#i-coins"/></svg>Podíly od <b>250 000 Kč</b></span>
-      <span><svg viewBox="0 0 20 20" fill="none"><use href="#i-house"/></svg><b>9 nemovitostí</b> v 7 zemích</span>
+      <span><svg viewBox="0 0 20 20" fill="none"><use href="#i-house"/></svg><b>14 nemovitostí</b> v 9 zemích</span>
       <span><svg viewBox="0 0 20 20" fill="none"><use href="#i-doc"/></svg><b>Reálný podíl</b>, ne právo na týden</span>
     </div>
   </div>
@@ -210,67 +210,67 @@
 <!-- ══ AKT 3 · nabídka ══ -->
 
 <section class="sec cream" id="nabidka"><div class="wrap">
-  <div class="sec-head"><div><h2 class="h2">Devět míst, kam se dá vracet</h2></div>
+  <div class="sec-head"><div><h2 class="h2">Čtrnáct míst, kam se dá vracet</h2></div>
     <span class="sp"></span>
     <div class="chiprow" data-filtr role="group" aria-label="Filtr podle povahy místa"><button type="button" class="chip on" data-povaha="" aria-pressed="true">kdekoliv</button>
       <button type="button" class="chip" data-povaha="sea" aria-pressed="false"><svg class="ico"><use href="#i-sea"/></svg>u moře</button>
       <button type="button" class="chip" data-povaha="mountain" aria-pressed="false"><svg class="ico"><use href="#i-mountain"/></svg>v horách</button>
       <button type="button" class="chip" data-povaha="surf" aria-pressed="false"><svg class="ico"><use href="#i-surf"/></svg>surfování</button></div></div>
-  <div class="grid" data-mrizka><a class="card" data-povaha="sea" href="detail.html">
-  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-chorvatsko-1"></span><span class="lay" data-bg="--img-g-chorvatsko-2"></span><span class="lay" data-bg="--img-g-chorvatsko-3"></span><span class="lay" data-bg="--img-g-chorvatsko-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
+  <div class="grid" data-mrizka><a class="card" data-povaha="sea" href="nemovitosti/apartina-3kk/" data-pronajem>
+  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-apartina-3kk-1"></span><span class="lay" data-bg="--img-n-apartina-3kk-2"></span><span class="lay" data-bg="--img-n-apartina-3kk-3"></span><span class="lay" data-bg="--img-n-apartina-3kk-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko</span></div><div class="bl"><span role="img" data-tip="U moře" aria-label="U moře"><svg class="ico"><use href="#i-sea"/></svg></span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Apartina — Apartmán 3+kk</div><div class="adr">Rtina-Ražanac, Zadar · 84 m² · 3 pokoje</div><div class="ev">„Do vody se chodí přes rozpálené kameny, bosky.“</div></div>
+    <div class="blok popis"><div class="ttl">Apartina — Apartmán 3+kk<span class="karta-pronajem"><span class="kpr-lb">Pronajímá se</span><span class="kpr-loga"><img class="pr-logo" src="assets/brand/logo-booking.svg" alt="Booking.com" width="16" height="16"><img class="pr-logo" src="assets/brand/logo-airbnb.svg" alt="Airbnb" width="16" height="16"></span></span></div><div class="adr">Rtina-Ražanac, Zadar · 84 m² · 3 pokoje</div><div class="ev">„Do vody se chodí přes rozpálené kameny, bosky.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1 860 000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div><span class="zbyva"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i><i class="free"></i></span><b>Zbývají 2 z 8 podílů</b></span>
+      <div><div class="cena"><i>od</i> 2&nbsp;083&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div><div class="spl"><img src="assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 70 % na splátky · <b>jak to funguje</b></span></div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
-</a><a class="card" data-povaha="ocean surf culture" href="detail.html" data-pronajem>
+</a><a class="card" data-povaha="ocean surf culture" href="nemovitosti/uluwatu-bali-4kk/" data-pronajem>
   <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-bali-1"></span><span class="lay" data-bg="--img-g-bali-2"></span><span class="lay" data-bg="--img-g-bali-3"></span><span class="lay" data-bg="--img-g-bali-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-id"/></svg>Bali</span></div><div class="bl"><span role="img" data-tip="Oceán" aria-label="Oceán"><svg class="ico"><use href="#i-ocean"/></svg></span><span role="img" data-tip="Surfování" aria-label="Surfování"><svg class="ico"><use href="#i-surf"/></svg></span><span role="img" data-tip="Kultura" aria-label="Kultura"><svg class="ico"><use href="#i-culture"/></svg></span></div></div>
   <div class="bd">
     <div class="blok popis"><div class="ttl">Uluwatu — Hideaway vila 4+kk<span class="karta-pronajem"><span class="kpr-lb">Pronajímá se</span><span class="kpr-loga"><img class="pr-logo" src="assets/brand/logo-booking.svg" alt="Booking.com" width="16" height="16"><img class="pr-logo" src="assets/brand/logo-airbnb.svg" alt="Airbnb" width="16" height="16"></span></span></div><div class="adr">Pecatu, Uluwatu · 209 m² · 4 pokoje</div><div class="ev">„Ráno je slyšet jen voda a ptáci z kopce nad domem.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1 560 000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div><span class="zbyva posledni"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i></span><b>Zbývá poslední podíl</b></span>
+      <div><div class="cena"><i>od</i> 1&nbsp;560&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div><div class="spl"><img src="assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 70 % na splátky · <b>jak to funguje</b></span></div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
-</a><a class="card" data-povaha="mountain" href="detail.html">
-  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-italie-1"></span><span class="lay" data-bg="--img-g-italie-2"></span><span class="lay" data-bg="--img-g-italie-3"></span><span class="lay" data-bg="--img-g-italie-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
+</a><a class="card" data-povaha="mountain" href="nemovitosti/apartman-2kk-v-srdci-alp/">
+  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-apartman-2kk-v-srdci-alp-1"></span><span class="lay" data-bg="--img-n-apartman-2kk-v-srdci-alp-2"></span><span class="lay" data-bg="--img-n-apartman-2kk-v-srdci-alp-3"></span><span class="lay" data-bg="--img-n-apartman-2kk-v-srdci-alp-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-it"/></svg>Itálie</span></div><div class="bl"><span role="img" data-tip="V horách" aria-label="V horách"><svg class="ico"><use href="#i-mountain"/></svg></span></div></div>
   <div class="bd">
     <div class="blok popis"><div class="ttl">Apartmán 2+kk v srdci Alp</div><div class="adr">Passo del Tonale, Brescia · 2 pokoje</div><div class="ev">„Vlek začíná dvě minuty pěšky od dveří.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1 230 000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
+      <div><div class="cena"><i>od</i> 1&nbsp;150&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div><div class="spl"><img src="assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 70 % na splátky · <b>jak to funguje</b></span></div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
-</a><a class="card" data-povaha="" href="detail.html">
-  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-spanelsko-1"></span><span class="lay" data-bg="--img-g-spanelsko-2"></span><span class="lay" data-bg="--img-g-spanelsko-3"></span><span class="lay" data-bg="--img-g-spanelsko-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
+</a><a class="card" data-povaha="" href="nemovitosti/designovy-apartman-3kk-spanelsko/">
+  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-designovy-apartman-3kk-spanelsko-1"></span><span class="lay" data-bg="--img-n-designovy-apartman-3kk-spanelsko-2"></span><span class="lay" data-bg="--img-n-designovy-apartman-3kk-spanelsko-3"></span><span class="lay" data-bg="--img-n-designovy-apartman-3kk-spanelsko-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-es"/></svg>Španělsko</span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Designový apartmán 3+kk se zahradou</div><div class="adr">Casares Costa, Costa del Sol · 142 m²</div><div class="ev">„Zahrada voní rozmarýnem dřív, než dojdete ke dveřím.“</div></div>
+    <div class="blok popis"><div class="ttl">Designový apartmán 3+kk se zahradou</div><div class="adr">Casares Costa, Costa del Sol · 142 m² · 3 pokoje</div><div class="ev">„Zahrada voní rozmarýnem dřív, než dojdete ke dveřím.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1 550 000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
+      <div><div class="cena"><i>od</i> 1&nbsp;619&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div><div class="spl"><img src="assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 70 % na splátky · <b>jak to funguje</b></span></div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
-</a><a class="card" data-povaha="nature village" href="detail.html">
-  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-cesko-1"></span><span class="lay" data-bg="--img-g-cesko-2"></span><span class="lay" data-bg="--img-g-cesko-3"></span><span class="lay" data-bg="--img-g-cesko-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
+</a><a class="card" data-povaha="nature village" href="nemovitosti/vila-dokola-korenec/">
+  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-vila-dokola-korenec-1"></span><span class="lay" data-bg="--img-n-vila-dokola-korenec-2"></span><span class="lay" data-bg="--img-n-vila-dokola-korenec-3"></span><span class="lay" data-bg="--img-n-vila-dokola-korenec-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-cz"/></svg>Česko</span></div><div class="bl"><span role="img" data-tip="V přírodě" aria-label="V přírodě"><svg class="ico"><use href="#i-nature"/></svg></span><span role="img" data-tip="Na vesnici" aria-label="Na vesnici"><svg class="ico"><use href="#i-village"/></svg></span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Vila Dokola</div><div class="adr">Kořenec, Drahanská vrchovina · 154 m²</div><div class="ev">„Tři hodiny autem a jste u sebe. Bez letiště.“</div></div>
+    <div class="blok popis"><div class="ttl">Vila Dokola</div><div class="adr">Kořenec, Drahanská vrchovina · 154 m² · 4 pokoje</div><div class="ev">„Tři hodiny autem a jste u sebe. Bez letiště.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1 620 000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div><span class="zbyva"><span class="sq"><i></i><i></i><i></i><i></i><i></i><i></i><i class="free"></i><i class="free"></i></span><b>Zbývají 2 z 8 podílů</b></span>
+      <div><div class="cena"><i>od</i> 1&nbsp;649&nbsp;750&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div><div class="spl"><img src="assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 70 % na splátky · <b>jak to funguje</b></span></div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
-</a><a class="card soon" data-povaha="" href="detail.html">
-  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-filipiny-1"></span><span class="lay" data-bg="--img-g-filipiny-2"></span><span class="lay" data-bg="--img-g-filipiny-3"></span><span class="lay" data-bg="--img-g-filipiny-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
+</a><a class="card soon" data-povaha="" href="nemovitosti/lintaon-hills-filipiny/">
+  <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-lintaon-hills-filipiny-1"></span><span class="lay" data-bg="--img-n-lintaon-hills-filipiny-2"></span><span class="lay" data-bg="--img-n-lintaon-hills-filipiny-3"></span><span class="lay" data-bg="--img-n-lintaon-hills-filipiny-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny</span></div><div class="soon-stamp">Již brzy</div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Lintaon Hills</div><div class="adr">Leyte · v přípravě</div><div class="ev">„Do zálivu se v prosinci vracejí velryby.“</div></div>
+    <div class="blok popis"><div class="ttl">Lintaon Hills</div><div class="adr">Leyte</div><div class="ev">„Do zálivu se v prosinci vracejí velryby.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
       <div><div class="cena tlumena">bude upřesněna</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div></div>
@@ -280,7 +280,7 @@
   <div class="chiprow" style="margin-top:26px;justify-content:flex-end">
     
     <a class="btn ghost sm" href="balicky.html">Dvě místa, 88 nocí: balíčky <span class="ar">&rarr;</span></a>
-    <a class="btn sm" href="nemovitosti/">Zobrazit všech 9 <span class="ar">&rarr;</span></a>
+    <a class="btn sm" href="nemovitosti/">Zobrazit všech 14 <span class="ar">&rarr;</span></a>
 </div>
 </div><a class="prech" href="#jake-to-tam-je"><span class="prech-t"><span class="prech-l">Dál</span><span class="prech-n">Jaké to tam je</span></span><span class="prech-i"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4.5v11M5.5 11l4.5 4.5 4.5-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></section>
 <!-- ══ AKT 1 · co to je ══
@@ -372,9 +372,9 @@
       <span class="in"><svg class="flag"><use href="#fl-ph"/></svg><b>Filipíny</b><i>Leyte · již brzy</i></span></a>
   </div><a class="prech" href="#kde-to-vsechno-je"><span class="prech-t"><span class="prech-l">Dál</span><span class="prech-n">Kde to všechno je</span></span><span class="prech-i"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4.5v11M5.5 11l4.5 4.5 4.5-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></section>
 <section class="sec white joined" id="kde-to-vsechno-je"><div class="wrap">
-  <div class="sec-head"><div>    <h2 class="h2">Sedm zemí na třech kontinentech</h2></div><span class="sp"></span>
+  <div class="sec-head"><div>    <h2 class="h2">Devět zemí na třech kontinentech</h2></div><span class="sp"></span>
     <a class="btn ghost sm" href="nemovitosti/">Prohlédnout na mapě <span class="ar">→</span></a></div>
-  <div class="mapwrap"><div class="mapa" data-mapa role="application" tabindex="0" aria-label="Mapa nemovitostí s cenami podílů"></div><div class="map-ctl"><button type="button" aria-label="Přiblížit">+</button><button type="button" aria-label="Oddálit">−</button></div><script type="application/json" id="mapa-data">{"mista":[{"mi":"Ražanac","ze":"Chorvatsko","vl":"hr","po":[44.2821,15.3476],"ne":[{"jm":"Apartina — Apartmán 3+kk","ad":"Rtina-Ražanac, Zadar · 84 m² · 3 pokoje","ce":"1 860 000 Kč","od":"detail.html"},{"jm":"Apartina — Apartmán 2+kk","ad":"Rtina-Ražanac, Zadar · 49 m² · 2 pokoje","ce":"1 250 000 Kč","od":"apartmany-chorvatsko.html"}]},{"mi":"Uluwatu","ze":"Bali","vl":"id","po":[-8.8208,115.1136],"ne":[{"jm":"Uluwatu — Hideaway vila 4+kk","ad":"Pecatu, Uluwatu · 209 m² · 4 pokoje","ce":"1 560 000 Kč","od":"detail.html"},{"jm":"Uluwatu — Banga vila 3+kk","ad":"Pecatu, Uluwatu · 127 m² · 3 pokoje","ce":"1 040 000 Kč","od":"detail.html"}]},{"mi":"Passo del Tonale","ze":"Itálie","vl":"it","po":[46.258,10.5818],"ne":[{"jm":"Apartmán 2+kk v srdci Alp","ad":"Passo del Tonale, Brescia · 2 pokoje","ce":"1 230 000 Kč","od":"detail.html"}]},{"mi":"Casares Costa","ze":"Španělsko","vl":"es","po":[36.3813,-5.2108],"ne":[{"jm":"Designový apartmán 3+kk se zahradou","ad":"Casares Costa, Costa del Sol · 142 m²","ce":"1 550 000 Kč","od":"detail.html"}]},{"mi":"Kořenec","ze":"Česko","vl":"cz","po":[49.53,16.7538],"ne":[{"jm":"Vila Dokola","ad":"Kořenec, Drahanská vrchovina · 154 m²","ce":"1 620 000 Kč","od":"detail.html"}]},{"mi":"Puerto Viejo","ze":"Kostarika","vl":"cr","po":[9.6551,-82.8001],"ne":[{"jm":"Moderní vila 3+kk s výhledem do pralesa","ad":"Hone Creek, Puerto Viejo · 120 m² · 3 pokoje","ce":"645 000 Kč","od":"detail.html"}]},{"mi":"Leyte","ze":"Filipíny","vl":"ph","po":[10.6778,124.7978],"brzy":true,"ne":[{"jm":"Lintaon Hills","ad":"Leyte · v přípravě","ce":"Cena bude upřesněna","od":"detail.html"}]},{"mi":"Thajsko","ze":"Thajsko","po":[14.8972,100.8327],"brzy":true},{"mi":"Omán","ze":"Omán","po":[21.0,57.0037],"brzy":true}]}</script></div>
+  <div class="mapwrap"><div class="mapa" data-mapa role="application" tabindex="0" aria-label="Mapa nemovitostí s cenami podílů"></div><div class="map-ctl"><button type="button" aria-label="Přiblížit">+</button><button type="button" aria-label="Oddálit">−</button></div><script type="application/json" id="mapa-data">{"mista":[{"mi":"Ražanac","ze":"Chorvatsko","vl":"hr","po":[44.2821,15.3476],"ne":[{"jm":"Apartina — Apartmán 3+kk","ad":"Rtina-Ražanac, Zadar · 84 m² · 3 pokoje","ce":"2 083 000 Kč","od":"nemovitosti/apartina-3kk/"},{"jm":"Apartina — Apartmán 2+kk","ad":"Rtina-Ražanac, Zadar · 49 m² · 2 pokoje","ce":"Prodáno","od":"nemovitosti/apartina-2kk/"}]},{"mi":"Uluwatu","ze":"Bali","vl":"id","po":[-8.8208,115.1136],"ne":[{"jm":"Uluwatu — Hideaway vila 4+kk","ad":"Pecatu, Uluwatu · 209 m² · 4 pokoje","ce":"1 560 000 Kč","od":"nemovitosti/uluwatu-bali-4kk/"},{"jm":"Uluwatu — Banga vila 3+kk","ad":"Pecatu, Uluwatu · 127 m² · 3 pokoje","ce":"1 154 000 Kč","od":"nemovitosti/banga-vila-3kk/"}]},{"mi":"Passo del Tonale","ze":"Itálie","vl":"it","po":[46.258,10.5818],"ne":[{"jm":"Apartmán 2+kk v srdci Alp","ad":"Passo del Tonale, Brescia · 2 pokoje","ce":"1 150 000 Kč","od":"nemovitosti/apartman-2kk-v-srdci-alp/"}]},{"mi":"Casares Costa","ze":"Španělsko","vl":"es","po":[36.3813,-5.2108],"ne":[{"jm":"Designový apartmán 3+kk se zahradou","ad":"Casares Costa, Costa del Sol · 142 m² · 3 pokoje","ce":"1 619 000 Kč","od":"nemovitosti/designovy-apartman-3kk-spanelsko/"}]},{"mi":"Kořenec","ze":"Česko","vl":"cz","po":[49.53,16.7538],"ne":[{"jm":"Vila Dokola","ad":"Kořenec, Drahanská vrchovina · 154 m² · 4 pokoje","ce":"1 649 750 Kč","od":"nemovitosti/vila-dokola-korenec/"}]},{"mi":"Abertamy","ze":"Česko","vl":"cz","po":[50.3697,12.8183],"ne":[{"jm":"Apartmán Na sjezdovce — Krušné hory","ad":"Abertamy, Karlovarský kraj · 118 m² · 3 pokoje","ce":"2 323 500 Kč","od":"nemovitosti/apartman-na-sjezdovce-plesivec/"}]},{"mi":"Puerto Viejo","ze":"Kostarika","vl":"cr","po":[9.6551,-82.8001],"ne":[{"jm":"Moderní vila 3+kk s výhledem do pralesa","ad":"Hone Creek, Puerto Viejo · 120 m² · 3 pokoje","ce":"Prodáno","od":"nemovitosti/moderni-vila-3kk-kostarika/"}]},{"mi":"Leyte","ze":"Filipíny","vl":"ph","po":[10.6778,124.7978],"brzy":true,"ne":[{"jm":"Lintaon Hills","ad":"Leyte","ce":"Cena bude upřesněna","od":"nemovitosti/lintaon-hills-filipiny/"}]},{"mi":"Mae Nam","ze":"Thajsko","vl":"th","po":[9.5667,99.9833],"ne":[{"jm":"Boutique vila Luna — 4+kk v tropické zahradě","ad":"Mae Nam, Ko Samui District · 133 m² · 4 pokoje","ce":"1 085 000 Kč","od":"nemovitosti/boutique-vila-luna-4kk-v-tropicke-zahrade/"},{"jm":"Boutique vila Nova — 3+kk v tropické zahradě","ad":"Mae Nam, Ko Samui District · 115 m² · 3 pokoje","ce":"986 000 Kč","od":"nemovitosti/boutique-vila-nova-3kk-v-tropicke-zahrade/"}]},{"mi":"Al Seeb","ze":"Omán","vl":"om","po":[23.6703,58.1889],"ne":[{"jm":"Apartmán 2+kk v luxusním přímořském resortu","ad":"Al Seeb, Muscat · 71 m² · 2 pokoje","ce":"966 000 Kč","od":"nemovitosti/yamal-apartman-oman/"}]}]}</script></div>
   </div><a class="prech" href="#majitele"><span class="prech-t"><span class="prech-l">Dál</span><span class="prech-n">Majitelé</span></span><span class="prech-i"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4.5v11M5.5 11l4.5 4.5 4.5-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></section>
 <!-- ══ NOVÉ · vysvětlení kategorie ══ struktura z kocomo.com, sazba z aman.com -->
 <!-- ══ AKT 3 · věřím jim, jdu do toho ══ -->
@@ -444,7 +444,7 @@
     </address>
   </div>
   <nav class="foot-zeme" aria-label="Země, ve kterých máme nemovitosti">
-    <ul><li><a href="nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko</a></li><li><a href="nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali</a></li><li><a href="nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie</a></li><li><a href="nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko</a></li><li><a href="nemovitosti/"><svg class="flag"><use href="#fl-cz"/></svg>Česko</a></li><li><a href="nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika</a></li><li><a href="nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny</a></li></ul>
+    <ul><li><a href="nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko</a></li><li><a href="nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali</a></li><li><a href="nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie</a></li><li><a href="nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko</a></li><li><a href="nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko</a></li><li><a href="nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika</a></li><li><a href="nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny</a></li><li><a href="nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko</a></li><li><a href="nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán</a></li></ul>
   </nav>
   <div class="foot-rada">
     <nav class="foot-odk" aria-label="Rozcestník"><ul><li><a href="nemovitosti/">Nemovitosti</a></li><li><a href="balicky.html">Balíčky</a></li><li><a href="splatky/">Podíl na splátky</a></li><li><a href="jak-to-funguje.html">Jak to funguje</a></li><li><a href="jake-to-je.html">Jaké to je</a></li><li><a href="pribehy.html">Příběhy majitelů</a></li><li><a href="o-nas.html">O nás</a></li><li><!-- s124: Magazín skrytý na přání klienta (vedl na jak-to-funguje.html, protože magazín neexistuje). Vrátit: nahradit tenhle komentář odkazem. --></li><li><a href="jak-to-funguje.html">Otázky a odpovědi</a></li><li><a href="o-nas.html">Kontakty</a></li></ul></nav>
@@ -452,7 +452,7 @@
   </div>
   <div class="bot"><span>FRAGMENTO SE</span><span>IČO 21956839</span><span>Okružní 433/1, Lesná, 638 00 Brno</span><span>zapsána u Krajského soudu v Brně, sp. zn. H 737/KSBR</span><span class="sp"></span><span>Zásady ochrany osobních údajů</span><span>Cookies</span><span>© 2026</span></div>
 </div></footer>
-<script src="assets/js/main.js?v=1789029128" defer></script>
+<script src="assets/js/main.js?v=1789038259" defer></script>
 <script>document.addEventListener("DOMContentLoaded",function(){var m=document.querySelector("[data-mapa]");if(!m)return;var jel=false;function nacti(){if(jel)return;jel=true;var a=document.createElement("script");a.src="assets/vendor/leaflet-1.9.4.js";a.onload=function(){var b=document.createElement("script");b.src="assets/js/mapa.js";document.head.appendChild(b);};document.head.appendChild(a);}if(!("IntersectionObserver" in window)){nacti();return;}var io=new IntersectionObserver(function(z){if(z.some(function(x){return x.isIntersecting;})){io.disconnect();nacti();}},{rootMargin:"1200px 0px"});io.observe(m);});</script>
 </body>
 </html>

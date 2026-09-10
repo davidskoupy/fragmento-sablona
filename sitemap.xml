@@ -29,10 +29,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.fragmento.cz/nemovitosti/uluwatu-hideaway-vila-4kk/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://www.fragmento.cz/o-nas/</loc>
     <priority>0.8</priority>
   </url>
@@ -41,7 +37,19 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.fragmento.cz/poptavka/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/splatky/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.fragmento.cz/nemovitosti/bali/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/cesko/</loc>
     <priority>0.6</priority>
   </url>
   <url>
@@ -61,11 +69,27 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.fragmento.cz/nemovitosti/na-vesnici/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/oman/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.fragmento.cz/nemovitosti/pro-surfare/</loc>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.fragmento.cz/nemovitosti/s-kulturou/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.fragmento.cz/nemovitosti/spanelsko/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/thajsko/</loc>
     <priority>0.6</priority>
   </url>
   <url>
@@ -81,11 +105,67 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.fragmento.cz/poptavka/</loc>
-    <priority>0.7</priority>
+    <loc>https://www.fragmento.cz/nemovitosti/v-prirode/</loc>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.fragmento.cz/splatky/</loc>
-    <priority>0.7</priority>
+    <loc>https://www.fragmento.cz/nemovitosti/ve-meste/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/uluwatu-bali-4kk/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/banga-vila-3kk/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/apartina-3kk/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/apartman-2kk-v-srdci-alp/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/vila-dokola-korenec/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/apartman-na-sjezdovce-plesivec/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/designovy-apartman-3kk-spanelsko/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/boutique-vila-luna-4kk-v-tropicke-zahrade/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/boutique-vila-nova-3kk-v-tropicke-zahrade/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/yamal-apartman-oman/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/lintaon-hills-filipiny/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/apartina-2kk/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/moderni-vila-3kk-kostarika/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.fragmento.cz/nemovitosti/thajsko-la-casita/</loc>
+    <priority>0.8</priority>
   </url>
 </urlset>

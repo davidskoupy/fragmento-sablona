@@ -819,139 +819,246 @@
     stav();
   })();
 
-  /* ── Filtr: pilulky jsou odkazy, stav je v URL — viz s82 ────────────
-     Jedno chování na plném výpisu i na filtrovaných stránkách. Odkaz
-     funguje i bez JS; s JS se kliknutí odchytí a stránka se nenačítá. */
+  /* ── Filtr výpisu: jeden řádek, výběr s počty, panel na mobilu (s162) ──
+     Varianta A z plátna 10. 9. Uvnitř osy se volby sčítají (Bali nebo
+     Thajsko), mezi osami zužují. Stav je v adrese: jediná hodnota země nebo
+     povahy jde do cesty, ostatní do parametrů. Na filtrované stránce karty
+     ostatních míst nejsou, proto se tam při změně naviguje na výpis.
+
+     Mobilní panel je `<dialog>` a volby se do něj stěhují, nekopírují —
+     jinak by existovaly dvakrát a jednou by se rozešly. */
   (function () {
-    var obal = document.querySelector('[data-filtr2]');
+    var ft = document.querySelector('[data-filtr3]');
     var mrizka = document.querySelector('[data-mrizka]');
-    if (!obal || !mrizka) return;
+    if (!ft || !mrizka) return;
     var plny = mrizka.hasAttribute('data-plny');
-    var OSY = ['povaha', 'zeme', 'cena', 'dostupnost'];
+    var OSY = ['zeme', 'povaha', 'cena'];
+    var karty = [].slice.call(mrizka.querySelectorAll('.card'));
+    var celkem = parseInt(ft.getAttribute('data-celkem'), 10) || karty.length;
+    var volby = [].slice.call(ft.querySelectorAll('.ft-opt'));
+    var pops = [].slice.call(ft.querySelectorAll('.ft-pop'));
+    var obalPops = ft.querySelector('.ft-pops');
+    var rada = ft.querySelector('.ft-rada');
+    var sw = ft.querySelector('[data-volne]');
+    var swLabel = sw ? sw.closest('.ft-sw') : null;
+    var sheet = document.querySelector('[data-sheet]');
+    var telo = sheet ? sheet.querySelector('[data-telo]') : null;
+    var mob = ft.querySelector('.ft-mob');
+    var pocet = ft.querySelector('[data-ft-pocet]');
+    var aktivni = ft.querySelector('[data-aktivni]');
+    var prazdno = ft.querySelector('[data-prazdno]');
 
-    /* Mapování token → slug se čte z odkazů, ne z druhé tabulky —
-       ta by se při první změně slugů rozešla. */
-    var slug = {};
-    obal.querySelectorAll('a.chip[data-os][data-hod]').forEach(function (a) {
-      var h = a.getAttribute('href') || '';
-      var m = h.match(/([a-z0-9-]+)\/$/);
-      if (m) slug[a.getAttribute('data-os') + ':' + a.getAttribute('data-hod')] = m[1];
+    /* Slug ↔ hodnota se čte z odkazů voleb, ne z druhé tabulky. */
+    var slug = {}, zeSlugu = {};
+    volby.forEach(function (a) {
+      var m = (a.getAttribute('href') || '').match(/([a-z0-9-]+)\/$/);
+      if (!m) return;
+      slug[a.getAttribute('data-os') + ':' + a.getAttribute('data-hod')] = m[1];
+      zeSlugu[m[1]] = [a.getAttribute('data-os'), a.getAttribute('data-hod')];
     });
+    var cesta = location.pathname;
+    var konec = cesta.replace(/\/+$/, '').split('/').pop();
+    var koren = zeSlugu[konec] ? cesta.replace(/[^/]+\/?$/, '') : cesta.replace(/index\.html$/, '');
 
-    /* Opačný směr: ze slugu v cestě zpátky na osu a hodnotu. Bez toho
-       tlačítko Zpět vrátí adresu `/bali/`, ale filtr se neobnoví —
-       `aria-current` je jen na stránkách vygenerovaných serverem,
-       kdežto po `pushState` je slug jenom v cestě. */
-    var zeSlugu = {};
-    Object.keys(slug).forEach(function (k) { zeSlugu[slug[k]] = k.split(':'); });
-
+    function prazdny() { return { zeme: [], povaha: [], cena: [], volne: false }; }
     function zeURL() {
-      var st = { povaha: '', zeme: '', cena: '', dostupnost: '' };
-      var q = new URLSearchParams(location.search);
-      OSY.forEach(function (o) { if (q.get(o)) st[o] = q.get(o); });
-      var segment = location.pathname.replace(/\/+$/, '').split('/').pop();
-      if (zeSlugu[segment]) st[zeSlugu[segment][0]] = zeSlugu[segment][1];
-      var akt = obal.querySelector('.chip[aria-current="page"]');
-      if (akt) st[akt.getAttribute('data-os')] = akt.getAttribute('data-hod') || '';
+      var st = prazdny(), q = new URLSearchParams(location.search);
+      OSY.forEach(function (o) { if (q.get(o)) st[o] = q.get(o).split(',').filter(Boolean); });
+      st.volne = q.get('volne') === '1' || q.get('dostupnost') === 'volna';
+      var z = zeSlugu[location.pathname.replace(/\/+$/, '').split('/').pop()];
+      if (z && st[z[0]].indexOf(z[1]) < 0) st[z[0]].push(z[1]);
       return st;
     }
-
     var stav = zeURL();
 
-    function adresa() {
-      /* Do cesty jde jen jedna osa; přednost má země. Zbytek jsou
-         parametry. Na filtrované stránce se cesta nemění vůbec. */
-      var zaklad = location.pathname, q = [];
-      if (plny) {
-        var vCeste = stav.zeme ? 'zeme' : (stav.povaha ? 'povaha' : null);
-        var s = vCeste ? slug[vCeste + ':' + stav[vCeste]] : null;
-        zaklad = location.pathname.replace(/[^/]*\/?$/, '') + (s ? s + '/' : '');
-        OSY.forEach(function (o) { if (stav[o] && o !== vCeste) q.push(o + '=' + encodeURIComponent(stav[o])); });
-      } else {
-        var akt = obal.querySelector('.chip[aria-current="page"]');
-        var vCeste2 = akt ? akt.getAttribute('data-os') : null;
-        OSY.forEach(function (o) { if (stav[o] && o !== vCeste2) q.push(o + '=' + encodeURIComponent(stav[o])); });
+    function voleb(st) { return st.zeme.length + st.povaha.length + st.cena.length + (st.volne ? 1 : 0); }
+    function jedina(st) {
+      if (voleb(st) !== 1) return null;
+      if (st.zeme.length && slug['zeme:' + st.zeme[0]]) return ['zeme', st.zeme[0]];
+      if (st.povaha.length && slug['povaha:' + st.povaha[0]]) return ['povaha', st.povaha[0]];
+      return null;
+    }
+    function adresa(st) {
+      var j = jedina(st);
+      if (j) return koren + slug[j[0] + ':' + j[1]] + '/';
+      var q = [];
+      OSY.forEach(function (o) { if (st[o].length) q.push(o + '=' + st[o].map(encodeURIComponent).join(',')); });
+      if (st.volne) q.push('volne=1');
+      return koren + (q.length ? '?' + q.join('&') : '');
+    }
+    function hodnoty(k, o) { return (k.getAttribute('data-' + o) || '').split(' '); }
+    function sedi(k, st, bez) {
+      for (var i = 0; i < OSY.length; i++) {
+        var o = OSY[i];
+        if (o === bez || !st[o].length) continue;
+        var v = hodnoty(k, o);
+        if (!st[o].some(function (x) { return v.indexOf(x) >= 0; })) return false;
       }
-      return zaklad + (q.length ? '?' + q.join('&') : '');
+      return !(st.volne && k.getAttribute('data-dostupnost') !== 'volna');
     }
-
-    function sedi(k, bez) {
-      return OSY.every(function (o) {
-        if (o === bez || !stav[o]) return true;
-        var v = k.getAttribute('data-' + o) || '';
-        return o === 'povaha' ? v.split(' ').indexOf(stav[o]) >= 0 : v === stav[o];
-      });
-    }
-
-    var karty = [].slice.call(mrizka.querySelectorAll('.card'));
-    /* Počet leží v liště `.bar`, která je **sourozencem** `.filter`,
-       ne jeho potomkem. Hledat ho uvnitř filtru vrací null a číslo
-       mlčky zamrzne na hodnotě vysázené při generování. */
-    var pocet = document.querySelector('[data-pocet]');
-
-    function tvar(n) {
-      if (n === 1) return 'nemovitost';
-      if (n >= 2 && n <= 4) return 'nemovitosti';
-      return 'nemovitostí';
-    }
+    function tvar(n) { return n === 1 ? 'nemovitost' : (n >= 2 && n <= 4 ? 'nemovitosti' : 'nemovitostí'); }
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function volba(o, h) { return volby.filter(function (x) { return x.getAttribute('data-os') === o && x.getAttribute('data-hod') === h; })[0]; }
 
     function pouzij() {
       var vidno = 0;
       karty.forEach(function (k) {
-        var ven = !sedi(k);
+        var ven = plny && !sedi(k, stav);
         k.classList.toggle('odfiltrovano', ven);
         if (!ven) vidno++;
       });
-      obal.querySelectorAll('.chip[data-os]').forEach(function (p) {
-        var o = p.getAttribute('data-os'), h = p.getAttribute('data-hod') || '';
-        var vyb = stav[o] === h;
-        p.classList.toggle('on', vyb);
-        if (p.tagName === 'BUTTON') p.setAttribute('aria-pressed', vyb ? 'true' : 'false');
-        if (!h) return;
-        var moznych = karty.filter(function (k) {
-          if (!sedi(k, o)) return false;
-          var v = k.getAttribute('data-' + o) || '';
-          return o === 'povaha' ? v.split(' ').indexOf(h) >= 0 : v === h;
-        }).length;
-        /* Na plném výpisu se slepá pilulka schová. Na filtrované stránce
-           ne — je to odkaz jinam a tam obsah je. */
-        if (plny) p.classList.toggle('skryta', moznych === 0 && !vyb);
+      volby.forEach(function (a) {
+        var o = a.getAttribute('data-os'), h = a.getAttribute('data-hod');
+        var vyb = stav[o].indexOf(h) >= 0;
+        a.classList.toggle('on', vyb);
+        a.setAttribute('aria-checked', vyb ? 'true' : 'false');
+        /* Na filtrované stránce zůstávají počty z celého katalogu. */
+        if (!plny) return;
+        var n = karty.filter(function (k) { return sedi(k, stav, o) && hodnoty(k, o).indexOf(h) >= 0; }).length;
+        a.querySelector('.c').textContent = n;
+        var mrtva = n === 0 && !vyb;
+        a.classList.toggle('prazdna', mrtva);
+        if (mrtva) a.setAttribute('aria-disabled', 'true'); else a.removeAttribute('aria-disabled');
       });
-      if (pocet) pocet.textContent = vidno + ' ' + tvar(vidno);
+      [].forEach.call(ft.querySelectorAll('.ft-btn[data-os]'), function (b) {
+        var n = stav[b.getAttribute('data-os')].length, c = b.querySelector('.ft-n');
+        c.textContent = n; c.hidden = !n; b.classList.toggle('on', n > 0);
+      });
+      var vse = voleb(stav);
+      if (mob) { var mc = mob.querySelector('.ft-n'); mc.textContent = vse; mc.hidden = !vse; }
+      if (sw) sw.checked = stav.volne;
+      if (pocet) pocet.innerHTML = '<b>' + vidno + '</b> z ' + celkem + ' ' + (celkem === 1 ? 'nemovitosti' : 'nemovitostí');
+      [].forEach.call(document.querySelectorAll('[data-cta]'), function (s) { s.textContent = vidno + ' ' + tvar(vidno); });
+      if (prazdno) prazdno.hidden = vidno > 0;
+      if (aktivni) {
+        var html = '';
+        OSY.forEach(function (o) {
+          stav[o].forEach(function (h) {
+            var a = volba(o, h);
+            if (!a) return;
+            var lb = a.getAttribute('data-lb');
+            html += '<button type="button" class="ft-pill" data-os="' + o + '" data-hod="' + esc(h) + '" aria-label="Zrušit filtr ' + esc(lb) + '">' + esc(lb) + '<b aria-hidden="true">×</b></button>';
+          });
+        });
+        if (stav.volne) html += '<button type="button" class="ft-pill" data-os="volne" aria-label="Zrušit filtr jen volné podíly">jen volné podíly<b aria-hidden="true">×</b></button>';
+        if (vse > 1) html += '<button type="button" class="ft-zrus" data-zrus="">Zrušit vše</button>';
+        aktivni.innerHTML = html;
+        aktivni.hidden = !vse;
+      }
     }
 
-    obal.addEventListener('click', function (e) {
-      var p = e.target.closest ? e.target.closest('.chip[data-os]') : null;
-      if (!p) return;
-      var o = p.getAttribute('data-os'), h = p.getAttribute('data-hod') || '';
-      /* Zemi na filtrované stránce přepnout na místě nejde — karty
-         ostatních zemí tam nejsou. Odkaz ať navigauje. */
-      if (!plny && p.tagName === 'A' && o === 'zeme') return;
-      e.preventDefault();
-      stav[o] = h;
+    function nazvy() {
+      var j = jedina(stav), d = { zeme: '', povaha: '' };
+      if (j) d[j[0]] = j[1];
+      return d;
+    }
+    function zmena() {
+      if (!plny) { location.href = adresa(stav); return; }
       pouzij();
-      history.pushState({ f: stav }, '', adresa());
-      window.dispatchEvent(new CustomEvent('filtr:zmena', { detail: stav }));
-    });
-
-    window.addEventListener('popstate', function () {
-      stav = zeURL(); pouzij();
-      window.dispatchEvent(new CustomEvent('filtr:zmena', { detail: stav }));
-    });
-
-    var prep = obal.querySelector('.f-prep'), vic = obal.querySelector('.f-vic');
-    if (prep && vic) {
-      var otevrit = !!(stav.cena || stav.dostupnost);
-      vic.hidden = !otevrit;
-      prep.setAttribute('aria-expanded', otevrit ? 'true' : 'false');
-      prep.addEventListener('click', function () {
-        var o = vic.hidden;
-        vic.hidden = !o;
-        prep.setAttribute('aria-expanded', o ? 'true' : 'false');
-      });
+      history.pushState({ f: 1 }, '', adresa(stav));
+      window.dispatchEvent(new CustomEvent('filtr:zmena', { detail: nazvy() }));
     }
+
+    /* ── výběr pod tlačítkem (desktop) ── */
+    var otevrena = null;
+    function zavriPop(vratit) {
+      if (!otevrena) return;
+      var b = ft.querySelector('.ft-btn[data-os="' + otevrena.getAttribute('data-pop') + '"]');
+      otevrena.hidden = true;
+      if (b) { b.setAttribute('aria-expanded', 'false'); if (vratit) b.focus(); }
+      otevrena = null;
+    }
+    function otevriPop(b, klavesnice) {
+      var p = ft.querySelector('.ft-pop[data-pop="' + b.getAttribute('data-os') + '"]');
+      if (!p) return;
+      var byla = otevrena === p;
+      zavriPop(false);
+      if (byla) return;
+      p.hidden = false;
+      var r = b.getBoundingClientRect(), f = obalPops.getBoundingClientRect();
+      p.style.left = Math.max(0, Math.min(r.left - f.left, f.width - p.offsetWidth)) + 'px';
+      b.setAttribute('aria-expanded', 'true');
+      otevrena = p;
+      if (klavesnice) { var prvni = p.querySelector('.ft-opt'); if (prvni) prvni.focus(); }
+    }
+
+    /* ── spodní panel (mobil) ── */
+    function otevriPanel() {
+      if (!sheet || !telo || typeof sheet.showModal !== 'function') return;
+      zavriPop(false);
+      pops.forEach(function (p) { p.hidden = false; p.style.left = ''; telo.appendChild(p); });
+      if (swLabel) telo.appendChild(swLabel);
+      sheet.showModal();
+      if (mob) mob.setAttribute('aria-expanded', 'true');
+    }
+    if (sheet) {
+      sheet.addEventListener('close', function () {
+        pops.forEach(function (p) { p.hidden = true; obalPops.appendChild(p); });
+        if (swLabel) rada.insertBefore(swLabel, rada.querySelector('.sp'));
+        if (mob) { mob.setAttribute('aria-expanded', 'false'); mob.focus(); }
+      });
+      /* Klik na clonu míří na samotný dialog. */
+      sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
+    }
+    var uzko = matchMedia('(max-width: 699px)');
+    if (uzko.addEventListener) uzko.addEventListener('change', function () { if (sheet && sheet.open) sheet.close(); zavriPop(false); });
+
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t.closest || !(t.closest('[data-filtr3]') || t.closest('[data-sheet]'))) { zavriPop(false); return; }
+      var a = t.closest('.ft-opt');
+      if (a) {
+        e.preventDefault();
+        if (a.getAttribute('aria-disabled') === 'true') return;
+        var o = a.getAttribute('data-os'), h = a.getAttribute('data-hod'), i = stav[o].indexOf(h);
+        if (i >= 0) stav[o].splice(i, 1); else stav[o].push(h);
+        zmena();
+        return;
+      }
+      var b = t.closest('.ft-btn[data-os]');
+      if (b) { otevriPop(b, e.detail === 0); return; }
+      if (t.closest('.ft-mob')) { otevriPanel(); return; }
+      var pill = t.closest('.ft-pill');
+      if (pill) {
+        var po = pill.getAttribute('data-os');
+        if (po === 'volne') stav.volne = false;
+        else { var j = stav[po].indexOf(pill.getAttribute('data-hod')); if (j >= 0) stav[po].splice(j, 1); }
+        zmena();
+        return;
+      }
+      var z = t.closest('[data-zrus]');
+      if (z) {
+        var zo = z.getAttribute('data-zrus');
+        if (zo) stav[zo] = []; else stav = prazdny();
+        zmena();
+        return;
+      }
+      if (t.closest('[data-zavri]')) {
+        if (sheet && sheet.open) sheet.close(); else zavriPop(true);
+        return;
+      }
+      if (!t.closest('.ft-pop')) zavriPop(false);
+    });
+    if (sw) sw.addEventListener('change', function () { stav.volne = sw.checked; zmena(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && otevrena) { zavriPop(true); return; }
+      /* Volba je odkaz s rolí zaškrtávátka: mezerník ji má přepnout, ne rolovat stránkou. */
+      if (e.key === ' ' && e.target.classList && e.target.classList.contains('ft-opt') && e.target.tagName === 'A') {
+        e.preventDefault();
+        e.target.click();
+      }
+    });
+    window.addEventListener('popstate', function () {
+      if (!plny) return;
+      stav = zeURL();
+      pouzij();
+      window.dispatchEvent(new CustomEvent('filtr:zmena', { detail: nazvy() }));
+    });
 
     pouzij();
+    /* Příchod s parametry: nadpis podle stavu hned. Posluchač z s84 se
+       registruje až za tímhle blokem, proto až v dalším tahu. */
+    if (plny && voleb(stav)) setTimeout(function () { window.dispatchEvent(new CustomEvent('filtr:zmena', { detail: nazvy() })); }, 0);
   })();
 
   /* ── Nadpis a title při filtrování na místě — viz s84 ───────────────
