@@ -324,7 +324,7 @@
       var n = let_ * 12, r = urok / 100 / 12;
       var splatka = r > 0 ? fin * r / (1 - Math.pow(1 + r, -n)) : fin / n;
       ven('cena', kc(cena) + ' Kč'); ven('vl', vl + ' %'); ven('let', lety(let_)); ven('let2', lety(let_));
-      ven('urok', urok.toFixed(1).replace('.', ',') + ' % p.a.');
+      ven('urok', 'cca ' + String(urok).replace('.', ',') + ' % p.a.');   /* pevná sazba (s163) */
       ven('splatka', kc(splatka)); ven('vlastni', kc(vlastni) + ' Kč'); ven('fin', kc(fin) + ' Kč');
       ven('celkem', kc(splatka * n + vlastni) + ' Kč');
     }
