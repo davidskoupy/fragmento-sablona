@@ -84,4 +84,8 @@
     <loc>https://www.fragmento.cz/poptavka/</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.fragmento.cz/splatky/</loc>
+    <priority>0.7</priority>
+  </url>
 </urlset>

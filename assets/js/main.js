@@ -309,6 +309,29 @@
     });
   })();
 
+
+  /* ── Kalkulačka splátek (s152) ──────────────────────────────────────
+     Anuita z orientační sazby. Není to nabídka úvěru, tu dá Essox. */
+  document.querySelectorAll('[data-kalk]').forEach(function (k) {
+    var vst = {};
+    k.querySelectorAll('[data-in]').forEach(function (i) { vst[i.getAttribute('data-in')] = i; });
+    function kc(x) { return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+    function lety(n) { return n === 1 ? '1 rok' : (n < 5 ? n + ' roky' : n + ' let'); }
+    function ven(j, t) { k.querySelectorAll('[data-out="' + j + '"]').forEach(function (e) { e.textContent = t; }); }
+    function prepocti() {
+      var cena = +vst.cena.value, vl = +vst.vl.value, let_ = +vst['let'].value, urok = +vst.urok.value;
+      var fin = Math.round(cena * (100 - vl) / 100), vlastni = cena - fin;
+      var n = let_ * 12, r = urok / 100 / 12;
+      var splatka = r > 0 ? fin * r / (1 - Math.pow(1 + r, -n)) : fin / n;
+      ven('cena', kc(cena) + ' Kč'); ven('vl', vl + ' %'); ven('let', lety(let_)); ven('let2', lety(let_));
+      ven('urok', urok.toFixed(1).replace('.', ',') + ' % p.a.');
+      ven('splatka', kc(splatka)); ven('vlastni', kc(vlastni) + ' Kč'); ven('fin', kc(fin) + ' Kč');
+      ven('celkem', kc(splatka * n + vlastni) + ' Kč');
+    }
+    Object.keys(vst).forEach(function (j) { vst[j].addEventListener('input', prepocti); });
+    prepocti();
+  });
+
   /* ── Zastavení hero videa ──────────────────────────────────────────
      `autoplay loop` běží pořád dokola. WCAG 2.2.2 chce u pohybu nad 5 s
      způsob, jak ho zastavit; tenhle klip má 6 s. Pilulka s popiskem je
