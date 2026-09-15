@@ -1346,3 +1346,45 @@
   });
 })();
 /* ── konec splátek z karty (s180) ── */
+
+/* ── Patička: sbalovací skupiny na mobilu (s181) ─────────────────────
+   „Jak koupit“ a „Fragmento“ se pod 700 px sbalí. Tlačítko vzniká tady,
+   ne v markupu: na desktopu je nadpis jen nadpis a bez JS je vše otevřené.
+   Při přechodu přes hranici (otočení tabletu) se stav vrátí. */
+(function () {
+  var skupiny = document.querySelectorAll('.pata-sl[data-sbal]');
+  if (!skupiny.length) return;
+  var mq = matchMedia('(max-width: 699px)');
+  var IKONA = '<svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">'
+    + '<path d="M4 10h12"/><path class="svisla" d="M10 4v12"/></svg>';
+  function nastav() {
+    skupiny.forEach(function (s) {
+      var h = s.querySelector('.pata-nad'), panel = s.querySelector('.pata-panel');
+      if (!h || !panel) return;
+      var b = h.querySelector('.pata-prep');
+      if (mq.matches && !b) {
+        b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pata-prep';
+        b.setAttribute('aria-expanded', 'false');
+        b.setAttribute('aria-controls', panel.id);
+        b.innerHTML = '<span></span>' + IKONA;
+        b.firstChild.textContent = h.textContent;
+        h.textContent = '';
+        h.appendChild(b);
+        panel.hidden = true;
+        b.addEventListener('click', function () {
+          var otevrit = b.getAttribute('aria-expanded') !== 'true';
+          b.setAttribute('aria-expanded', otevrit ? 'true' : 'false');
+          panel.hidden = !otevrit;
+        });
+      } else if (!mq.matches && b) {
+        h.textContent = b.firstChild.textContent;
+        panel.hidden = false;
+      }
+    });
+  }
+  nastav();
+  if (mq.addEventListener) mq.addEventListener('change', nastav); else mq.addListener(nastav);
+})();
+/* ── konec sbalovací patičky (s181) ── */
