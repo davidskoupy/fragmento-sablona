@@ -953,6 +953,33 @@
         a.classList.toggle('prazdna', mrtva);
         if (mrtva) a.setAttribute('aria-disabled', 'true'); else a.removeAttribute('aria-disabled');
       });
+      /* s199: dostupné země dopředu. Na mobilu je pás posuvný a první viditelné
+         chipy mají být ty, které něco najdou. Přesouvají se uzly, ne CSS `order`,
+         aby pořadí tabulátoru odpovídalo obrazovce; uvnitř skupin platí pořadí
+         z katalogu. */
+      [].forEach.call(document.querySelectorAll('.ft-zeme-pas'), function (pas) {
+        var chipy = [].slice.call(pas.children).filter(function (x) { return x.classList.contains('ft-zc'); });
+        if (chipy.length < 2) return;
+        chipy.forEach(function (x, i) { if (!x.hasAttribute('data-poradi')) x.setAttribute('data-poradi', i); });
+        var serazene = chipy.slice().sort(function (x, y) {
+          var px = x.classList.contains('prazdna') ? 1 : 0, py = y.classList.contains('prazdna') ? 1 : 0;
+          return px - py || (+x.getAttribute('data-poradi')) - (+y.getAttribute('data-poradi'));
+        });
+        if (serazene.every(function (x, i) { return x === chipy[i]; })) return;
+        var fokus = document.activeElement;
+        var mel = fokus && pas.contains(fokus);
+        serazene.forEach(function (x) { pas.appendChild(x); });
+        if (mel && document.activeElement !== fokus) fokus.focus({ preventScroll: true });
+        var ukaz = mel ? fokus : pas.querySelector('.ft-zc.on');
+        if (pas.scrollWidth > pas.clientWidth) {
+          if (ukaz) {
+            var r = ukaz.getBoundingClientRect(), p = pas.getBoundingClientRect();
+            if (r.left < p.left || r.right > p.right) pas.scrollLeft += r.left - p.left - 20;
+          } else {
+            pas.scrollLeft = 0;
+          }
+        }
+      });
       [].forEach.call(ft.querySelectorAll('.ft-btn[data-os]'), function (b) {
         var n = stav[b.getAttribute('data-os')].length, c = b.querySelector('.ft-n');
         c.textContent = n; c.hidden = !n; b.classList.toggle('on', n > 0);
