@@ -93,8 +93,25 @@
   mapa.on('focus', function () { mapa.scrollWheelZoom.enable(); });
   mapa.on('blur', function () { mapa.scrollWheelZoom.disable(); });
 
+  /* Úvodní stránka (s187, `data-mapa-klid`): na dotyku mapa nebere tažení
+     ani dva prsty, dokud do ní člověk neklepne. Jinak chytala scroll stránky;
+     bez tažení Leaflet sundá `touch-action: none` a stránka se posouvá. */
+  if (uzel.hasAttribute('data-mapa-klid') && matchMedia('(pointer: coarse)').matches) {
+    mapa.dragging.disable();
+    if (mapa.touchZoom) mapa.touchZoom.disable();
+    mapa.once('click', function () {
+      mapa.dragging.enable();
+      if (mapa.touchZoom) mapa.touchZoom.enable();
+    });
+  }
+
+  /* Prvek s `data-misto` může nést víc míst oddělených „|“ (řádek země, s187). */
+  function mistaPrvku(k) { return k.getAttribute('data-misto').split('|'); }
+
   var body = mista.map(function (m) {
-    return { ll: L.latLng(m.po[0], m.po[1]), m: m, brzy: m.brzy === true };
+    /* Prodané místo (s187): všechny jeho nemovitosti mají „Prodáno“. */
+    var prodano = !!(m.ne && m.ne.length) && m.ne.every(function (n) { return n.ce === 'Prodáno'; });
+    return { ll: L.latLng(m.po[0], m.po[1]), m: m, brzy: m.brzy === true, prodano: prodano };
   });
 
   var vrstva = L.layerGroup().addTo(mapa);
@@ -162,7 +179,7 @@
       hotovo[i] = 1;
       var sk = [x.b];
       p.forEach(function (y, j) {
-        if (i === j || hotovo[j] || x.b.brzy !== y.b.brzy) return;
+        if (i === j || hotovo[j] || x.b.brzy !== y.b.brzy || x.b.prodano !== y.b.prodano) return;
         if (x.xy.distanceTo(y.xy) < 74) { sk.push(y.b); hotovo[j] = 1; }
       });
       skupiny.push(sk);
@@ -179,10 +196,10 @@
         ? vlajka(sk[0].m) + '<span>' + ok(sk[0].m.mi) + '</span>'
         : '<span>' + tvarMist(sk.length) + '</span>';
       var popis = sk.map(function (b) { return b.m.mi + ', ' + b.m.ze; }).join(' · ') +
-        (brzy ? ' — v přípravě' : '');
+        (brzy ? ' — v přípravě' : (sk[0].prodano ? ' — prodáno' : ''));
 
       var zn = L.marker(stred, {
-        icon: cedulka(brzy ? 'brzy' : (jedno ? '' : 'shluk'), obsah, popis),
+        icon: cedulka(brzy ? 'brzy' : (jedno ? (sk[0].prodano ? 'prodano' : '') : 'shluk'), obsah, popis),
         riseOnHover: true,
       }).addTo(vrstva);
 
@@ -236,7 +253,7 @@
       if (z.zn.setZIndexOffset) z.zn.setZIndexOffset(sviti ? 1000 : 0);
     });
     document.querySelectorAll('[data-misto]').forEach(function (k) {
-      k.classList.toggle('zvyr', zvyraznene.indexOf(k.getAttribute('data-misto')) >= 0);
+      k.classList.toggle('zvyr', mistaPrvku(k).some(function (mi) { return zvyraznene.indexOf(mi) >= 0; }));
     });
   }
 
@@ -249,9 +266,9 @@
      `mouseenter` i `focusin`: panel se dá projít tabulátorem a bez
      druhého páru by klávesnice mapu neovládala vůbec. */
   document.querySelectorAll('[data-misto]').forEach(function (k) {
-    var mi = k.getAttribute('data-misto');
+    var mi = mistaPrvku(k);
     ['mouseenter', 'focusin'].forEach(function (u) {
-      k.addEventListener(u, function () { sviti([mi]); });
+      k.addEventListener(u, function () { sviti(mi); });
     });
     ['mouseleave', 'focusout'].forEach(function (u) {
       k.addEventListener(u, function () { sviti([]); });

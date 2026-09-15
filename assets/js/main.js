@@ -66,17 +66,17 @@
     if (ah) {
       var acc = ah.parentElement;
       acc.setAttribute('data-open', acc.getAttribute('data-open') === '1' ? '0' : '1');
+      ah.setAttribute('aria-expanded', acc.getAttribute('data-open') === '1' ? 'true' : 'false');   /* s196 */
       return;
     }
     var vb = e.target.closest('[data-view] button');
     if (vb) {
-      vb.parentElement.querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b === vb); });
+      vb.parentElement.querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b === vb); b.setAttribute('aria-pressed', b === vb ? 'true' : 'false'); });
       document.querySelector('#view-grid').hidden = vb.dataset.v !== 'grid';
       document.querySelector('#view-map').hidden = vb.dataset.v !== 'map';
       return;
     }
-    var pk = e.target.closest('.pick');
-    if (pk) { pk.classList.toggle('on'); return; }
+    /* s195: dlaždice skládačky obsluhuje modul „Skládačka balíčků“ na konci souboru. */
     var gt = e.target.closest('.geo-tabs button');
     if (gt) { gt.parentElement.querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b === gt); }); return; }
     if (!e.target.closest('.mega') && !e.target.closest('.drawer')) closeAll();
@@ -151,7 +151,7 @@
         fotky.unobserve(z.target);
       });
     }, { threshold: .12, rootMargin: '0px 0px -60px 0px' });
-    document.querySelectorAll('.emo .cell, .dtile').forEach(function (d, i) {
+    document.querySelectorAll('.nal-ph').forEach(function (d, i) {
       d.style.setProperty('--i', i % 5);
       fotky.observe(d);
     });
@@ -266,10 +266,7 @@
     var io = new IntersectionObserver(function (zaznamy) {
       zaznamy.forEach(function (z) {
         if (!z.isIntersecting) return;
-        /* Pás zemí (s180): celý najednou, i s klony smyčky. */
-        if (z.target.classList.contains('dest')) z.target.querySelectorAll('[data-bg]').forEach(nacti);
-        else nacti(z.target);
-        io.unobserve(z.target);
+        nacti(z.target); io.unobserve(z.target);
       });
     }, { rootMargin: '900px 0px' });
     /* Skryté vrstvy karty (tři ze čtyř fotek) se načtou až při prvním
@@ -277,11 +274,7 @@
        Než dorazí, prosvítá první fotka: vrstva bez obrázku je průhledná. */
     prvky.forEach(function (e) {
       if (e.classList.contains('lay') && !e.classList.contains('first')) return;
-      if (e.closest('.dest')) return;   /* s180: hlídá se celý pás, viz níž */
       io.observe(e);
-    });
-    document.querySelectorAll('.dest').forEach(function (d) {
-      if (d.querySelector('[data-bg]')) io.observe(d);
     });
     document.querySelectorAll('.card').forEach(function (k) {
       if (!k.querySelector('.lay[data-bg]')) return;
@@ -335,6 +328,7 @@
       ven('urok', 'cca ' + String(urok).replace('.', ',') + ' % p.a.');   /* pevná sazba (s163) */
       ven('splatka', window.fragmentoMena ? fragmentoMena.cislo(splatka, true) : kc(splatka)); ven('vlastni', penize(vlastni)); ven('fin', penize(fin));
       ven('celkem', penize(splatka * n + vlastni));
+      k.style.setProperty('--vl', vl + '%');   /* poměr vlastních zdrojů v pruhu (s194) */
       /* Vybarvená část dráhy posuvníku (s165). */
       [vst.cena, vst.vl, vst['let']].forEach(function (i) {
         if (i) i.style.setProperty('--pct', (i.value - i.min) / (i.max - i.min) * 100 + '%');
@@ -765,78 +759,6 @@
     if (o.complete && !o.naturalWidth) o.remove();
   });
 
-  /* Pás států se pomalu posouvá a zastaví se, jakmile s ním někdo pracuje
-     nebo když není vidět. Swipe funguje sám, tohle přidává jen ten pohyb. */
-  (function () {
-    var pas = document.querySelector('.dest');
-    if (!pas || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    // Klony kvůli nekonečné smyčce. V markupu nejsou schválně — čtečka
-    // ani tabulátor je nesmí brát jako dalších sedm zemí.
-    var puvodni = [].slice.call(pas.children);
-    if (puvodni.length < 3) return;
-    puvodni.forEach(function (d) {
-      var k = d.cloneNode(true);
-      k.setAttribute('aria-hidden', 'true');
-      k.setAttribute('tabindex', '-1');
-      k.classList.add('klon');
-      pas.appendChild(k);
-    });
-
-    var jede = true, posledni = 0, vidime = true;
-    var RYCHLOST = 26;                       // px za sekundu
-
-    function stop() { jede = false; }
-    function jed() { jede = true; }
-    ['pointerenter', 'focusin', 'touchstart'].forEach(function (u) {
-      pas.addEventListener(u, stop, { passive: true });
-    });
-    ['pointerleave', 'focusout', 'touchend'].forEach(function (u) {
-      pas.addEventListener(u, jed, { passive: true });
-    });
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (z) { vidime = z[0].isIntersecting; },
-        { threshold: .05 }).observe(pas);
-    }
-
-    /* Poloha se drží v proměnné, ne ve `scrollLeft`. Ten se zaokrouhluje
-       na celé pixely, takže `scrollLeft += 0.42` se pokaždé zahodí a pás
-       by stál. Ověřeno v prohlížeči: po `scrollLeft += 0.42` je tam nula.
-       Když uživatel scrolluje sám, poloha se ze `scrollLeft` načte zpátky. */
-    var poz = 0;
-    pas.addEventListener('scroll', function () {
-      if (!jede) poz = pas.scrollLeft;
-    }, { passive: true });
-
-    function krok(cas) {
-      if (posledni && jede && vidime) {
-        var d = Math.min(cas - posledni, 60) / 1000;   // strop kvůli přepnutí karty
-        var pul = pas.scrollWidth / 2;
-        poz += RYCHLOST * d;
-        if (poz >= pul) poz -= pul;
-        pas.scrollLeft = poz;
-      }
-      posledni = cas;
-      requestAnimationFrame(krok);
-    }
-    requestAnimationFrame(krok);
-  })();
-
-  /* Plovoucí přepínač mapy na mobilu. Přepínač nahoře zůstává na desktopu,
-     tenhle je jen jeho dosažitelná varianta pod palcem. */
-  var fab = document.querySelector('[data-mapfab]');
-  if (fab) fab.addEventListener('click', function () {
-    var mapa = document.querySelector('#view-map'), mrizka = document.querySelector('#view-grid');
-    if (!mapa || !mrizka) return;
-    var naMape = !mapa.hidden;
-    mapa.hidden = naMape; mrizka.hidden = !naMape;
-    fab.lastChild.textContent = naMape ? 'Mapa' : 'Seznam';
-    document.querySelectorAll('[data-view] button').forEach(function (b) {
-      b.classList.toggle('on', (b.dataset.v === 'map') !== naMape);
-    });
-  });
-
   addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
   var scrim = document.querySelector('.scrim');
   if (scrim) scrim.addEventListener('click', closeAll);
@@ -882,7 +804,9 @@
            jsou obyčejné kotvy a druhý atribut s toutéž informací by byl
            jen další místo, kde se to může rozejít. */
         document.querySelectorAll('.rozcestnik a').forEach(function (a) {
-          a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id);
+          var je = a.getAttribute('href') === '#' + en.target.id;   /* s196: i aria-current */
+          a.classList.toggle('on', je);
+          if (je) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
         });
       });
     }, { rootMargin: '-96px 0px -60% 0px' });
@@ -931,7 +855,8 @@
     var OSY = ['zeme', 'povaha', 'cena'];
     var karty = [].slice.call(mrizka.querySelectorAll('.card'));
     var celkem = parseInt(ft.getAttribute('data-celkem'), 10) || karty.length;
-    var volby = [].slice.call(ft.querySelectorAll('.ft-opt'));
+    /* s189: volby zemí stojí v pásu pod nadpisem, mimo lištu filtru. */
+    var volby = [].slice.call(document.querySelectorAll('[data-filtr3] .ft-opt, [data-ft-mimo] .ft-opt'));
     var pops = [].slice.call(ft.querySelectorAll('.ft-pop'));
     var obalPops = ft.querySelector('.ft-pops');
     var rada = ft.querySelector('.ft-rada');
@@ -1021,9 +946,13 @@
         c.textContent = n; c.hidden = !n; b.classList.toggle('on', n > 0);
       });
       var vse = voleb(stav);
-      if (mob) { var mc = mob.querySelector('.ft-n'); mc.textContent = vse; mc.hidden = !vse; }
+      /* s189: země mají vlastní pás, „Filtry“ počítá jen to, co je v panelu. */
+      if (mob) { var mc = mob.querySelector('.ft-n'), vm = vse - stav.zeme.length; mc.textContent = vm; mc.hidden = !vm; }
       if (sw) sw.checked = stav.volne;
       if (pocet) pocet.innerHTML = '<b>' + vidno + '</b> z ' + celkem + ' ' + (celkem === 1 ? 'nemovitosti' : 'nemovitostí');
+      /* s189: počet pod lepivou lištou na mobilu a „Zrušit filtry“ podle stavu. */
+      [].forEach.call(document.querySelectorAll('[data-ft-pocet-m]'), function (s) { s.innerHTML = '<b>' + vidno + '</b> z ' + celkem + ' ' + (celkem === 1 ? 'nemovitosti' : 'nemovitostí'); });
+      [].forEach.call(document.querySelectorAll('[data-zrus-vse]'), function (z) { z.hidden = !vse; });
       [].forEach.call(document.querySelectorAll('[data-cta]'), function (s) { s.textContent = vidno + ' ' + tvar(vidno); });
       if (prazdno) prazdno.hidden = vidno > 0;
       if (aktivni) {
@@ -1090,7 +1019,7 @@
     if (sheet) {
       sheet.addEventListener('close', function () {
         pops.forEach(function (p) { p.hidden = true; obalPops.appendChild(p); });
-        if (swLabel) rada.insertBefore(swLabel, rada.querySelector('.sp'));
+        if (swLabel) rada.insertBefore(swLabel, rada.querySelector('[data-zrus-vse]') || rada.querySelector('.sp'));
         if (mob) { mob.setAttribute('aria-expanded', 'false'); mob.focus(); }
       });
       /* Klik na clonu míří na samotný dialog. */
@@ -1101,7 +1030,7 @@
 
     document.addEventListener('click', function (e) {
       var t = e.target;
-      if (!t.closest || !(t.closest('[data-filtr3]') || t.closest('[data-sheet]'))) { zavriPop(false); return; }
+      if (!t.closest || !(t.closest('[data-filtr3]') || t.closest('[data-sheet]') || t.closest('[data-ft-mimo]'))) { zavriPop(false); return; }
       var a = t.closest('.ft-opt');
       if (a) {
         e.preventDefault();
@@ -1201,6 +1130,8 @@
          hlavičce. Nastavit rovnou, ne klikat — kliknutí přepíná, takže by
          druhý příchod na tutéž adresu odpověď zase zavřel. */
       cil.setAttribute('data-open', '1');
+      var hlava = cil.querySelector('.acc-head');   /* s196 */
+      if (hlava) hlava.setAttribute('aria-expanded', 'true');
       cil.scrollIntoView({ block: 'center' });
     };
     otevri();
@@ -1264,28 +1195,6 @@
     prekresli();
   })();
 
-  /* ── Příběhy majitelů: tečky pásu (s178) ─────────────────────────────
-     Tečka posune pás na příběh; při ručním posunu se zvýrazní ta, jejíž
-     karta je nejvíc vidět. Šipky fungují na pásu (má tabindex). */
-  document.querySelectorAll('[data-pribehy]').forEach(function (obal) {
-    var pas = obal.querySelector('.pribehy-pas');
-    var karty = [].slice.call(pas.children);
-    var tecky = [].slice.call(obal.querySelectorAll('[data-pribeh]'));
-    function na(i) { var k = karty[Math.max(0, Math.min(karty.length - 1, i))]; pas.scrollTo({ left: k.offsetLeft - pas.offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
-    function aktivni() {
-      var i = Math.round(pas.scrollLeft / (karty[0].offsetWidth + 20));
-      if (pas.scrollLeft + pas.clientWidth >= pas.scrollWidth - 4) i = karty.length - 1;
-      tecky.forEach(function (t, j) { if (j === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
-    }
-    tecky.forEach(function (t, j) { t.addEventListener('click', function () { na(j); }); });
-    var ceka = false;
-    pas.addEventListener('scroll', function () { if (ceka) return; ceka = true; requestAnimationFrame(function () { ceka = false; aktivni(); }); }, { passive: true });
-    pas.addEventListener('keydown', function (e) {
-      var k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
-      e.preventDefault(); var i = Math.round(pas.scrollLeft / (karty[0].offsetWidth + 20)); na(i + k);
-    });
-  });
-
   /* ── Newsletter (s179) ───────────────────────────────────────────────
      Stejná kontrola e-mailu jako u poptávky; hláška visí na poli přes
      `aria-describedby`. Bez `data-endpoint` se ukáže potvrzení a varování. */
@@ -1309,43 +1218,6 @@
         .catch(function () { tl.disabled = false; ukaz('Přihlášení se nepovedlo. Zkuste to prosím znovu.'); });
     });
   });
-
-/* ── Splátky z karty (s180) ─────────────────────────────────────────
-   „i“ u ceny je uvnitř karty-odkazu, takže samo odkazem být nemůže.
-   Klik zachytí tahle obsluha ve fázi capture a pošle na kalkulačku
-   s cenou podílu. Na dotyku (bez hoveru) první klepnutí tooltip otevře.
-   Adresa se skládá z cesty k logu, ta už relativní hloubku stránky nese. */
-(function () {
-  var dotyk = !matchMedia('(hover: hover)').matches;
-  function zavri(krome) {
-    document.querySelectorAll('.spl-i.otevreno').forEach(function (e) {
-      if (e !== krome) e.classList.remove('otevreno');
-    });
-  }
-  document.addEventListener('click', function (u) {
-    var i = u.target.closest ? u.target.closest('.spl-i') : null;
-    if (!i) { zavri(); return; }
-    u.preventDefault(); u.stopPropagation();
-    if (dotyk && !u.target.closest('.spl-cta') && !i.classList.contains('otevreno')) {
-      zavri(i); i.classList.add('otevreno'); return;
-    }
-    var logo = i.querySelector('img'), cena = i.getAttribute('data-cena');
-    if (!logo) return;
-    location.href = logo.getAttribute('src').replace('assets/brand/logo-essox.svg', 'splatky/')
-      + (cena ? '?cena=' + cena : '');
-  }, true);
-  /* WCAG 1.4.13: obsah na najetí jde zavřít bez pohybu myši. */
-  document.addEventListener('keydown', function (u) {
-    if (u.key !== 'Escape') return;
-    zavri();
-    document.querySelectorAll('.spl-i:hover').forEach(function (e) { e.classList.add('ztlumeno'); });
-  });
-  document.addEventListener('pointerout', function (u) {
-    var i = u.target.closest ? u.target.closest('.spl-i.ztlumeno') : null;
-    if (i && !i.contains(u.relatedTarget)) i.classList.remove('ztlumeno');
-  });
-})();
-/* ── konec splátek z karty (s180) ── */
 
 /* ── Patička: sbalovací skupiny na mobilu (s181) ─────────────────────
    „Jak koupit“ a „Fragmento“ se pod 700 px sbalí. Tlačítko vzniká tady,
@@ -1388,3 +1260,157 @@
   if (mq.addEventListener) mq.addEventListener('change', nastav); else mq.addListener(nastav);
 })();
 /* ── konec sbalovací patičky (s181) ── */
+
+/* ── Menu „Místa v menu“ (s182) ────────────────────────────────────
+   Kontinenty v zásuvce se rozbalují tlačítkem s `aria-expanded`. Tlačítko
+   menu po otevření čte „Zavřít menu“. Segment měny: klepnutí na už zvolenou
+   měnu nic nepřepne (s177 jinak přepíná při každém kliku). */
+(function () {
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.dr-kont-b') : null;
+    if (!b) return;
+    var panel = document.getElementById(b.getAttribute('aria-controls'));
+    var otevrit = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', otevrit ? 'true' : 'false');
+    if (panel) panel.hidden = !otevrit;
+  });
+  document.addEventListener('click', function (e) {
+    var m = e.target.closest ? e.target.closest('.dr-mena [data-m]') : null;
+    if (!m) return;
+    if (m.getAttribute('data-m') === (document.documentElement.getAttribute('data-mena') || 'czk')) {
+      e.stopPropagation(); e.preventDefault();
+    }
+  }, true);
+  var burger = document.querySelector('.burger');
+  if (burger && 'MutationObserver' in window) {
+    new MutationObserver(function () {
+      burger.setAttribute('aria-label', burger.getAttribute('aria-expanded') === 'true' ? 'Zavřít menu' : 'Menu');
+    }).observe(burger, { attributes: true, attributeFilter: ['aria-expanded'] });
+  }
+})();
+/* ── konec menu Místa v menu (s182) ── */
+
+/* ── Splátky na kartě (s184) ──────────────────────────────────────────
+   „Až 80 % na splátky“ je uvnitř karty-odkazu, odkazem být nemůže. Klik
+   zachytí obsluha ve fázi capture a pošle na kalkulačku s cenou podílu. */
+(function () {
+  document.addEventListener('click', function (e) {
+    var s = e.target.closest ? e.target.closest('.card .karta-spl[data-splatky]') : null;
+    if (!s || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault(); e.stopPropagation();
+    location.href = s.getAttribute('data-splatky');
+  }, true);
+})();
+/* ── konec splátek na kartě (s184) ── */
+
+/* ── Kalkulačka: lepivá splátka pod hlavičkou (s194) ──────────────────────
+   Pod 1040 px je pruh se splátkou `position: sticky`. Hlavička se při
+   scrollu dolů schová a nahoru vrátí (transform), takže pevné `top` by
+   pruh buď nechalo pod hlavičkou, nebo s mezerou nad sebou. Odsazení
+   se proto bere z dolní hrany hlavičky. */
+(function () {
+  var k = document.querySelector('[data-kalk]');
+  var hlava = document.querySelector('.head');
+  if (!k || !hlava) return;
+  var ceka = false;
+  function nastav() {
+    ceka = false;
+    k.style.setProperty('--kalk-top', Math.max(0, Math.round(hlava.getBoundingClientRect().bottom)) + 'px');
+  }
+  function plan() { if (!ceka) { ceka = true; requestAnimationFrame(nastav); } }
+  addEventListener('scroll', plan, { passive: true });
+  addEventListener('resize', plan);
+  hlava.addEventListener('transitionend', plan);
+  hlava.addEventListener('transitionrun', function () { setTimeout(plan, 140); });
+  nastav();
+})();
+/* ── konec lepivé splátky (s194) ── */
+
+/* ── Skládačka balíčků: předvolby a výběr míst (s195) ──────────────────
+   Předvolba vybere místa a panel ukáže název, popis, dny a zamčenou cenu
+   balíčku. Výběr, který se s žádnou předvolbou nekryje, je „Vlastní
+   sestava“: dny 44 × počet míst, cena jako součet `data-cena` dlaždic
+   (nejlevnější volný podíl 1/8 v zemi, z katalogu). Místo bez `data-cena`
+   cenu nemá. Ceny jdou přes `fragmentoMena`, takže drží přepínač CZK/EUR. */
+(function () {
+  var sk = document.querySelector('[data-skladacka]');
+  if (!sk) return;
+  var pres = [].slice.call(sk.querySelectorAll('.pre'));
+  var mista = [].slice.call(sk.querySelectorAll('.pick'));
+  var PODILY = ['', 'Jeden podíl', 'Dva podíly', 'Tři podíly', 'Čtyři podíly', 'Pět podílů', 'Šest podílů'];
+  var ZEMICH = ['', 'v jedné zemi', 've dvou zemích', 've třech zemích', 've čtyřech zemích', 'v pěti zemích', 'v šesti zemích'];
+  var STARTY = [[], [2], [2, 27], [2, 19, 36], [2, 15, 28, 41], [2, 12, 22, 32, 42], [1, 9, 18, 27, 36, 45]];
+  function vse(sel) { return [].slice.call(sk.querySelectorAll(sel)); }
+  function text(sel, t) { vse(sel).forEach(function (e) { e.textContent = t; }); }
+  function skryj(sel, ano) { vse(sel).forEach(function (e) { e.hidden = ano; }); }
+  function kc(x) { return String(Math.round(x)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' Kč'; }
+  function klic(a) { return a.slice().sort().join(' '); }
+  function zapnute(m) { return m.getAttribute('aria-pressed') === 'true'; }
+
+  function vykresli(ohlasit) {
+    var sel = mista.filter(zapnute), n = sel.length;
+    var k = klic(sel.map(function (m) { return m.dataset.misto; }));
+    var p = pres.filter(function (b) { return klic(b.dataset.mista.split(' ')) === k; })[0] || null;
+    pres.forEach(function (b) { b.setAttribute('aria-pressed', b === p ? 'true' : 'false'); });
+    var nazev = p ? p.querySelector('.pre-t').textContent : 'Vlastní sestava';
+    var cena = null;
+    if (p) cena = +p.dataset.cena;
+    else if (n && sel.every(function (m) { return m.dataset.cena; })) {
+      cena = sel.reduce(function (s, m) { return s + +m.dataset.cena; }, 0);
+    }
+    text('.skl-nazev', nazev);
+    text('.skl-lista-t', n ? nazev : 'Vyberte aspoň jedno místo.');
+    var popis = sk.querySelector('.skl-popis');
+    popis.textContent = p ? p.dataset.popis : '';
+    popis.hidden = !p;
+
+    var ul = sk.querySelector('.skl-mista');
+    ul.textContent = '';
+    sel.forEach(function (m) {
+      var li = document.createElement('li'), f = m.querySelector('.flag');
+      if (f) li.appendChild(f.cloneNode(true));
+      li.appendChild(document.createTextNode(m.querySelector('.nm').textContent));
+      ul.appendChild(li);
+    });
+    var tydny = {};
+    (STARTY[n] || []).forEach(function (s) { tydny[s] = tydny[s + 1] = tydny[s + 2] = true; });
+    vse('.skl-rok .year i').forEach(function (d, i) { d.classList.toggle('mine', !!tydny[i]); });
+
+    text('.skl-dny', String(44 * n));
+    text('.skl-leg', 'vaše dny ' + (ZEMICH[n] || ''));
+    text('.skl-kde', ZEMICH[n] || '');
+    text('.skl-podily', (PODILY[n] || n + ' podílů') + ' 1/8 od');
+    if (cena !== null) {
+      vse('.skl-cena').forEach(function (e) {
+        e.dataset.czk = cena;
+        e.dataset.puvodni = kc(cena);
+        e.textContent = window.fragmentoMena ? window.fragmentoMena.format(cena, true) : kc(cena);
+      });
+    }
+    skryj('.skl-mista, .skl-rok, .skl-fakta, .skl-lista-r', !n);
+    skryj('.skl-prazdne', n > 0);
+    skryj('.skl-cena-bunka, .skl-lista .skl-cena', cena === null);
+    skryj('.skl-chybi', !n || cena !== null);
+    if (ohlasit) {
+      text('.skl-stav', n ? nazev + ': ' + 44 * n + ' dní ročně'
+        + (cena !== null ? ', ' + sk.querySelector('.skl-cena').textContent : '') : 'Vyberte aspoň jedno místo.');
+    }
+  }
+
+  sk.addEventListener('click', function (e) {
+    var b = e.target.closest('.pre');
+    if (b) {
+      var chci = b.dataset.mista.split(' ');
+      mista.forEach(function (m) { m.setAttribute('aria-pressed', chci.indexOf(m.dataset.misto) >= 0 ? 'true' : 'false'); });
+      vykresli(true);
+      return;
+    }
+    var m = e.target.closest('.pick');
+    if (m) {
+      m.setAttribute('aria-pressed', zapnute(m) ? 'false' : 'true');
+      vykresli(true);
+    }
+  });
+  vykresli(false);
+})();
+/* ── konec skládačky balíčků (s195) ── */
