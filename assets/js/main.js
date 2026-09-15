@@ -266,7 +266,10 @@
     var io = new IntersectionObserver(function (zaznamy) {
       zaznamy.forEach(function (z) {
         if (!z.isIntersecting) return;
-        nacti(z.target); io.unobserve(z.target);
+        /* Pás zemí (s180): celý najednou, i s klony smyčky. */
+        if (z.target.classList.contains('dest')) z.target.querySelectorAll('[data-bg]').forEach(nacti);
+        else nacti(z.target);
+        io.unobserve(z.target);
       });
     }, { rootMargin: '900px 0px' });
     /* Skryté vrstvy karty (tři ze čtyř fotek) se načtou až při prvním
@@ -274,7 +277,11 @@
        Než dorazí, prosvítá první fotka: vrstva bez obrázku je průhledná. */
     prvky.forEach(function (e) {
       if (e.classList.contains('lay') && !e.classList.contains('first')) return;
+      if (e.closest('.dest')) return;   /* s180: hlídá se celý pás, viz níž */
       io.observe(e);
+    });
+    document.querySelectorAll('.dest').forEach(function (d) {
+      if (d.querySelector('[data-bg]')) io.observe(d);
     });
     document.querySelectorAll('.card').forEach(function (k) {
       if (!k.querySelector('.lay[data-bg]')) return;
@@ -332,6 +339,13 @@
       [vst.cena, vst.vl, vst['let']].forEach(function (i) {
         if (i) i.style.setProperty('--pct', (i.value - i.min) / (i.max - i.min) * 100 + '%');
       });
+    }
+    /* Cena z karty (s180): `splatky/?cena=2083000` předvyplní posuvník. */
+    var zKarty = +new URLSearchParams(location.search).get('cena');
+    if (zKarty && vst.cena && zKarty >= +vst.cena.min && zKarty <= +vst.cena.max) {
+      if ((zKarty - vst.cena.min) % vst.cena.step) vst.cena.step = 500;
+      vst.cena.value = zKarty;
+      requestAnimationFrame(function () { k.scrollIntoView({ block: 'center' }); });
     }
     Object.keys(vst).forEach(function (j) { vst[j].addEventListener('input', prepocti); });
     window.addEventListener('mena:zmena', prepocti);   /* s177 */
@@ -1295,3 +1309,40 @@
         .catch(function () { tl.disabled = false; ukaz('Přihlášení se nepovedlo. Zkuste to prosím znovu.'); });
     });
   });
+
+/* ── Splátky z karty (s180) ─────────────────────────────────────────
+   „i“ u ceny je uvnitř karty-odkazu, takže samo odkazem být nemůže.
+   Klik zachytí tahle obsluha ve fázi capture a pošle na kalkulačku
+   s cenou podílu. Na dotyku (bez hoveru) první klepnutí tooltip otevře.
+   Adresa se skládá z cesty k logu, ta už relativní hloubku stránky nese. */
+(function () {
+  var dotyk = !matchMedia('(hover: hover)').matches;
+  function zavri(krome) {
+    document.querySelectorAll('.spl-i.otevreno').forEach(function (e) {
+      if (e !== krome) e.classList.remove('otevreno');
+    });
+  }
+  document.addEventListener('click', function (u) {
+    var i = u.target.closest ? u.target.closest('.spl-i') : null;
+    if (!i) { zavri(); return; }
+    u.preventDefault(); u.stopPropagation();
+    if (dotyk && !u.target.closest('.spl-cta') && !i.classList.contains('otevreno')) {
+      zavri(i); i.classList.add('otevreno'); return;
+    }
+    var logo = i.querySelector('img'), cena = i.getAttribute('data-cena');
+    if (!logo) return;
+    location.href = logo.getAttribute('src').replace('assets/brand/logo-essox.svg', 'splatky/')
+      + (cena ? '?cena=' + cena : '');
+  }, true);
+  /* WCAG 1.4.13: obsah na najetí jde zavřít bez pohybu myši. */
+  document.addEventListener('keydown', function (u) {
+    if (u.key !== 'Escape') return;
+    zavri();
+    document.querySelectorAll('.spl-i:hover').forEach(function (e) { e.classList.add('ztlumeno'); });
+  });
+  document.addEventListener('pointerout', function (u) {
+    var i = u.target.closest ? u.target.closest('.spl-i.ztlumeno') : null;
+    if (i && !i.contains(u.relatedTarget)) i.classList.remove('ztlumeno');
+  });
+})();
+/* ── konec splátek z karty (s180) ── */
