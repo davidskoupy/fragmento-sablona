@@ -28,7 +28,7 @@
 <link rel="preload" href="../assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/dm-sans-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/vendor/leaflet-1.9.4.css">
-<link rel="stylesheet" href="../assets/css/style.css?v=1789112806">
+<link rel="stylesheet" href="../assets/css/style.css?v=1789473642">
 
 <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
   <symbol id="i-village" viewBox="0 0 20 20"><path d="M2.5 9.5L10 3.5l7.5 6M4.5 9v7h11V9M8.5 16v-4h3v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 
   <!-- ikony pojmů: dům, klíč, lidé, kalendář, štít, mince, správa, prodej, srdce, letadlo -->
-  <symbol id="i-house" viewBox="0 0 20 20"><path d="M2.5 9L10 3l7.5 6M4.5 8.5V16h11V8.5M8.5 16v-4.5h3V16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-house" viewBox="0 0 20 20"><path d="M2.5 9L10 3l7.5 6M4.5 8.5V16h11V8.5M8.5 16v-4.5h3V16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-pokoje" viewBox="0 0 20 20"><path d="M2.5 5v11M2.5 12.5h15V16M17.5 12.5v-2.5a2 2 0 0 0-2-2H9v4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5.7" cy="10" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol><symbol id="i-koupelny" viewBox="0 0 20 20"><path d="M3 10h14v1.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 3 11.5zM5 10V5.2a1.7 1.7 0 0 1 3.3-.5M6.5 16l-.8 1.5M13.5 16l.8 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-plocha" viewBox="0 0 20 20"><path d="M10 2.8l6.5 3.6v7.2L10 17.2l-6.5-3.6V6.4zM3.5 6.4L10 10l6.5-3.6M10 10v7.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol><symbol id="i-info" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9v4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.3" r="1.05" fill="currentColor"/></symbol>
   <symbol id="i-key" viewBox="0 0 20 20"><circle cx="6.6" cy="13.4" r="3.7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 10.8L17.2 2.9M13.2 6.9l2.4 2.4M15.4 4.7l2.4 2.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
   <symbol id="i-people" viewBox="0 0 20 20"><circle cx="7" cy="6.5" r="2.7" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="7.5" r="2.1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16c0-2.6 2-4.4 4.5-4.4s4.5 1.8 4.5 4.4M13 11.7c2.4 0 4.5 1.4 4.5 4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-calendar" viewBox="0 0 20 20"><rect x="2.6" y="4.2" width="14.8" height="13.2" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.6 8.2h14.8M6.5 2.4v3.4M13.5 2.4v3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="5.4" y="10.6" width="3.4" height="3.4" rx="0.8" fill="currentColor"/></symbol>
@@ -153,7 +153,7 @@
 <div class="util"><div class="wrap" role="region" aria-label="Kontakt a rychlé odkazy">
   <span>Volejte <b>+420 604 827 601</b></span><span>info@fragmento.cz</span><span class="sp"></span>
   <!-- s124: Magazín skrytý na přání klienta (vedl na jak-to-funguje.html, protože magazín neexistuje). Vrátit: nahradit tenhle komentář odkazem. --><a href="../jak-to-funguje.html">Otázky a odpovědi</a>
-  <span class="pill">Klientská sekce</span><a class="mena" href="../jak-to-funguje.html#mena" title="V jaké měně se platí?"><b>CZK</b> &middot; EUR</a>
+  <span class="pill">Klientská sekce</span><button type="button" class="mena" data-mena aria-pressed="false" aria-label="Ceny v eurech"><span data-m="czk">CZK</span> &middot; <span data-m="eur">EUR</span></button>
 </div></div>
 <header class="head"><div class="wrap">
   <a class="logo" href="../index.html"><img src="../assets/brand/logo-fragmento.svg" alt="Fragmento" width="261" height="54"></a>
@@ -166,7 +166,7 @@
 <div class="mega" id="mega" role="navigation" aria-label="Nabídka nemovitostí"><div class="wrap">
   <div><div class="lb">Podle povahy místa</div><ul><li><a href="../nemovitosti/u-more/"><svg class="ico"><use href="#i-sea"/></svg>U moře<span class="n">6</span></a></li><li><a href="../nemovitosti/u-oceanu/"><svg class="ico"><use href="#i-ocean"/></svg>Oceán<span class="n">4</span></a></li><li><a href="../nemovitosti/v-horach/"><svg class="ico"><use href="#i-mountain"/></svg>V horách<span class="n">2</span></a></li><li><a href="../nemovitosti/v-prirode/"><svg class="ico"><use href="#i-nature"/></svg>V přírodě<span class="n">4</span></a></li><li><a href="../nemovitosti/pro-surfare/"><svg class="ico"><use href="#i-surf"/></svg>Surfování<span class="n">2</span></a></li><li><a href="../nemovitosti/s-kulturou/"><svg class="ico"><use href="#i-culture"/></svg>Kultura<span class="n">4</span></a></li><li><a href="../nemovitosti/na-vesnici/"><svg class="ico"><use href="#i-village"/></svg>Na vesnici<span class="n">1</span></a></li><li><a href="../nemovitosti/ve-meste/"><svg class="ico"><use href="#i-city"/></svg>Ve městě<span class="n">2</span></a></li></ul>
     <div class="lb" style="margin-top:16px">Podle záměru</div>
-    <ul><li><a href="../investicni-nemovitosti.html"><svg class="ico"><use href="#i-coins"/></svg>Investiční nemovitosti<span class="n">od 250 tis.</span></a></li>
+    <ul><li><a href="../investicni-nemovitosti.html"><svg class="ico"><use href="#i-coins"/></svg>Investiční nemovitosti<span class="n" data-kat="cena-od-tis">od 966 tis.</span></a></li>
     <li><a href="../balicky.html"><svg class="ico"><use href="#i-key"/></svg>Balíčky podílů<span class="n">3</span></a></li>
     <li><a href="../splatky/"><svg class="ico"><use href="#i-tag"/></svg>Podíl na splátky<span class="n">až 80 %</span></a></li></ul></div>
   <div><div class="lb">Podle země</div><ul><li><a href="../nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a></li><li><a href="../nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a></li><li><a href="../nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a></li><li><a href="../nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a></li><li><a href="../nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">2</span></a></li><li><a href="../nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a></li><li><a href="../nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></li><li><a href="../nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko<span class="n">3</span></a></li><li><a href="../nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán<span class="n">1</span></a></li></ul></div>
@@ -174,13 +174,13 @@
     <div class="lb">Volné podíly</div>
     <a class="mega-card" href="../nemovitosti/uluwatu-bali-4kk/"><div class="ph" style="background-image:var(--img-g-bali-1)"></div>
       <div class="bd"><div class="t">Uluwatu — Hideaway vila 4+kk</div><div class="s">Bali · 44 nocí ročně</div>
-      <div class="d">volné podíly · 1 560 000 Kč</div></div></a>
+      <div class="d">volné podíly · <span class="cena-m" data-czk="1560000" data-eur="64000">1 560 000 Kč</span></div></div></a>
     <a class="mega-card" href="../nemovitosti/apartina-3kk/"><div class="ph" style="background-image:var(--img-n-apartina-3kk-1)"></div>
       <div class="bd"><div class="t">Apartina — Apartmán 3+kk</div><div class="s">Chorvatsko · 44 nocí ročně</div>
-      <div class="d">volné podíly · 2 083 000 Kč</div></div></a>
-    <div class="mega-foot"><a href="../investicni-nemovitosti.html">Investiční nemovitosti od 250 000 Kč →</a>
+      <div class="d">volné podíly · <span class="cena-m" data-czk="2083000" data-eur="86250">2 083 000 Kč</span></div></div></a>
+    <div class="mega-foot"><a href="../investicni-nemovitosti.html">Investiční nemovitosti od <span data-kat="cena-od"><span class="cena-m" data-czk="966000" data-eur="40200">966 000 Kč</span></span> →</a>
       <a href="../splatky/">Podíl na splátky →</a>
-      <a href="../nemovitosti/">Zobrazit všech 14 nemovitostí →</a>
+      <a href="../nemovitosti/">Zobrazit všech <span data-kat="pocet-nemovitosti">14 nemovitostí</span> →</a>
       <span class="q">Nevíte, co hledáte? <a href="../jak-to-funguje.html">Jak to funguje</a></span></div>
   </div>
 </div></div>
@@ -191,7 +191,7 @@
   <a href="../jak-to-funguje.html">Jak to funguje</a><a href="../splatky/" aria-current="page">Podíl na splátky</a><a href="../jake-to-je.html">Jaké to je</a><a href="../pribehy.html">Příběhy majitelů</a><a href="../o-nas.html">O nás</a>
   <div class="grp">Podle země</div>
   <div class="sub"><a class="chip" href="../nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a><a class="chip" href="../nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a><a class="chip" href="../nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a><a class="chip" href="../nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a><a class="chip" href="../nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">2</span></a><a class="chip" href="../nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a><a class="chip" href="../nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a><a class="chip" href="../nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko<span class="n">3</span></a><a class="chip" href="../nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán<span class="n">1</span></a></div>
-  <div class="grp">Kontakt</div>
+  <div class="grp">Měna cen</div><div class="mena-drawer"><button type="button" class="mena" data-mena aria-pressed="false" aria-label="Ceny v eurech"><span data-m="czk">CZK</span> &middot; <span data-m="eur">EUR</span></button></div> <div class="grp">Kontakt</div>
   <a href="tel:+420604827601">+420 604 827 601</a><span class="grp-pozn">Klientská sekce<!-- s132: zatím neexistuje, proto popisek místo odkazu --></span>
   <a class="btn wide" href="../poptavka/" style="margin-top:10px">Mám zájem <span class="ar">→</span></a>
 </div></div>
@@ -217,14 +217,14 @@
   <p class="lead">Orientační propočet. Přesnou splátku stanoví Essox podle vaší situace.</p>
   <div class="kalk" data-kalk>
     <div>
-      <div class="pole"><label for="k-cena"><span>Cena podílu</span><b data-out="cena">1 560 000 Kč</b></label><input id="k-cena" type="range" min="900000" max="2400000" step="10000" value="1560000" data-in="cena"><div class="h">Podíl 1/8; volné podíly od 966 000 Kč (Omán) po 2 323 500 Kč (Česko).</div></div>
+      <div class="pole"><label for="k-cena"><span>Cena podílu</span><b data-out="cena">1 560 000 Kč</b></label><input id="k-cena" type="range" min="900000" max="2400000" step="10000" value="1560000" data-in="cena"><div class="h">Podíl 1/8; volné podíly od <span class="cena-m" data-czk="966000" data-eur="40200">966 000 Kč</span> (Omán) po <span class="cena-m" data-czk="2323500" data-eur="95186">2 323 500 Kč</span> (Česko).</div></div>
       <div class="pole"><label for="k-vl"><span>Vlastní zdroje</span><b data-out="vl">20 %</b></label><input id="k-vl" type="range" min="20" max="80" step="5" value="20" data-in="vl"><div class="h">Nejmíň 20 %, nejvíc 80 %. Čím víc, tím nižší splátka.</div></div>
       <div class="pole"><label for="k-let"><span>Délka splácení</span><b data-out="let">5 let</b></label><input id="k-let" type="range" min="1" max="10" step="1" value="5" data-in="let"><div class="h">Až 10 let.</div></div>
       <div class="pole"><div class="kalk-pevne"><span>Roční úrok</span><b data-out="urok">cca 7 % p.a.</b></div><input type="hidden" value="7" data-in="urok"><div class="h">Pevná orientační sazba, nedá se měnit. Konkrétní nabídku připraví Essox.</div></div>
     </div>
     <div class="vys" aria-live="polite">
       <div class="lb">Orientační měsíční splátka</div>
-      <div class="v"><span data-out="splatka">24 712</span><small>Kč / měsíc</small></div>
+      <div class="v"><span data-out="splatka">24 712</span><small data-mena-jednotka="{m} / měsíc">Kč / měsíc</small></div>
       <div class="r"><span>Vlastní zdroje</span><b data-out="vlastni">312 000 Kč</b></div>
       <div class="r"><span>Financuje Essox</span><b data-out="fin">1 248 000 Kč</b></div>
       <div class="r"><span>Zaplaceno celkem za <span data-out="let2">5 let</span></span><b data-out="celkem">1 794 714 Kč</b></div>
@@ -286,6 +286,17 @@
 </main>
 <!-- Patička: značka, země, rozcestník, právní blok.
      Čtyři řádky, žádné sloupce. Viz _build/s58_paticka_usporna.py. -->
+<section class="newsletter" aria-labelledby="nl-nadpis"><div class="wrap nl-in">
+  <div class="nl-text"><h2 class="nl-nadpis" id="nl-nadpis">Začněte odebírat newsletter</h2>
+    <p>Mějte vždy přehled o nejnovějších investičních nemovitostech, nabídkách a informacích.</p></div>
+  <form class="nl-form" method="post" novalidate data-newsletter>
+    <label class="nl-lb" for="nl-email">Váš e-mail</label>
+    <div class="nl-rada"><input class="nl-pole" id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="nl-chyba nl-pozn"><button class="btn gold" type="submit">Začít odebírat</button></div>
+    <span class="nl-chyba" id="nl-chyba" role="alert"></span>
+    <p class="nl-pozn" id="nl-pozn">Odhlásit se můžete v každém e-mailu jedním kliknutím.</p>
+  </form>
+  <div class="nl-hotovo" tabindex="-1" role="status" hidden><b>Hotovo, jste přihlášeni.</b><span>První newsletter přijde s další novou nemovitostí.</span></div>
+</div></section>
 <footer class="foot"><div class="wrap foot-in">
   <div class="foot-znacka">
     <img class="fl" src="../assets/brand/logo-fragmento-light.svg" alt="Fragmento"
@@ -307,7 +318,7 @@
   <div class="bot"><span>FRAGMENTO SE</span><span>IČO 21956839</span><span>Okružní 433/1, Lesná, 638 00 Brno</span><span>zapsána u Krajského soudu v Brně, sp. zn. H 737/KSBR</span><span class="sp"></span><span>Zásady ochrany osobních údajů</span><span>Cookies</span><span>© 2026</span></div>
 </div></footer>
 <script src="../assets/vendor/leaflet-1.9.4.js" defer></script>
-<script src="../assets/js/main.js?v=1789066729" defer></script>
+<script src="../assets/js/main.js?v=1789473406" defer></script>
 <script src="../assets/js/mapa.js" defer></script>
 </body>
 </html>

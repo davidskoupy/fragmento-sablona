@@ -317,22 +317,24 @@
     k.querySelectorAll('[data-in]').forEach(function (i) { vst[i.getAttribute('data-in')] = i; });
     function kc(x) { return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
     function lety(n) { return n === 1 ? '1 rok' : (n < 5 ? n + ' roky' : n + ' let'); }
+    function penize(x) { return window.fragmentoMena ? fragmentoMena.format(x, true) : kc(x) + ' Kč'; }   /* s177 */
     function ven(j, t) { k.querySelectorAll('[data-out="' + j + '"]').forEach(function (e) { e.textContent = t; }); }
     function prepocti() {
       var cena = +vst.cena.value, vl = +vst.vl.value, let_ = +vst['let'].value, urok = +vst.urok.value;
       var fin = Math.round(cena * (100 - vl) / 100), vlastni = cena - fin;
       var n = let_ * 12, r = urok / 100 / 12;
       var splatka = r > 0 ? fin * r / (1 - Math.pow(1 + r, -n)) : fin / n;
-      ven('cena', kc(cena) + ' Kč'); ven('vl', vl + ' %'); ven('let', lety(let_)); ven('let2', lety(let_));
+      ven('cena', penize(cena)); ven('vl', vl + ' %'); ven('let', lety(let_)); ven('let2', lety(let_));
       ven('urok', 'cca ' + String(urok).replace('.', ',') + ' % p.a.');   /* pevná sazba (s163) */
-      ven('splatka', kc(splatka)); ven('vlastni', kc(vlastni) + ' Kč'); ven('fin', kc(fin) + ' Kč');
-      ven('celkem', kc(splatka * n + vlastni) + ' Kč');
+      ven('splatka', window.fragmentoMena ? fragmentoMena.cislo(splatka, true) : kc(splatka)); ven('vlastni', penize(vlastni)); ven('fin', penize(fin));
+      ven('celkem', penize(splatka * n + vlastni));
       /* Vybarvená část dráhy posuvníku (s165). */
       [vst.cena, vst.vl, vst['let']].forEach(function (i) {
         if (i) i.style.setProperty('--pct', (i.value - i.min) / (i.max - i.min) * 100 + '%');
       });
     }
     Object.keys(vst).forEach(function (j) { vst[j].addEventListener('input', prepocti); });
+    window.addEventListener('mena:zmena', prepocti);   /* s177 */
     prepocti();
   });
 
@@ -1190,3 +1192,106 @@
     otevri();
     window.addEventListener('hashchange', otevri);
   })();
+
+  /* ── Měna cen CZK / EUR (s177) ────────────────────────────────────────
+     Ceny v textu nesou `data-czk` (a u cen nemovitostí přesné `data-eur`
+     z fragmento.cz). Ostatní částky se přepočítají kurzem a zaokrouhlí.
+     Volba se pamatuje; kalkulačka splátek poslouchá `mena:zmena`. */
+  (function () {
+    var KURZ = 24.164;               /* CZK za 1 EUR, medián poměru cen z fragmento.cz; při integraci z API */
+    var KLIC = 'fragmento-mena';
+    function cislo(x, nb) { return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, nb ? '\u00a0' : ' '); }
+    function eur(czk) {
+      var e = czk / KURZ;
+      return e < 1000 ? Math.round(e / 10) * 10 : (e < 100000 ? Math.round(e / 50) * 50 : Math.round(e / 100) * 100);
+    }
+    var mena = 'czk';
+    try { if (localStorage.getItem(KLIC) === 'eur') mena = 'eur'; } catch (e) {}
+    /* Pro kalkulačku a další JS: částka v Kč → text ve zvolené měně. */
+    window.fragmentoMena = {
+      get: function () { return mena; },
+      format: function (czk, nb) { return mena === 'eur' ? cislo(eur(czk), nb) + (nb ? '\u00a0' : ' ') + '€' : cislo(czk, nb) + (nb ? '\u00a0' : ' ') + 'Kč'; },
+      cislo: function (czk, nb) { return mena === 'eur' ? cislo(eur(czk), nb) : cislo(czk, nb); },
+      jednotka: function () { return mena === 'eur' ? '€' : 'Kč'; }
+    };
+    function prekresli() {
+      document.documentElement.setAttribute('data-mena', mena);
+      document.querySelectorAll('.cena-m[data-czk]').forEach(function (el) {
+        if (el.dataset.puvodni === undefined) el.dataset.puvodni = el.textContent;
+        if (mena === 'czk') { el.textContent = el.dataset.puvodni; return; }
+        var nb = el.dataset.puvodni.indexOf('\u00a0') >= 0;
+        var e = el.dataset.eur ? +el.dataset.eur : eur(+el.dataset.czk);
+        el.textContent = el.dataset.fmt === 'tis'
+          ? Math.round(e / 1000) + (nb ? '\u00a0' : ' ') + 'tis.' + (nb ? '\u00a0' : ' ') + '€'
+          : cislo(e, nb) + (nb ? '\u00a0' : ' ') + '€';
+      });
+      document.querySelectorAll('[data-mena-jednotka]').forEach(function (el) {
+        el.textContent = el.getAttribute('data-mena-jednotka').replace('{m}', mena === 'eur' ? '€' : 'Kč');
+      });
+      document.querySelectorAll('[data-mena]').forEach(function (b) {
+        if (b.tagName !== 'BUTTON') return;
+        b.setAttribute('aria-pressed', mena === 'eur' ? 'true' : 'false');
+      });
+      window.dispatchEvent(new CustomEvent('mena:zmena', { detail: mena }));
+    }
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-mena]');
+      if (!b) return;
+      mena = mena === 'eur' ? 'czk' : 'eur';
+      try { localStorage.setItem(KLIC, mena); } catch (err) {}
+      prekresli();
+    });
+    /* Jiný panel téhož webu přepnul měnu: srovnat i tady. */
+    window.addEventListener('storage', function (e) {
+      if (e.key !== KLIC) return;
+      mena = e.newValue === 'eur' ? 'eur' : 'czk';
+      prekresli();
+    });
+    prekresli();
+  })();
+
+  /* ── Příběhy majitelů: tečky pásu (s178) ─────────────────────────────
+     Tečka posune pás na příběh; při ručním posunu se zvýrazní ta, jejíž
+     karta je nejvíc vidět. Šipky fungují na pásu (má tabindex). */
+  document.querySelectorAll('[data-pribehy]').forEach(function (obal) {
+    var pas = obal.querySelector('.pribehy-pas');
+    var karty = [].slice.call(pas.children);
+    var tecky = [].slice.call(obal.querySelectorAll('[data-pribeh]'));
+    function na(i) { var k = karty[Math.max(0, Math.min(karty.length - 1, i))]; pas.scrollTo({ left: k.offsetLeft - pas.offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+    function aktivni() {
+      var i = Math.round(pas.scrollLeft / (karty[0].offsetWidth + 20));
+      if (pas.scrollLeft + pas.clientWidth >= pas.scrollWidth - 4) i = karty.length - 1;
+      tecky.forEach(function (t, j) { if (j === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
+    }
+    tecky.forEach(function (t, j) { t.addEventListener('click', function () { na(j); }); });
+    var ceka = false;
+    pas.addEventListener('scroll', function () { if (ceka) return; ceka = true; requestAnimationFrame(function () { ceka = false; aktivni(); }); }, { passive: true });
+    pas.addEventListener('keydown', function (e) {
+      var k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+      e.preventDefault(); var i = Math.round(pas.scrollLeft / (karty[0].offsetWidth + 20)); na(i + k);
+    });
+  });
+
+  /* ── Newsletter (s179) ───────────────────────────────────────────────
+     Stejná kontrola e-mailu jako u poptávky; hláška visí na poli přes
+     `aria-describedby`. Bez `data-endpoint` se ukáže potvrzení a varování. */
+  document.querySelectorAll('[data-newsletter]').forEach(function (f) {
+    var pole = f.querySelector('input[name="email"]');
+    var chyba = f.querySelector('.nl-chyba');
+    var hotovo = f.parentNode.querySelector('.nl-hotovo');
+    function zkontroluj() { return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(pole.value.trim()) ? '' : 'Tenhle e-mail nevypadá úplně, zkontrolujte ho prosím.'; }
+    function ukaz(t) { chyba.textContent = t; f.classList.toggle('nl-chybne', !!t); pole.setAttribute('aria-invalid', t ? 'true' : 'false'); }
+    pole.addEventListener('input', function () { if (f.classList.contains('nl-chybne')) ukaz(zkontroluj()); });
+    function uspech() { f.hidden = true; if (hotovo) { hotovo.hidden = false; hotovo.focus({ preventScroll: true }); } }
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var t = zkontroluj(); ukaz(t);
+      if (t) { pole.focus(); return; }
+      var cil = f.dataset.endpoint;
+      if (!cil) { console.warn('Newsletter: chybí data-endpoint, nic se neodeslalo.'); uspech(); return; }
+      var tl = f.querySelector('button[type="submit"]'); tl.disabled = true;
+      fetch(cil, { method: 'POST', body: new FormData(f) })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); uspech(); })
+        .catch(function () { tl.disabled = false; ukaz('Přihlášení se nepovedlo. Zkuste to prosím znovu.'); });
+    });
+  });

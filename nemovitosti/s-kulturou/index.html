@@ -28,7 +28,7 @@
 <link rel="preload" href="../../assets/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/dm-sans-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../assets/vendor/leaflet-1.9.4.css">
-<link rel="stylesheet" href="../../assets/css/style.css?v=1789112806">
+<link rel="stylesheet" href="../../assets/css/style.css?v=1789473642">
 
 <script type="application/ld+json">
 {
@@ -127,7 +127,7 @@
   <symbol id="i-village" viewBox="0 0 20 20"><path d="M2.5 9.5L10 3.5l7.5 6M4.5 9v7h11V9M8.5 16v-4h3v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 
   <!-- ikony pojmů: dům, klíč, lidé, kalendář, štít, mince, správa, prodej, srdce, letadlo -->
-  <symbol id="i-house" viewBox="0 0 20 20"><path d="M2.5 9L10 3l7.5 6M4.5 8.5V16h11V8.5M8.5 16v-4.5h3V16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-house" viewBox="0 0 20 20"><path d="M2.5 9L10 3l7.5 6M4.5 8.5V16h11V8.5M8.5 16v-4.5h3V16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-pokoje" viewBox="0 0 20 20"><path d="M2.5 5v11M2.5 12.5h15V16M17.5 12.5v-2.5a2 2 0 0 0-2-2H9v4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5.7" cy="10" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol><symbol id="i-koupelny" viewBox="0 0 20 20"><path d="M3 10h14v1.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 3 11.5zM5 10V5.2a1.7 1.7 0 0 1 3.3-.5M6.5 16l-.8 1.5M13.5 16l.8 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-plocha" viewBox="0 0 20 20"><path d="M10 2.8l6.5 3.6v7.2L10 17.2l-6.5-3.6V6.4zM3.5 6.4L10 10l6.5-3.6M10 10v7.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol><symbol id="i-info" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9v4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.3" r="1.05" fill="currentColor"/></symbol>
   <symbol id="i-key" viewBox="0 0 20 20"><circle cx="6.6" cy="13.4" r="3.7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 10.8L17.2 2.9M13.2 6.9l2.4 2.4M15.4 4.7l2.4 2.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
   <symbol id="i-people" viewBox="0 0 20 20"><circle cx="7" cy="6.5" r="2.7" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="7.5" r="2.1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16c0-2.6 2-4.4 4.5-4.4s4.5 1.8 4.5 4.4M13 11.7c2.4 0 4.5 1.4 4.5 4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-calendar" viewBox="0 0 20 20"><rect x="2.6" y="4.2" width="14.8" height="13.2" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.6 8.2h14.8M6.5 2.4v3.4M13.5 2.4v3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="5.4" y="10.6" width="3.4" height="3.4" rx="0.8" fill="currentColor"/></symbol>
@@ -162,7 +162,7 @@
 <div class="util"><div class="wrap" role="region" aria-label="Kontakt a rychlé odkazy">
   <span>Volejte <b>+420 604 827 601</b></span><span>info@fragmento.cz</span><span class="sp"></span>
   <!-- s124: Magazín skrytý na přání klienta (vedl na jak-to-funguje.html, protože magazín neexistuje). Vrátit: nahradit tenhle komentář odkazem. --><a href="../../jak-to-funguje.html">Otázky a odpovědi</a>
-  <span class="pill">Klientská sekce</span><a class="mena" href="../../jak-to-funguje.html#mena" title="V jaké měně se platí?"><b>CZK</b> &middot; EUR</a>
+  <span class="pill">Klientská sekce</span><button type="button" class="mena" data-mena aria-pressed="false" aria-label="Ceny v eurech"><span data-m="czk">CZK</span> &middot; <span data-m="eur">EUR</span></button>
 </div></div>
 <header class="head"><div class="wrap">
   <a class="logo" href="../../index.html"><img src="../../assets/brand/logo-fragmento.svg" alt="Fragmento" width="261" height="54"></a>
@@ -175,7 +175,7 @@
 <div class="mega" id="mega" role="navigation" aria-label="Nabídka nemovitostí"><div class="wrap">
   <div><div class="lb">Podle povahy místa</div><ul><li><a href="../../nemovitosti/u-more/"><svg class="ico"><use href="#i-sea"/></svg>U moře<span class="n">6</span></a></li><li><a href="../../nemovitosti/u-oceanu/"><svg class="ico"><use href="#i-ocean"/></svg>Oceán<span class="n">4</span></a></li><li><a href="../../nemovitosti/v-horach/"><svg class="ico"><use href="#i-mountain"/></svg>V horách<span class="n">2</span></a></li><li><a href="../../nemovitosti/v-prirode/"><svg class="ico"><use href="#i-nature"/></svg>V přírodě<span class="n">4</span></a></li><li><a href="../../nemovitosti/pro-surfare/"><svg class="ico"><use href="#i-surf"/></svg>Surfování<span class="n">2</span></a></li><li><a href="../../nemovitosti/s-kulturou/"><svg class="ico"><use href="#i-culture"/></svg>Kultura<span class="n">4</span></a></li><li><a href="../../nemovitosti/na-vesnici/"><svg class="ico"><use href="#i-village"/></svg>Na vesnici<span class="n">1</span></a></li><li><a href="../../nemovitosti/ve-meste/"><svg class="ico"><use href="#i-city"/></svg>Ve městě<span class="n">2</span></a></li></ul>
     <div class="lb" style="margin-top:16px">Podle záměru</div>
-    <ul><li><a href="../../investicni-nemovitosti.html"><svg class="ico"><use href="#i-coins"/></svg>Investiční nemovitosti<span class="n">od 250 tis.</span></a></li>
+    <ul><li><a href="../../investicni-nemovitosti.html"><svg class="ico"><use href="#i-coins"/></svg>Investiční nemovitosti<span class="n" data-kat="cena-od-tis">od 966 tis.</span></a></li>
     <li><a href="../../balicky.html"><svg class="ico"><use href="#i-key"/></svg>Balíčky podílů<span class="n">3</span></a></li>
     <li><a href="../../splatky/"><svg class="ico"><use href="#i-tag"/></svg>Podíl na splátky<span class="n">až 80 %</span></a></li></ul></div>
   <div><div class="lb">Podle země</div><ul><li><a href="../../nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a></li><li><a href="../../nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a></li><li><a href="../../nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a></li><li><a href="../../nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a></li><li><a href="../../nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">2</span></a></li><li><a href="../../nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a></li><li><a href="../../nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a></li><li><a href="../../nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko<span class="n">3</span></a></li><li><a href="../../nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán<span class="n">1</span></a></li></ul></div>
@@ -183,13 +183,13 @@
     <div class="lb">Volné podíly</div>
     <a class="mega-card" href="../../nemovitosti/uluwatu-bali-4kk/"><div class="ph" style="background-image:var(--img-g-bali-1)"></div>
       <div class="bd"><div class="t">Uluwatu — Hideaway vila 4+kk</div><div class="s">Bali · 44 nocí ročně</div>
-      <div class="d">volné podíly · 1 560 000 Kč</div></div></a>
+      <div class="d">volné podíly · <span class="cena-m" data-czk="1560000" data-eur="64000">1 560 000 Kč</span></div></div></a>
     <a class="mega-card" href="../../nemovitosti/apartina-3kk/"><div class="ph" style="background-image:var(--img-n-apartina-3kk-1)"></div>
       <div class="bd"><div class="t">Apartina — Apartmán 3+kk</div><div class="s">Chorvatsko · 44 nocí ročně</div>
-      <div class="d">volné podíly · 2 083 000 Kč</div></div></a>
-    <div class="mega-foot"><a href="../../investicni-nemovitosti.html">Investiční nemovitosti od 250 000 Kč →</a>
+      <div class="d">volné podíly · <span class="cena-m" data-czk="2083000" data-eur="86250">2 083 000 Kč</span></div></div></a>
+    <div class="mega-foot"><a href="../../investicni-nemovitosti.html">Investiční nemovitosti od <span data-kat="cena-od"><span class="cena-m" data-czk="966000" data-eur="40200">966 000 Kč</span></span> →</a>
       <a href="../../splatky/">Podíl na splátky →</a>
-      <a href="../">Zobrazit všech 14 nemovitostí →</a>
+      <a href="../">Zobrazit všech <span data-kat="pocet-nemovitosti">14 nemovitostí</span> →</a>
       <span class="q">Nevíte, co hledáte? <a href="../../jak-to-funguje.html">Jak to funguje</a></span></div>
   </div>
 </div></div>
@@ -200,7 +200,7 @@
   <a href="../../jak-to-funguje.html">Jak to funguje</a><a href="../../splatky/">Podíl na splátky</a><a href="../../jake-to-je.html">Jaké to je</a><a href="../../pribehy.html">Příběhy majitelů</a><a href="../../o-nas.html">O nás</a>
   <div class="grp">Podle země</div>
   <div class="sub"><a class="chip" href="../../nemovitosti/chorvatsko/"><svg class="flag"><use href="#fl-hr"/></svg>Chorvatsko<span class="n">2</span></a><a class="chip" href="../../nemovitosti/bali/"><svg class="flag"><use href="#fl-id"/></svg>Bali<span class="n">2</span></a><a class="chip" href="../../nemovitosti/italie/"><svg class="flag"><use href="#fl-it"/></svg>Itálie<span class="n">1</span></a><a class="chip" href="../../nemovitosti/spanelsko/"><svg class="flag"><use href="#fl-es"/></svg>Španělsko<span class="n">1</span></a><a class="chip" href="../../nemovitosti/cesko/"><svg class="flag"><use href="#fl-cz"/></svg>Česko<span class="n">2</span></a><a class="chip" href="../../nemovitosti/kostarika/"><svg class="flag"><use href="#fl-cr"/></svg>Kostarika<span class="n">1</span></a><a class="chip" href="../../nemovitosti/filipiny/"><svg class="flag"><use href="#fl-ph"/></svg>Filipíny<span class="n">1</span></a><a class="chip" href="../../nemovitosti/thajsko/"><svg class="flag"><use href="#fl-th"/></svg>Thajsko<span class="n">3</span></a><a class="chip" href="../../nemovitosti/oman/"><svg class="flag"><use href="#fl-om"/></svg>Omán<span class="n">1</span></a></div>
-  <div class="grp">Kontakt</div>
+  <div class="grp">Měna cen</div><div class="mena-drawer"><button type="button" class="mena" data-mena aria-pressed="false" aria-label="Ceny v eurech"><span data-m="czk">CZK</span> &middot; <span data-m="eur">EUR</span></button></div> <div class="grp">Kontakt</div>
   <a href="tel:+420604827601">+420 604 827 601</a><span class="grp-pozn">Klientská sekce<!-- s132: zatím neexistuje, proto popisek místo odkazu --></span>
   <a class="btn wide" href="../../poptavka/" style="margin-top:10px">Mám zájem <span class="ar">→</span></a>
 </div></div>
@@ -222,37 +222,37 @@
   <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-g-bali-1"></span><span class="lay" data-bg="--img-g-bali-2"></span><span class="lay" data-bg="--img-g-bali-3"></span><span class="lay" data-bg="--img-g-bali-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-id"/></svg>Bali</span></div><div class="bl"><span role="img" data-tip="Oceán" aria-label="Oceán"><svg class="ico"><use href="#i-ocean"/></svg></span><span role="img" data-tip="Surfování" aria-label="Surfování"><svg class="ico"><use href="#i-surf"/></svg></span><span role="img" data-tip="Kultura" aria-label="Kultura"><svg class="ico"><use href="#i-culture"/></svg></span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Uluwatu — Hideaway vila 4+kk<span class="karta-pronajem"><span class="kpr-lb">Pronajímá se</span><span class="kpr-loga"><img class="pr-logo" src="../../assets/brand/logo-booking.svg" alt="Booking.com" width="16" height="16"><img class="pr-logo" src="../../assets/brand/logo-airbnb.svg" alt="Airbnb" width="16" height="16"></span></span></div><div class="adr">Pecatu, Uluwatu · 209 m² · 4 pokoje</div><div class="ev">„Ráno je slyšet jen voda a ptáci z kopce nad domem.“</div></div>
+    <div class="blok popis"><div class="ttl">Uluwatu — Hideaway vila 4+kk<span class="karta-pronajem"><span class="kpr-lb">Pronajímá se</span><span class="kpr-loga"><img class="pr-logo" src="../../assets/brand/logo-booking.svg" alt="Booking.com" width="16" height="16"><img class="pr-logo" src="../../assets/brand/logo-airbnb.svg" alt="Airbnb" width="16" height="16"></span></span></div><div class="adr"><span class="misto">Pecatu, Uluwatu</span><span class="parametry" role="img" aria-label="4 pokoje, 2 koupelny, plocha 209 m²"><span><svg aria-hidden="true"><use href="#i-pokoje"/></svg>4</span><span><svg aria-hidden="true"><use href="#i-koupelny"/></svg>2</span><span><svg aria-hidden="true"><use href="#i-plocha"/></svg>209&nbsp;m²</span></span></div><div class="ev">„Ráno je slyšet jen voda a ptáci z kopce nad domem.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1&nbsp;560&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
-    </div><div class="spl"><img src="../../assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 80 % na splátky · <b>jak to funguje</b></span></div></div>
+      <div><div class="cena"><i>od</i> <span class="cena-m" data-czk="1560000" data-eur="64000">1&nbsp;560&nbsp;000&nbsp;Kč</span><span class="spl-i"><svg aria-hidden="true"><use href="#i-info"/></svg><span class="spl-tip" role="tooltip">Až 80 % ceny na splátky přes Essox</span></span></div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
+    </div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
 </a><a class="card" data-zeme="Bali" data-cena="1-15" data-dostupnost="volna" data-povaha="ocean surf culture" href="../../nemovitosti/banga-vila-3kk/" data-pronajem>
   <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-banga-vila-3kk-1"></span><span class="lay" data-bg="--img-n-banga-vila-3kk-2"></span><span class="lay" data-bg="--img-n-banga-vila-3kk-3"></span><span class="lay" data-bg="--img-n-banga-vila-3kk-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-id"/></svg>Bali</span></div><div class="bl"><span role="img" data-tip="Oceán" aria-label="Oceán"><svg class="ico"><use href="#i-ocean"/></svg></span><span role="img" data-tip="Surfování" aria-label="Surfování"><svg class="ico"><use href="#i-surf"/></svg></span><span role="img" data-tip="Kultura" aria-label="Kultura"><svg class="ico"><use href="#i-culture"/></svg></span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Uluwatu — Banga vila 3+kk<span class="karta-pronajem"><span class="kpr-lb">Pronajímá se</span><span class="kpr-loga"><img class="pr-logo" src="../../assets/brand/logo-booking.svg" alt="Booking.com" width="16" height="16"><img class="pr-logo" src="../../assets/brand/logo-airbnb.svg" alt="Airbnb" width="16" height="16"></span></span></div><div class="adr">Pecatu, Uluwatu · 127 m² · 3 pokoje</div><div class="ev">„Surf je slyšet dřív, než ho uvidíte.“</div></div>
+    <div class="blok popis"><div class="ttl">Uluwatu — Banga vila 3+kk<span class="karta-pronajem"><span class="kpr-lb">Pronajímá se</span><span class="kpr-loga"><img class="pr-logo" src="../../assets/brand/logo-booking.svg" alt="Booking.com" width="16" height="16"><img class="pr-logo" src="../../assets/brand/logo-airbnb.svg" alt="Airbnb" width="16" height="16"></span></span></div><div class="adr"><span class="misto">Pecatu, Uluwatu</span><span class="parametry" role="img" aria-label="3 pokoje, 1 koupelna, plocha 127 m²"><span><svg aria-hidden="true"><use href="#i-pokoje"/></svg>3</span><span><svg aria-hidden="true"><use href="#i-koupelny"/></svg>1</span><span><svg aria-hidden="true"><use href="#i-plocha"/></svg>127&nbsp;m²</span></span></div><div class="ev">„Surf je slyšet dřív, než ho uvidíte.“</div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 1&nbsp;154&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
-    </div><div class="spl"><img src="../../assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 80 % na splátky · <b>jak to funguje</b></span></div></div>
+      <div><div class="cena"><i>od</i> <span class="cena-m" data-czk="1154000" data-eur="47750">1&nbsp;154&nbsp;000&nbsp;Kč</span><span class="spl-i"><svg aria-hidden="true"><use href="#i-info"/></svg><span class="spl-tip" role="tooltip">Až 80 % ceny na splátky přes Essox</span></span></div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
+    </div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
 </a><a class="card" data-zeme="Omán" data-cena="do1" data-dostupnost="volna" data-povaha="sea culture city" href="../../nemovitosti/yamal-apartman-oman/">
   <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-yamal-apartman-oman-1"></span><span class="lay" data-bg="--img-n-yamal-apartman-oman-2"></span><span class="lay" data-bg="--img-n-yamal-apartman-oman-3"></span><span class="lay" data-bg="--img-n-yamal-apartman-oman-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-om"/></svg>Omán</span></div><div class="bl"><span role="img" data-tip="U moře" aria-label="U moře"><svg class="ico"><use href="#i-sea"/></svg></span><span role="img" data-tip="Kultura" aria-label="Kultura"><svg class="ico"><use href="#i-culture"/></svg></span><span role="img" data-tip="Ve městě" aria-label="Ve městě"><svg class="ico"><use href="#i-city"/></svg></span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">Apartmán 2+kk v luxusním přímořském resortu</div><div class="adr">Al Seeb, Muscat · 71 m² · 2 pokoje</div></div>
+    <div class="blok popis"><div class="ttl">Apartmán 2+kk v luxusním přímořském resortu</div><div class="adr"><span class="misto">Al Seeb, Muscat</span><span class="parametry" role="img" aria-label="2 pokoje, 1 koupelna, plocha 71 m²"><span><svg aria-hidden="true"><use href="#i-pokoje"/></svg>2</span><span><svg aria-hidden="true"><use href="#i-koupelny"/></svg>1</span><span><svg aria-hidden="true"><use href="#i-plocha"/></svg>71&nbsp;m²</span></span></div></div>
     <div class="blok rozhod"><div class="cenovka">
-      <div><div class="cena"><i>od</i> 966&nbsp;000&nbsp;Kč</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
-    </div><div class="spl"><img src="../../assets/brand/logo-essox.svg" alt="Essox" width="154" height="59"><span>až 80 % na splátky · <b>jak to funguje</b></span></div></div>
+      <div><div class="cena"><i>od</i> <span class="cena-m" data-czk="966000" data-eur="40200">966&nbsp;000&nbsp;Kč</span><span class="spl-i"><svg aria-hidden="true"><use href="#i-info"/></svg><span class="spl-tip" role="tooltip">Až 80 % ceny na splátky přes Essox</span></span></div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
+    </div></div>
   </div>
   <div class="go">Detail nemovitosti<span class="ar">→</span></div>
 </a><a class="card sold" data-zeme="Thajsko" data-cena="" data-dostupnost="prodano" data-povaha="sea culture city" href="../../nemovitosti/thajsko-la-casita/">
   <div class="ph"><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="zone"></span><span class="lay first" data-bg="--img-n-thajsko-la-casita-1"></span><span class="lay" data-bg="--img-n-thajsko-la-casita-2"></span><span class="lay" data-bg="--img-n-thajsko-la-casita-3"></span><span class="lay" data-bg="--img-n-thajsko-la-casita-4"></span><span class="dots"><i></i><i></i><i></i><i></i></span><span class="hint">4 fotky</span><div class="sold-stamp">Prodáno<small>všech 8 podílů má majitele</small></div>
     <div class="tl"><span class="chip solid"><svg class="flag"><use href="#fl-th"/></svg>Thajsko</span></div><div class="bl"><span role="img" data-tip="U moře" aria-label="U moře"><svg class="ico"><use href="#i-sea"/></svg></span><span role="img" data-tip="Kultura" aria-label="Kultura"><svg class="ico"><use href="#i-culture"/></svg></span><span role="img" data-tip="Ve městě" aria-label="Ve městě"><svg class="ico"><use href="#i-city"/></svg></span></div></div>
   <div class="bd">
-    <div class="blok popis"><div class="ttl">3+kk apartmán La Casita</div><div class="adr">Thajsko · 78 m² · 2 pokoje</div></div>
+    <div class="blok popis"><div class="ttl">3+kk apartmán La Casita</div><div class="adr"><span class="misto">Thajsko</span><span class="parametry" role="img" aria-label="2 pokoje, 2 koupelny, plocha 78 m²"><span><svg aria-hidden="true"><use href="#i-pokoje"/></svg>2</span><span><svg aria-hidden="true"><use href="#i-koupelny"/></svg>2</span><span><svg aria-hidden="true"><use href="#i-plocha"/></svg>78&nbsp;m²</span></span></div></div>
     <div class="blok rozhod"><div class="cenovka">
       <div><div class="cena tlumena">prodáno</div><div class="pod">podíl 1/8 · 44 nocí ročně</div></div>
     </div></div>
@@ -275,6 +275,17 @@
 </main>
 <!-- Patička: značka, země, rozcestník, právní blok.
      Čtyři řádky, žádné sloupce. Viz _build/s58_paticka_usporna.py. -->
+<section class="newsletter" aria-labelledby="nl-nadpis"><div class="wrap nl-in">
+  <div class="nl-text"><h2 class="nl-nadpis" id="nl-nadpis">Začněte odebírat newsletter</h2>
+    <p>Mějte vždy přehled o nejnovějších investičních nemovitostech, nabídkách a informacích.</p></div>
+  <form class="nl-form" method="post" novalidate data-newsletter>
+    <label class="nl-lb" for="nl-email">Váš e-mail</label>
+    <div class="nl-rada"><input class="nl-pole" id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="nl-chyba nl-pozn"><button class="btn gold" type="submit">Začít odebírat</button></div>
+    <span class="nl-chyba" id="nl-chyba" role="alert"></span>
+    <p class="nl-pozn" id="nl-pozn">Odhlásit se můžete v každém e-mailu jedním kliknutím.</p>
+  </form>
+  <div class="nl-hotovo" tabindex="-1" role="status" hidden><b>Hotovo, jste přihlášeni.</b><span>První newsletter přijde s další novou nemovitostí.</span></div>
+</div></section>
 <footer class="foot"><div class="wrap foot-in">
   <div class="foot-znacka">
     <img class="fl" src="../../assets/brand/logo-fragmento-light.svg" alt="Fragmento"
@@ -296,7 +307,7 @@
   <div class="bot"><span>FRAGMENTO SE</span><span>IČO 21956839</span><span>Okružní 433/1, Lesná, 638 00 Brno</span><span>zapsána u Krajského soudu v Brně, sp. zn. H 737/KSBR</span><span class="sp"></span><span>Zásady ochrany osobních údajů</span><span>Cookies</span><span>© 2026</span></div>
 </div></footer>
 <script src="../../assets/vendor/leaflet-1.9.4.js" defer></script>
-<script src="../../assets/js/main.js?v=1789066729" defer></script>
+<script src="../../assets/js/main.js?v=1789473406" defer></script>
 <script src="../../assets/js/mapa.js" defer></script>
 </body>
 </html>
