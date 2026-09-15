@@ -880,6 +880,7 @@
     var cesta = location.pathname;
     var konec = cesta.replace(/\/+$/, '').split('/').pop();
     var koren = zeSlugu[konec] ? cesta.replace(/[^/]+\/?$/, '') : cesta.replace(/index\.html$/, '');
+    var vlastniOs = zeSlugu[konec] ? zeSlugu[konec][0] : null;   /* s198 */
 
     function prazdny() { return { zeme: [], povaha: [], cena: [], volne: false }; }
     function zeURL() {
@@ -900,7 +901,9 @@
       return null;
     }
     function adresa(st) {
-      var j = jedina(st);
+      /* s198: na výpisu (plny) se adresa nesmí přesunout do jiné složky —
+         dokument zůstává a jeho relativní odkazy by se složily špatně. */
+      var j = plny ? null : jedina(st);
       if (j) return koren + slug[j[0] + ':' + j[1]] + '/';
       var q = [];
       OSY.forEach(function (o) { if (st[o].length) q.push(o + '=' + st[o].map(encodeURIComponent).join(',')); });
@@ -933,10 +936,19 @@
         var vyb = stav[o].indexOf(h) >= 0;
         a.classList.toggle('on', vyb);
         a.setAttribute('aria-checked', vyb ? 'true' : 'false');
-        /* Na filtrované stránce zůstávají počty z celého katalogu. */
-        if (!plny) return;
-        var n = karty.filter(function (k) { return sedi(k, stav, o) && hodnoty(k, o).indexOf(h) >= 0; }).length;
-        a.querySelector('.c').textContent = n;
+        /* s198: na filtrované stránce jsou v mřížce právě karty jejího výběru,
+           takže počty ostatních os se spočítají z nich. Vlastní osa stránky
+           (země na stránce země) zůstává ze sestavení, protože se v ní volby
+           sčítají. Volba s nulou by vedla na prázdný výpis: zašedlá, nejde vybrat. */
+        var c = a.querySelector('.c');
+        if (!c) return;
+        var n;
+        if (plny || o !== vlastniOs) {
+          n = karty.filter(function (k) { return sedi(k, stav, o) && hodnoty(k, o).indexOf(h) >= 0; }).length;
+          c.textContent = n;
+        } else {
+          n = parseInt(c.textContent, 10) || 0;
+        }
         var mrtva = n === 0 && !vyb;
         a.classList.toggle('prazdna', mrtva);
         if (mrtva) a.setAttribute('aria-disabled', 'true'); else a.removeAttribute('aria-disabled');
