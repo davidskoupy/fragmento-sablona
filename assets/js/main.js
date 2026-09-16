@@ -803,7 +803,7 @@
            kapitolami. Párujeme přes `href`, ne přes `data-ch` — pilulky
            jsou obyčejné kotvy a druhý atribut s toutéž informací by byl
            jen další místo, kde se to může rozejít. */
-        document.querySelectorAll('.rozcestnik a').forEach(function (a) {
+        document.querySelectorAll('.rozcestnik a, .kap-lista a').forEach(function (a) {   /* s212: i lišta kapitol */
           var je = a.getAttribute('href') === '#' + en.target.id;   /* s196: i aria-current */
           a.classList.toggle('on', je);
           if (je) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
@@ -1747,3 +1747,42 @@
   });
 })();
 /* ── konec mapy a trasy na detailu (s206) ── */
+
+/* ── Lepivý panel jen u svého bloku (s209) ───────────────────────────
+   Panel vyšší než okno pod hlavičkou by při přilnutí na 86 px schoval spodek.
+   Takový panel dostane `top` tak, aby přilnul až spodní hranou: 16 px nad
+   dolní lištou (s101, je vidět právě tehdy, když galerie odjede, tedy když
+   panel přilne), bez lišty nad okrajem okna. Nízký panel: vlastnost se
+   odebere, platí 86 px z CSS. */
+(function () {
+  var pan = document.querySelector('[data-page="detail"] .two > .panel');
+  if (!pan) return;
+  var lista = document.querySelector('[data-lista]');
+  var mq = window.matchMedia('(min-width: 900px)');
+  var HORE = 86, DOLE = 16;
+  function srovnej() {
+    var dole = DOLE + (lista && getComputedStyle(lista).display !== 'none' ? lista.offsetHeight : 0);
+    var t = window.innerHeight - pan.offsetHeight - dole;
+    if (mq.matches && t < HORE) pan.style.setProperty('--panel-top', Math.round(t) + 'px');
+    else pan.style.removeProperty('--panel-top');
+  }
+  srovnej();
+  window.addEventListener('resize', srovnej);
+  if (mq.addEventListener) mq.addEventListener('change', srovnej);
+  if ('ResizeObserver' in window) new ResizeObserver(srovnej).observe(pan);
+})();
+/* ── konec lepivého panelu (s209) ── */
+
+/* ── Mapa a trasa z lokality (s211) ──────────────────────────────────
+   Karta místa v Lokalitě otevírá tentýž dialog jako odkaz pod nadpisem:
+   klik se přepošle na [data-d-mapa] z s206, žádná druhá logika. */
+(function () {
+  var karty = document.querySelectorAll('[data-lok-mapa]');
+  if (!karty.length) return;
+  var odkaz = document.querySelector('[data-d-mapa]');
+  karty.forEach(function (k) {
+    if (!odkaz || odkaz.hidden) { k.hidden = true; return; }
+    k.addEventListener('click', function () { odkaz.click(); });
+  });
+})();
+/* ── konec mapy z lokality (s211) ── */
