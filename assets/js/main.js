@@ -1786,3 +1786,44 @@
   });
 })();
 /* ── konec mapy z lokality (s211) ── */
+
+/* ── Kotva po načtení písem (s214) ──────────────────────────────────
+   Plynulý posun ke kotvě z adresy si cíl spočítá hned při prvním vykreslení;
+   když se pak načtou písma, sekce se posune a posun skončí vedle. Po načtení
+   stránky a písem se cíl jednou srovná bez animace, pokud člověk mezitím sám
+   neroloval. Otázky FAQ (`.acc`) staví na střed s118, ty se nechávají. */
+(function () {
+  var id = location.hash.slice(1);
+  if (!id) return;
+  var cil;
+  try { cil = document.getElementById(decodeURIComponent(id)); } catch (e) { return; }
+  if (!cil || cil.classList.contains('acc')) return;
+  var sahl = false;
+  var zastav = function () { sahl = true; };
+  ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (t) {
+    window.addEventListener(t, zastav, { passive: true, once: true });
+  });
+  var srovnej = function () {
+    if (sahl || location.hash.slice(1) !== id) return;
+    var okraj = parseFloat(getComputedStyle(cil).scrollMarginTop) || 0;
+    if (Math.abs(cil.getBoundingClientRect().top - okraj) <= 2) return;
+    var h = document.documentElement, puv = h.style.scrollBehavior;
+    h.style.scrollBehavior = 'auto';
+    cil.scrollIntoView({ block: 'start' });
+    h.style.scrollBehavior = puv;
+  };
+  var poKlidu = function () {
+    /* počkat, až doběhne rozjetý plynulý posun (150 ms bez scrollu) */
+    var casovac;
+    var klid = function () { clearTimeout(casovac); casovac = setTimeout(function () { window.removeEventListener('scroll', klid); srovnej(); }, 150); };
+    window.addEventListener('scroll', klid, { passive: true });
+    klid();
+  };
+  var poNacteni = function () {
+    var pisma = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    pisma.then(poKlidu, poKlidu);
+  };
+  if (document.readyState === 'complete') poNacteni();
+  else window.addEventListener('load', poNacteni, { once: true });
+})();
+/* ── konec kotvy po načtení (s214) ── */
