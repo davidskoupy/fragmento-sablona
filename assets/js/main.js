@@ -1453,3 +1453,297 @@
   vykresli(false);
 })();
 /* ── konec skládačky balíčků (s195) ── */
+
+/* ── Bublina splátek s Essoxem (s202) ─────────────────────────────────────
+   „Až 80 % na splátky“ na kartě: bublina s logem Essoxu pod řádkem. Myš:
+   najetí. Klávesnice: fokus karty. Dotyk: první klepnutí otevře, druhé
+   pustí klik dál k obsluze s184 (kalkulačka s cenou). */
+(function () {
+  var SEL = '.card .karta-spl[data-splatky]';
+  var bub = null, kotva = null, dotyk = false, mysi = false, zavri_t = 0, mys = null;
+
+  function vytvor() {
+    if (bub) return bub;
+    bub = document.createElement('div');
+    bub.className = 'spl-bublina';
+    bub.id = 'spl-bublina';
+    bub.setAttribute('role', 'tooltip');
+    bub.innerHTML = '<img alt="Essox" width="52" height="20"><span class="spl-bublina-v">Až 80\u00a0% na splátky.</span>' +
+      '<span class="spl-bublina-c"><span class="spl-bublina-t"></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    document.body.appendChild(bub);
+    return bub;
+  }
+
+  function umisti() {
+    if (!bub || !kotva) return;
+    var r = kotva.getBoundingClientRect();
+    var sirka = document.documentElement.clientWidth;
+    var w = bub.offsetWidth;
+    var x = Math.max(8, Math.min(r.left - 8, sirka - w - 8));
+    bub.style.left = (x + window.scrollX) + 'px';
+    bub.style.top = (r.bottom + window.scrollY + 12) + 'px';
+    /* špička míří na ikonu „i“ (8 px od levé hrany řádku) */
+    bub.style.setProperty('--sipka', Math.max(10, Math.min(r.left + 2 - x, w - 22)) + 'px');
+  }
+
+  function otevri(s, naDotyk, mysi_) {
+    clearTimeout(zavri_t);
+    vytvor();
+    if (kotva && kotva !== s) zavri(true);
+    kotva = s;
+    dotyk = !!naDotyk;
+    mysi = !!mysi_;
+    var pre = s.getAttribute('data-splatky').replace(/splatky\/\?cena=\d*$/, '');
+    var img = bub.querySelector('img');
+    if (img.getAttribute('src') !== pre + 'assets/brand/logo-essox.svg') img.setAttribute('src', pre + 'assets/brand/logo-essox.svg');
+    bub.querySelector('.spl-bublina-t').textContent = (naDotyk ? 'Klepnutím' : 'Kliknutím') + ' spočítáte měsíční splátku';
+    s.classList.add('s202-aktivni');
+    var karta = s.closest('.card');
+    if (karta) karta.setAttribute('aria-describedby', 'spl-bublina');
+    umisti();
+    bub.classList.add('je-otevrena');
+    /* karta se při najetí zvedne o 3 px (přechod .2 s) */
+    setTimeout(umisti, 220);
+  }
+
+  function zavri(hned) {
+    clearTimeout(zavri_t);
+    if (!kotva) return;
+    var s = kotva;
+    kotva = null; dotyk = false; mysi = false;
+    s.classList.remove('s202-aktivni');
+    var karta = s.closest('.card');
+    if (karta && karta.getAttribute('aria-describedby') === 'spl-bublina') karta.removeAttribute('aria-describedby');
+    if (bub) bub.classList.remove('je-otevrena');
+  }
+
+  function splZ(t) { return t && t.closest ? t.closest(SEL) : null; }
+
+  var posledniUkazatel = 'mouse';
+  window.addEventListener('pointerdown', function (e) {
+    posledniUkazatel = e.pointerType || 'mouse';
+    if (kotva && dotyk && splZ(e.target) !== kotva) zavri(true);
+  }, true);
+
+  /* myš: najetí a odjetí. Karta se při najetí zvedne o 3 px a řádek může
+     ujet zpod ukazatele, proto se zavírá až mimo řádek s rezervou 6 px. */
+  function uvnitr() {
+    if (!kotva || !mys) return false;
+    var r = kotva.getBoundingClientRect();
+    return mys[0] >= r.left - 6 && mys[0] <= r.right + 6 && mys[1] >= r.top - 6 && mys[1] <= r.bottom + 6;
+  }
+  function mozna_zavri() {
+    clearTimeout(zavri_t);
+    zavri_t = setTimeout(function () { if (kotva && mysi && !uvnitr()) zavri(); }, 80);
+  }
+  document.addEventListener('pointerover', function (e) {
+    if (e.pointerType === 'touch') return;
+    mys = [e.clientX, e.clientY];
+    var s = splZ(e.target);
+    if (s && s !== kotva) otevri(s, false, true);
+    else if (s) clearTimeout(zavri_t);
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') return;
+    mys = [e.clientX, e.clientY];
+    if (kotva && mysi && !uvnitr()) mozna_zavri();
+  }, { passive: true });
+  document.addEventListener('pointerout', function (e) {
+    if (e.pointerType === 'touch' || !kotva || !mysi) return;
+    mys = [e.clientX, e.clientY];
+    if (splZ(e.target) === kotva && splZ(e.relatedTarget) !== kotva) mozna_zavri();
+  });
+
+  /* dotyk: první klepnutí jen otevře; window ve fázi capture je dřív než
+     obsluha s184 na document */
+  window.addEventListener('click', function (e) {
+    var s = splZ(e.target);
+    if (!s) return;
+    var typ = e.pointerType || posledniUkazatel;
+    if (typ !== 'touch' && typ !== 'pen') return;
+    if (kotva === s && dotyk) return;          /* druhé klepnutí: na kalkulačku */
+    e.preventDefault(); e.stopPropagation();
+    otevri(s, true);
+  }, true);
+
+  /* klávesnice: fokus karty ukáže bublinu u jejích splátek */
+  document.addEventListener('focusin', function (e) {
+    var karta = e.target.closest ? e.target.closest('.card') : null;
+    var s = karta ? karta.querySelector(SEL) : null;
+    if (!s) return;
+    var fv = true;
+    try { fv = karta.matches(':focus-visible'); } catch (_) {}
+    if (fv) otevri(s, false);
+  });
+  document.addEventListener('focusout', function (e) {
+    if (kotva && e.target.contains(kotva) && !dotyk) zavri(true);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && kotva) zavri(true);
+  });
+  window.addEventListener('resize', function () { if (kotva) zavri(true); });
+  window.addEventListener('scroll', function () { if (kotva) umisti(); }, { passive: true });
+})();
+/* ── konec bubliny splátek (s202) ── */
+
+/* ── Video u kapitoly: lite embed a řádky pod cenou (s205) ── */
+(function () {
+  /* Náhled s tlačítkem; přehrávač YouTube (bez cookies) se vloží až po kliknutí,
+     dostane fokus a stejný název. Enter i mezerník obslouží <button> sám. */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.lvid-hraj');
+    if (b) {
+      var id = b.getAttribute('data-yt') || '';
+      if (!/^[\w-]{11}$/.test(id)) return;
+      var ram = b.parentElement, f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1';
+      f.title = (b.getAttribute('aria-label') || '').replace(/^Přehrát video: /, 'Video: ');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.setAttribute('allowfullscreen', '');
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      var img = ram.querySelector('img');
+      if (img) img.remove();
+      b.replaceWith(f);
+      ram.classList.add('hraje');
+      f.focus();
+      return;
+    }
+    var h = e.target.closest('.cr-hlava');
+    if (h) {
+      var otevrit = h.getAttribute('aria-expanded') !== 'true';
+      var telo = document.getElementById(h.getAttribute('aria-controls'));
+      h.setAttribute('aria-expanded', otevrit ? 'true' : 'false');
+      if (telo) telo.hidden = !otevrit;
+      h.parentElement.classList.toggle('otevreny', otevrit);
+    }
+  });
+})();
+/* ── konec videa u kapitoly (s205) ── */
+
+/* ── Mapa a trasa na detailu (s206) ──────────────────────────────────
+   Odkaz „Mapa a trasa“ otevře <dialog id="d-mapa">. Leaflet se načte až
+   tady (detail ho jinak nepotřebuje), podklad je stejný jako na výpisu.
+   Poloha jen po kliknutí na „Trasa z mé polohy“; zůstává v prohlížeči
+   a jde jen do odkazů na mapové aplikace, které si člověk sám otevře.
+   Dobu jízdy z polohy nepočítáme: bez směrovací služby by byla vymyšlená. */
+(function () {
+  var dlg = document.getElementById('d-mapa');
+  var otevri = document.querySelector('[data-d-mapa]');
+  if (!dlg || !otevri) return;
+  if (typeof dlg.showModal !== 'function') { otevri.hidden = true; return; }
+  var lat = +dlg.getAttribute('data-lat'), lng = +dlg.getAttribute('data-lng');
+  var plocha = dlg.querySelector('[data-d-mapa-plocha]');
+  var hlaska = dlg.querySelector('[data-d-mapa-hlaska]');
+  var tlac = dlg.querySelector('[data-d-mapa-poloha]');
+  var lb = dlg.querySelector('[data-d-mapa-lb]');
+  var nadpis = dlg.querySelector('#d-mapa-h');
+  var vlajka = dlg.querySelector('.d-mapa-hl .flag');
+  var klid = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mapa = null, ja = null, nacitani = null, poloha = null;
+  var INFO = '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="7.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9v4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.3" r="1.05" fill="currentColor"/></svg>';
+  var TEXT = {
+    hleda: 'Zjišťujeme vaši polohu…',
+    ok: '<b>Vaše poloha je na mapě.</b> Trasu otevřete ve vybrané aplikaci.',
+    ne: '<b>Polohu jste nepovolili.</b> Dobu jízdy odsud proto nespočítáme. Trasu naplánujete i tak, mapová aplikace se zeptá, odkud jedete. Povolit polohu jde v nastavení prohlížeče.',
+    chyba: '<b>Polohu se nepodařilo zjistit.</b> Trasu naplánujete i tak, mapová aplikace se zeptá, odkud jedete.'
+  };
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (z) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[z]; }); }
+  function ukaz(klic) { hlaska.innerHTML = klic ? (klic === 'hleda' ? '' : INFO) + '<span>' + TEXT[klic] + '</span>' : ''; }
+
+  function nactiLeaflet() {
+    if (typeof L !== 'undefined') return Promise.resolve();
+    if (nacitani) return nacitani;
+    var zaklad = dlg.getAttribute('data-leaflet');
+    nacitani = new Promise(function (hotovo, chyba) {
+      var css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = zaklad + '.css';
+      /* Před style.css, jako na výpisu: jinak by Leaflet přebil opravy
+         z s143/s144 (švy dlaždic, autorství) jen tím, že přišel později. */
+      var sazba = document.querySelector('link[rel="stylesheet"][href*="style.css"]');
+      document.head.insertBefore(css, sazba || null);
+      var js = document.createElement('script');
+      js.src = zaklad + '.js'; js.onload = hotovo; js.onerror = chyba;
+      document.head.appendChild(js);
+    });
+    return nacitani;
+  }
+
+  function postav() {
+    if (mapa) { mapa.invalidateSize(); return; }
+    mapa = L.map(plocha, { zoomControl: false, zoomAnimation: !klid, fadeAnimation: !klid, markerZoomAnimation: !klid });
+    mapa.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
+    var DLAZDICE = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_{styl}/MapServer/tile/{z}/{y}/{x}';
+    var ZDROJ = { attribution: 'Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxNativeZoom: 16, maxZoom: 19 };
+    L.tileLayer(DLAZDICE.replace('{styl}', 'Base'), ZDROJ).addTo(mapa);
+    mapa.createPane('popisky');
+    mapa.getPane('popisky').style.zIndex = 350;
+    mapa.getPane('popisky').style.pointerEvents = 'none';
+    L.tileLayer(DLAZDICE.replace('{styl}', 'Reference'), L.extend({ pane: 'popisky' }, ZDROJ)).addTo(mapa);
+    L.control.zoom({ position: 'topright', zoomInTitle: 'Přiblížit', zoomOutTitle: 'Oddálit' }).addTo(mapa);
+    var jmeno = nadpis.textContent.replace(/ na mapě$/, '');
+    var vl = vlajka ? vlajka.outerHTML.replace(/ role="img" aria-label="[^"]*"/, ' aria-hidden="true"') : '';
+    L.marker([lat, lng], { interactive: false, keyboard: false,
+      icon: L.divIcon({ className: 'd-mapa-bod', iconSize: null, html: '<span class="d-mapa-cil">' + vl + esc(jmeno) + '</span>' })
+    }).addTo(mapa);
+    mapa.setView([lat, lng], 9, { animate: false });
+    if (poloha) naMape();
+  }
+
+  function naMape() {
+    if (!mapa || !poloha) return;
+    var bod = [poloha.latitude, poloha.longitude];
+    if (ja) ja.setLatLng(bod);
+    else ja = L.marker(bod, { interactive: false, keyboard: false,
+      icon: L.divIcon({ className: 'd-mapa-bod', iconSize: null, html: '<span class="d-mapa-ja"></span><span class="d-mapa-vy">Vy</span>' })
+    }).addTo(mapa);
+    mapa.fitBounds(L.latLngBounds([bod, [lat, lng]]), { padding: [70, 70], maxZoom: 12, animate: !klid });
+  }
+
+  function odkazy() {
+    var s = poloha ? poloha.latitude.toFixed(5) + ',' + poloha.longitude.toFixed(5) : '';
+    var sm = poloha ? poloha.longitude.toFixed(5) + ',' + poloha.latitude.toFixed(5) : '';
+    var cil = lat + ',' + lng;
+    dlg.querySelectorAll('[data-app]').forEach(function (a) {
+      var app = a.getAttribute('data-app');
+      if (app === 'google') a.href = 'https://www.google.com/maps/dir/?api=1' + (s ? '&origin=' + s : '') + '&destination=' + cil;
+      if (app === 'mapy') a.href = 'https://mapy.com/fnc/v1/route?' + (sm ? 'start=' + sm + '&' : '') + 'end=' + lng + ',' + lat;
+      if (app === 'apple') a.href = 'https://maps.apple.com/?' + (s ? 'saddr=' + s + '&' : '') + 'daddr=' + cil;
+    });
+  }
+
+  otevri.addEventListener('click', function () {
+    dlg.showModal();
+    nactiLeaflet().then(postav).catch(function () { plocha.classList.add('bez-mapy'); });
+  });
+  dlg.querySelector('.d-mapa-x').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+
+  tlac.addEventListener('click', function () {
+    if (!navigator.geolocation) { ukaz('chyba'); return; }
+    tlac.disabled = true;
+    tlac.setAttribute('aria-busy', 'true');
+    ukaz('hleda');
+    navigator.geolocation.getCurrentPosition(function (p) {
+      tlac.disabled = false;
+      tlac.removeAttribute('aria-busy');
+      poloha = p.coords;
+      odkazy();
+      naMape();
+      ukaz('ok');
+    }, function (e) {
+      tlac.disabled = false;
+      tlac.removeAttribute('aria-busy');
+      if (e && e.code === 1) {
+        ukaz('ne');
+        tlac.hidden = true;
+        lb.textContent = 'Trasa v aplikaci';
+        (dlg.querySelector('[data-app]') || dlg).focus();
+      } else {
+        ukaz('chyba');
+      }
+    }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 300000 });
+  });
+})();
+/* ── konec mapy a trasy na detailu (s206) ── */
