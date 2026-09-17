@@ -21,6 +21,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.fragmento.cz/metodika-casu/</loc>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://www.fragmento.cz/jake-to-je/</loc>
     <priority>0.8</priority>
   </url>

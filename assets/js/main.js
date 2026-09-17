@@ -1981,3 +1981,44 @@
   });
 })();
 /* ── konec ukázky roku (s227) ── */
+
+/* ── Jak to funguje: Podrobněji a posuvník nocí (s231) ────────────────
+   „Podrobněji“ odkrývá doplňky kapitoly; odkaz na kotvu uvnitř (např.
+   #kdo-se-stara, #video-pronajem) je otevře. Posuvník přepočítá noci. */
+(function () {
+  var tl = [].slice.call(document.querySelectorAll('.j2-vice'));
+  function prepni(b, otevri) {
+    var d = document.getElementById(b.getAttribute('aria-controls'));
+    if (!d) return;
+    b.setAttribute('aria-expanded', otevri ? 'true' : 'false');
+    d.hidden = !otevri;
+  }
+  tl.forEach(function (b) {
+    b.addEventListener('click', function () { prepni(b, b.getAttribute('aria-expanded') !== 'true'); });
+  });
+  function kotva() {
+    var id = location.hash.slice(1), cil = id && document.getElementById(id);
+    var det = cil && cil.closest ? cil.closest('.j2-detail') : null;
+    if (!det || !det.hidden) return;
+    var b = document.querySelector('.j2-vice[aria-controls="' + det.id + '"]');
+    if (b) { prepni(b, true); cil.scrollIntoView(); }
+  }
+  kotva();
+  window.addEventListener('hashchange', kotva);
+
+  var box = document.querySelector('[data-j2-dny]');
+  if (!box) return;
+  var r = box.querySelector('input'), v = box.querySelector('[data-j2-v]'),
+      bb = box.querySelector('[data-j2-b]'), pp = box.querySelector('[data-j2-p]');
+  function noci() {
+    var n = +r.value;
+    v.textContent = n;
+    bb.style.flexBasis = (n / 44 * 100) + '%';
+    pp.style.flexBasis = ((44 - n) / 44 * 100) + '%';
+    bb.textContent = n ? n + ' bydlíte' : '';
+    pp.textContent = (44 - n) ? (44 - n) + ' pronajímáte' : '';
+  }
+  r.addEventListener('input', noci);
+  noci();
+})();
+/* ── konec Jak to funguje (s231) ── */
