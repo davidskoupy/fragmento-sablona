@@ -2009,7 +2009,11 @@
   var box = document.querySelector('[data-j2-dny]');
   if (!box) return;
   var r = box.querySelector('input'), v = box.querySelector('[data-j2-v]'),
-      bb = box.querySelector('[data-j2-b]'), pp = box.querySelector('[data-j2-p]');
+      bb = box.querySelector('[data-j2-b]'), pp = box.querySelector('[data-j2-p]'),
+      pron = box.querySelector('[data-j2-pron]'),
+      zak = pron && (pron.textContent.match(/\d+(?:,\d+)?/g) || []).map(function (x) { return +x.replace(',', '.'); });
+  if (zak && zak.length === 1) zak.push(zak[0]);
+  if (zak && zak.length < 2) zak = null;
   function noci() {
     var n = +r.value;
     v.textContent = n;
@@ -2017,6 +2021,13 @@
     pp.style.flexBasis = ((44 - n) / 44 * 100) + '%';
     bb.textContent = n ? n + ' bydlíte' : '';
     pp.textContent = (44 - n) ? (44 - n) + ' pronajímáte' : '';
+    bb.hidden = !n;
+    pp.hidden = !(44 - n);
+    /* výnos z pronájmu jen z vlastních nevyužitých nocí; rozpětí platí pro 30 pronajatých (s234) */
+    if (pron && zak) {
+      var k = (44 - n) / 30, lo = Math.round(zak[0] * k), hi = Math.round(zak[1] * k);
+      pron.innerHTML = (lo === hi ? hi : lo + '–' + hi) + '&nbsp;%';
+    }
   }
   r.addEventListener('input', noci);
   noci();
