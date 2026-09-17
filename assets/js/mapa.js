@@ -348,6 +348,58 @@
     vyberZemi(t.getAttribute('data-ze'));
   });
 
+  /* ── Světadíly (s220) ──────────────────────────────────────────────────
+     Tlačítka Celý svět / Evropa / Asie / Amerika přeletí na lokality
+     světadílu. Přelet je schválně pomalý (1,8 s), aby bylo vidět, kam na
+     světě se člověk dívá. Světadíl podle země lokality. */
+  var SVETADIL = { 'Chorvatsko': 'evropa', 'Itálie': 'evropa', 'Španělsko': 'evropa', 'Česko': 'evropa',
+    'Bali': 'asie', 'Thajsko': 'asie', 'Omán': 'asie', 'Filipíny': 'asie', 'Kostarika': 'amerika' };
+  var kontWrap = uzel.closest('.mapwrap');
+  var kontSk = kontWrap && kontWrap.querySelector('.map-kont');
+  if (kontSk) {
+    var kontPojistka;
+    var kontTl = [].slice.call(kontSk.querySelectorAll('[data-kont]'));
+    var kontBody = function (k) {
+      return k === 'svet' ? body : body.filter(function (b) { return SVETADIL[b.m.ze] === k; });
+    };
+    kontTl.forEach(function (t) {
+      if (!kontBody(t.getAttribute('data-kont')).length) t.hidden = true;
+    });
+    var kontStisk = function (k) {
+      kontTl.forEach(function (t) { t.setAttribute('aria-pressed', t.getAttribute('data-kont') === k ? 'true' : 'false'); });
+    };
+    kontSk.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('[data-kont]') : null;
+      if (!t) return;
+      var k = t.getAttribute('data-kont');
+      var sk = kontBody(k);
+      if (!sk.length) return;
+      kontStisk(k);
+      if (vybranaZeme) {   /* zrušit výběr země bez jejího `usad()`, který by přelet přerušil */
+        vybranaZeme = null;
+        sviti([]);
+        if (legenda) legenda.querySelectorAll('.it').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      }
+      var v = Math.max(74, Math.min(104, Math.round(uzel.clientWidth * 0.14)));
+      var h = L.latLngBounds(sk.map(function (b) { return b.ll; }));
+      var jedna = sk.length === 1 || h.getNorthEast().equals(h.getSouthWest());
+      var stredPred = mapa.getCenter(), zoomPred = mapa.getZoom();
+      var natvrdo = function () {
+        if (jedna) mapa.setView(sk[0].ll, 6, { animate: false });
+        else mapa.fitBounds(h, { paddingTopLeft: [v, 60], paddingBottomRight: [v, 44], animate: false });
+      };
+      if (klid) { natvrdo(); return; }
+      if (jedna) mapa.flyTo(sk[0].ll, 6, { duration: 1.8, easeLinearity: 0.2 });
+      else mapa.flyToBounds(h, { paddingTopLeft: [v, 60], paddingBottomRight: [v, 44], duration: 1.8, easeLinearity: 0.2 });
+      clearTimeout(kontPojistka);
+      kontPojistka = setTimeout(function () {
+        if (mapa.getZoom() === zoomPred && mapa.getCenter().equals(stredPred)) natvrdo();
+      }, 2400);
+    });
+    if (legenda) legenda.addEventListener('click', function () { kontStisk(null); });
+  }
+  /* ── konec světadílů (s220) ── */
+
   /* Ovládání přiblížení zůstává v HTML, aby vypadalo jako zbytek webu. */
   var ovl = uzel.closest('.mapwrap');
   if (ovl) ovl.querySelectorAll('.map-ctl button').forEach(function (b, i) {

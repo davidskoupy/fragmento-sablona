@@ -1018,6 +1018,14 @@
     }
     function zmena() {
       if (!plny) { location.href = adresa(stav); return; }
+      /* s221: jediná země nebo povaha na výpisu → skutečná stránka filtru
+         s čistou adresou (vlastní H1, title a canonical). Přepis adresy na
+         místě rozbíjel relativní odkazy (s198), proto přechod. */
+      if (jedina(stav)) {
+        var j1 = jedina(stav);
+        location.href = koren + slug[j1[0] + ':' + j1[1]] + '/';
+        return;
+      }
       pouzij();
       history.pushState({ f: 1 }, '', adresa(stav));
       window.dispatchEvent(new CustomEvent('filtr:zmena', { detail: nazvy() }));
@@ -1827,3 +1835,149 @@
   else window.addEventListener('load', poNacteni, { once: true });
 })();
 /* ── konec kotvy po načtení (s214) ── */
+
+/* ── Swipe fotek na kartě (s222) ─────────────────────────────────────
+   Na dotyku přepíná fotky karty vodorovný posun prstem. Svislý pohyb
+   roluje stránku, klepnutí otevře detail, klik těsně po posunu se zahodí. */
+(function () {
+  if (!matchMedia('(hover: none)').matches) return;
+  document.querySelectorAll('.card .ph').forEach(function (ph) {
+    var vrstvy = [].slice.call(ph.querySelectorAll('.lay'));
+    var tecky = [].slice.call(ph.querySelectorAll('.dots i'));
+    if (vrstvy.length < 2) return;
+    var karta = ph.closest('.card');
+    var i = 0, x0 = null, y0 = 0, vodorovne = false, posunuto = 0;
+    function ukaz(n) {
+      i = Math.max(0, Math.min(vrstvy.length - 1, n));
+      vrstvy.forEach(function (v, j) { v.classList.toggle('s222-vid', j === i); });
+      tecky.forEach(function (t, j) { t.classList.toggle('s222-on', j === i); });
+      ph.classList.add('s222-posun');
+    }
+    tecky.forEach(function (t, j) { t.classList.toggle('s222-on', j === 0); });
+    ph.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; vodorovne = false;
+    }, { passive: true });
+    ph.addEventListener('touchmove', function (e) {
+      if (x0 === null) return;
+      var dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
+      if (!vodorovne && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) vodorovne = true;
+    }, { passive: true });
+    ph.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (vodorovne && Math.abs(dx) > 40) {
+        ukaz(i + (dx < 0 ? 1 : -1));
+        posunuto = Date.now();
+      }
+      x0 = null;
+    }, { passive: true });
+    if (karta) karta.addEventListener('click', function (e) {
+      if (Date.now() - posunuto < 450) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+  });
+})();
+/* ── konec swipe fotek (s222) ── */
+
+/* ── Jak to funguje: Podrobněji v kapitole (s223) ──────────────────────
+   Vedlejší bloky kapitoly schová CSS až tehdy, když tady JS nastaví
+   `data-kap-vice` — bez JS zůstane vidět všechno. */
+(function () {
+  var tl = document.querySelectorAll('.kap-vice');
+  if (!tl.length) return;
+  var obal = document.querySelector('.kapitoly');
+  if (obal) obal.setAttribute('data-kap-vice', '');
+  tl.forEach(function (b) {
+    var kap = b.closest('.chapter');
+    b.addEventListener('click', function () {
+      var otevri = b.getAttribute('aria-expanded') !== 'true';
+      b.setAttribute('aria-expanded', otevri ? 'true' : 'false');
+      b.querySelector('span').textContent = otevri ? 'Méně' : 'Podrobněji';
+      if (kap) kap.classList.toggle('kap-otevrena', otevri);
+    });
+  });
+  /* Odkaz na kotvu uvnitř schovaného bloku (např. #video-pronajem) kapitolu otevře. */
+  function otevriKotvu() {
+    var id = location.hash.slice(1);
+    var cil = id && document.getElementById(id);
+    var kap = cil && cil.closest ? cil.closest('.chapter') : null;
+    var b = kap && kap.querySelector('.kap-vice');
+    if (b && b.getAttribute('aria-expanded') !== 'true' && getComputedStyle(cil).display === 'none') b.click();
+  }
+  otevriKotvu();
+  window.addEventListener('hashchange', otevriKotvu);
+})();
+/* ── konec Podrobněji (s223) ── */
+
+/* ── Sub-menu detailu (s225) ─────────────────────────────────────────
+   Lepí se pod hlavičku (ta při posunu dolů ujede, pak pod horní hranu)
+   a zvýrazní sekci, ve které člověk je. */
+(function () {
+  var nav = document.querySelector('.dnav');
+  if (!nav) return;
+  var head = document.querySelector('.head');
+  var odkazy = [].slice.call(nav.querySelectorAll('.dnav-odk a'));
+  var sekce = odkazy.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  var rada = nav.querySelector('.dnav-odk');
+  var ceka = false, posledni = null;
+  function krok() {
+    ceka = false;
+    var h = head && !head.classList.contains('away') ? head.getBoundingClientRect().bottom : 0;
+    nav.style.top = Math.max(0, Math.round(h)) + 'px';
+    var hranice = Math.max(0, h) + nav.offsetHeight + 24, akt = 0;
+    sekce.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= hranice) akt = i; });
+    if (akt !== posledni) {
+      posledni = akt;
+      odkazy.forEach(function (a, i) { if (i === akt) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+      var a = odkazy[akt];
+      if (rada.scrollWidth > rada.clientWidth) rada.scrollLeft = a.offsetLeft - rada.clientWidth / 2 + a.offsetWidth / 2;
+    }
+    document.documentElement.style.setProperty('--dnav-h', nav.offsetHeight + 'px');
+  }
+  function naplanuj() { if (!ceka) { ceka = true; requestAnimationFrame(krok); } }
+  addEventListener('scroll', naplanuj, { passive: true });
+  addEventListener('resize', naplanuj);
+  if (head) head.addEventListener('transitionend', naplanuj);
+  krok();
+})();
+/* ── konec sub-menu detailu (s225) ── */
+
+/* ── Balíčky: ukázka roku a aktivity (s227) ─────────────────────────
+   Záložky ukázkového roku; aktivity vyberou místa ve skládačce (s195) —
+   nastaví dlaždice a poslední přepnou klikem, ať se přepočte obvyklou cestou. */
+(function () {
+  var taby = [].slice.call(document.querySelectorAll('.rok-tab'));
+  taby.forEach(function (t) {
+    t.addEventListener('click', function () {
+      taby.forEach(function (o) {
+        var ano = o === t;
+        o.setAttribute('aria-selected', ano ? 'true' : 'false');
+        var p = document.getElementById('rok-' + o.getAttribute('data-rok'));
+        if (p) p.hidden = !ano;
+      });
+    });
+  });
+  var sk = document.querySelector('[data-skladacka]');
+  var akt = sk ? [].slice.call(sk.querySelectorAll('.akt')) : [];
+  if (!akt.length) return;
+  var picks = [].slice.call(sk.querySelectorAll('.pick'));
+  akt.forEach(function (a) {
+    a.addEventListener('click', function () {
+      a.setAttribute('aria-pressed', a.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      var chci = [];
+      akt.forEach(function (x) { if (x.getAttribute('aria-pressed') === 'true') chci = chci.concat(x.getAttribute('data-mista').split(' ')); });
+      if (!chci.length) return;
+      var cil = picks.filter(function (p) { return chci.indexOf(p.getAttribute('data-misto')) >= 0; });
+      if (!cil.length) return;
+      picks.forEach(function (p) { p.setAttribute('aria-pressed', cil.indexOf(p) >= 0 ? 'true' : 'false'); });
+      cil[0].setAttribute('aria-pressed', 'false');
+      cil[0].click();
+    });
+  });
+  /* Ruční změna dlaždic nebo předvolby zruší označení aktivit. */
+  sk.addEventListener('click', function (e) {
+    if (!e.isTrusted) return;
+    if (e.target.closest('.pick') || e.target.closest('.pre')) akt.forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+  });
+})();
+/* ── konec ukázky roku (s227) ── */
