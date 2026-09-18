@@ -2033,3 +2033,20 @@
   noci();
 })();
 /* ── konec Jak to funguje (s231) ── */
+
+/* ── Jaké to je: náběh dlaždic (s235) ─────────────────────────────────
+   Fotky najedou, až na ně dojde řada. Bez IntersectionObserver a při
+   `prefers-reduced-motion` se nic neskrývá. */
+(function () {
+  if (document.body.getAttribute('data-page') !== 'jake-to-je') return;
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cile = [].slice.call(document.querySelectorAll('.jtn-m, .mood-grid.offer .mt, .jtn-pas'));
+  cile.forEach(function (el, i) { el.setAttribute('data-jtn-nabeh', ''); el.style.transitionDelay = (i % 4) * 70 + 'ms'; });
+  var io = new IntersectionObserver(function (zaznamy) {
+    zaznamy.forEach(function (z) { if (z.isIntersecting) { z.target.classList.add('je'); io.unobserve(z.target); } });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  cile.forEach(function (el) { io.observe(el); });
+  /* pojistka: kdyby náběh z jakéhokoli důvodu nedoběhl, fotky se ukážou */
+  setTimeout(function () { cile.forEach(function (el) { el.classList.add('je'); }); }, 4000);
+})();
+/* ── konec náběhu Jaké to je (s235) ── */
